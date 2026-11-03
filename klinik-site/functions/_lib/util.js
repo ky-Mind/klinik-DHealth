@@ -77,6 +77,43 @@ export async function staffSession(request, env) {
   return acc;
 }
 
+// A Google ID token from the sign-in button: Google's tokeninfo endpoint checks the signature and expiry, and we check
+// it was issued for this site. Returns { email, name } or null.
+export async function googleIdentity(env, credential) {
+  if (!env.GOOGLE_CLIENT_ID || typeof credential !== 'string' || credential.length > 4096) return null;
+  const res = await fetch('https://oauth2.googleapis.com/tokeninfo?id_token=' + encodeURIComponent(credential));
+  if (!res.ok) return null;
+  const info = await res.json();
+  const issuerOk = info.iss === 'accounts.google.com' || info.iss === 'https://accounts.google.com';
+  if (info.aud !== env.GOOGLE_CLIENT_ID || !issuerOk || String(info.email_verified) !== 'true' || Number(info.exp) * 1000 < Date.now()) return null;
+  return { email: String(info.email || '').toLowerCase(), name: String(info.name || '') };
+}
+
+// Patients sign in with Google and keep a WhatsApp number on file: KV patient/<email> = { email, name, wa, createdAt }.
+// Their records (appts/demos/bugs) live under one id derived from the email, so they follow the account to any device.
+export const patientId = async (env, email) => 'd_' + (await hmac(signingKey(env), 'patient:' + email)).slice(0, 32);
+
+export async function patientSessionFor(env, p) {
+  return signToken(env, { kind: 'patient', email: p.email, exp: Date.now() + 30 * 86400e3 });
+}
+
+// The signed-in patient for this request: { email, name, wa, pid }, or null.
+export async function patientSession(request, env) {
+  const p = await readToken(env, request.headers.get('x-patient-token') || '', 'patient');
+  if (!p || !env.DH_KV) return null;
+  const rec = await env.DH_KV.get('patient/' + p.email, 'json');
+  if (!rec || !rec.wa) return null;
+  return { email: rec.email, name: rec.name, wa: rec.wa, pid: await patientId(env, rec.email) };
+}
+
+// Indonesian WhatsApp numbers: 08…, 628… or +628…, stored as 628…; null when it does not look like a mobile number.
+export function normalizeWa(raw) {
+  let d = String(raw || '').replace(/[^\d+]/g, '');
+  if (d.startsWith('+')) d = d.slice(1);
+  if (d.startsWith('0')) d = '62' + d.slice(1);
+  return /^628\d{7,11}$/.test(d) ? d : null;
+}
+
 // Local testing without a Google client: only with DEV_LOGIN=1 in .dev.vars and only on localhost.
 export function devLoginAllowed(request, env) {
   const host = new URL(request.url).hostname;

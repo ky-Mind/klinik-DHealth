@@ -1,7 +1,7 @@
 // /api/staff-google — step 1 of staff sign-in: prove who you are with Google.
 // GET tells /admin which sign-in methods are set up. POST checks a Google ID token (or, in local testing only, a typed
 // email), looks the email up among staff accounts, and returns a 10-minute ticket for step 2 (password, or setting one).
-import { json, fail, overLimit, signToken, getAccount, publicAccount, devLoginAllowed } from '../_lib/util.js';
+import { json, fail, overLimit, signToken, getAccount, publicAccount, devLoginAllowed, googleIdentity } from '../_lib/util.js';
 
 export async function onRequestGet({ request, env }) {
   return json({ clientId: env.GOOGLE_CLIENT_ID || null, devLogin: devLoginAllowed(request, env) });
@@ -19,16 +19,9 @@ export async function onRequestPost({ request, env }) {
     email = String(body.devEmail).trim().toLowerCase();
   } else {
     if (!env.GOOGLE_CLIENT_ID) return fail('unavailable', 'Login Google belum dikonfigurasi.', 503);
-    const credential = body.credential;
-    if (typeof credential !== 'string' || credential.length > 4096) return fail('bad_request', 'Permintaan tidak valid.', 400);
-    // Google's tokeninfo endpoint checks the signature and expiry; we check it was issued for this site and to whom.
-    const res = await fetch('https://oauth2.googleapis.com/tokeninfo?id_token=' + encodeURIComponent(credential));
-    if (!res.ok) return fail('not_granted', 'Login Google tidak valid. Coba lagi.', 401);
-    const info = await res.json();
-    const issuerOk = info.iss === 'accounts.google.com' || info.iss === 'https://accounts.google.com';
-    if (info.aud !== env.GOOGLE_CLIENT_ID || !issuerOk || String(info.email_verified) !== 'true' || Number(info.exp) * 1000 < Date.now())
-      return fail('not_granted', 'Login Google tidak valid. Coba lagi.', 401);
-    email = String(info.email || '').toLowerCase();
+    const who = await googleIdentity(env, body.credential);
+    if (!who) return fail('not_granted', 'Login Google tidak valid. Coba lagi.', 401);
+    email = who.email;
   }
 
   const acc = await getAccount(env, email);

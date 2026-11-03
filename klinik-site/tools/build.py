@@ -18,7 +18,7 @@ home = (SRC / 'devhealth.html').read_text()
     '<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">'
     + RESET + RUNTIME + '</head><body>\n' + home + '\n</body></html>\n')
 
-for name in ('artikel.html', 'dokter.html', 'admin.html'):
+for name in ('artikel.html', 'dokter.html', 'admin.html', 'masuk.html', 'privasi.html'):
     page = (SRC / name).read_text()
     assert '<head>' in page, name
     (OUT / name).write_text(page.replace('<head>', '<head>\n' + RUNTIME, 1))

@@ -50,6 +50,7 @@ ADMIN_CSS = '''<style>
 .adm-or::before,.adm-or::after{content:"";flex:1;height:1px;background:var(--line)}
 .adm-google{display:grid;gap:14px}
 #admGoogle{min-height:44px;display:flex;justify-content:center}
+#otherAcc{justify-self:center;font-size:14px}
 .adm-card .adm-help{font-size:13.5px;color:var(--faint)}
 @media (max-width:520px){.adm-nav .chip{display:none}.adm-panel{padding:14px}}
 /* the sign-in card never grows past its width: every grid level may shrink, long emails are clipped */
@@ -97,6 +98,7 @@ BODY = f'''<header class="nav adm-nav" id="nav">
       <h1>Masuk Dasbor Klinik</h1>
       <p>Untuk admin dan dokter DHealth. Masuk dulu dengan akun Google yang terdaftar di klinik, lalu isi kata sandi Anda.</p>
       <div id="admGoogle"></div>
+      <button class="btn-link" type="button" id="otherAcc" hidden>Pakai akun Google lain</button>
       <form id="devForm" class="adm-dev" hidden>
         <div class="field"><label for="devEmail">Email petugas (mode uji lokal)</label><input id="devEmail" type="email" autocomplete="email" placeholder="nama@dhealth.id" required></div>
         <button class="btn btn-line" type="submit">Lanjut tanpa Google</button>
@@ -225,9 +227,29 @@ SCRIPT = '''<script>
     $('#devForm').addEventListener('submit',async e=>{e.preventDefault();busy(e.target,true);
       try{afterId(await dhStaff.devLogin($('#devEmail').value));}catch(ex){oops(msg(ex));}busy(e.target,false);});
     step('stepGoogle');
+    // "another account": a full-page Google sign-in with the account chooser forced open, which comes back to /admin
+    // with an ID token in the URL hash; state and nonce tie the answer to this browser
+    const back=location.origin+'/admin';
+    const hash=new URLSearchParams(location.hash.slice(1));
+    if(hash.has('id_token')||hash.has('error')){
+      history.replaceState(null,'',location.pathname+location.search);
+      let want={};try{want=JSON.parse(sessionStorage.getItem('dh-gsel')||'{}');sessionStorage.removeItem('dh-gsel');}catch{}
+      const tok=hash.get('id_token');let nonce='';
+      try{nonce=JSON.parse(atob(tok.split('.')[1].replace(/-/g,'+').replace(/_/g,'/'))).nonce;}catch{}
+      if(!tok)oops('Login Google dibatalkan.');
+      else if(!want.state||hash.get('state')!==want.state||nonce!==want.nonce)oops('Login Google gagal. Coba lagi.');
+      else dhStaff.google(tok).then(afterId,ex=>oops(ex.code==='not_allowed'||ex.code==='rate_limited'?msg(ex):'Login Google gagal. Coba lagi.'));
+    }
+    const pickAccount=clientId=>{
+      const rnd=()=>Array.from(crypto.getRandomValues(new Uint8Array(16)),b=>b.toString(16).padStart(2,'0')).join('');
+      const want={state:rnd(),nonce:rnd()};try{sessionStorage.setItem('dh-gsel',JSON.stringify(want));}catch{}
+      location.href='https://accounts.google.com/o/oauth2/v2/auth?'+new URLSearchParams({client_id:clientId,redirect_uri:back,
+        response_type:'id_token',scope:'openid email profile',prompt:'select_account',state:want.state,nonce:want.nonce});
+    };
     dhStaff.methods().then(m=>{
       if(m.devLogin)$('#devForm').hidden=false;
       if(!m.clientId){if(!m.devLogin)$('#googleNone').hidden=false;return;}
+      $('#otherAcc').hidden=false;$('#otherAcc').addEventListener('click',()=>pickAccount(m.clientId));
       const s=document.createElement('script');s.src='https://accounts.google.com/gsi/client';s.async=true;
       const fail=()=>{if(!$('#admGoogle').querySelector('iframe'))$('#googleFail').hidden=false;};
       s.onerror=fail;setTimeout(fail,8000);
@@ -258,7 +280,7 @@ SCRIPT = '''<script>
     const isVideo=a=>a.type==='video'||/Video call/.test(a.loc);
     const row=a=>`<article class="appt ${a.status==='aktif'?'':'off'}">
       <div class="appt-top"><div><div class="appt-num">${esc(a.num)}</div><div class="st-time">${esc(slotOf(a))} WIB${a.date===todayIso?' · <b>Hari ini</b>':''}</div></div>${apptBadge(a)}</div>
-      <div><div class="appt-doc">${esc(a.name)}</div><div class="appt-meta"><span>${esc(a.doc)}</span><span>${esc(a.when)}</span><span>${isVideo(a)?'Video call':esc(a.loc)}</span>${a.wa?`<span>WA ${esc(a.wa)}</span>`:''}${a.note?`<span>Keluhan: ${esc(a.note)}</span>`:''}${a.reason?`<span>Alasan batal: ${esc(a.reason)}</span>`:''}</div></div></article>`;
+      <div><div class="appt-doc">${esc(a.name)}</div><div class="appt-meta"><span>${esc(a.doc)}</span><span>${esc(a.when)}</span><span>${isVideo(a)?'Video call':esc(a.loc)}</span>${a.wa?`<span>WA ${esc(a.wa)}</span>`:''}${a.acct?`<span>Akun ${esc(a.acct.email)} · WA akun ${esc(a.acct.wa)}</span>`:''}${a.note?`<span>Keluhan: ${esc(a.note)}</span>`:''}${a.reason?`<span>Alasan batal: ${esc(a.reason)}</span>`:''}</div></div></article>`;
     function draw(){
       const act=rows.filter(a=>a.status==='aktif');
       $('#stStats').innerHTML=`<div><b>${act.filter(a=>a.date===todayIso).length}</b><span>hari ini</span></div><div><b>${act.filter(a=>a.date>todayIso).length}</b><span>akan datang</span></div><div><b>${rows.length-act.length}</b><span>dibatalkan</span></div><div><b>${new Set(rows.map(a=>a.owner)).size}</b><span>pasien</span></div>`;
@@ -279,7 +301,7 @@ SCRIPT = '''<script>
     const t=setTimeout(()=>allBox.insertAdjacentHTML('afterbegin','<p class="err">Data janji belum bisa dimuat. Periksa koneksi.</p>'),10000);
     db.collection('appts').onSnapshot(q=>{
       if(!q.metadata.fromCache)clearTimeout(t);
-      rows=[];q.docs.forEach(d=>(d.data().items||[]).forEach(a=>rows.push({...a,owner:d.id})));
+      rows=[];q.docs.forEach(d=>(d.data().items||[]).forEach(a=>rows.push({...a,owner:d.id,acct:d.data().patient})));
       rows.sort((a,b)=>(a.date+slotOf(a)).localeCompare(b.date+slotOf(b)));
       draw();
     },()=>{clearTimeout(t);allBox.innerHTML='<p class="err">Akun ini tidak punya akses ke data janji pasien. Coba keluar lalu masuk lagi.</p>';});

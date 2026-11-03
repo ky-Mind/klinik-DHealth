@@ -1,8 +1,8 @@
 // /api/data — records from the site's forms, stored in Workers KV.
-//   GET  ?path=<collection>/<id>   read one record: its owner (x-device) or staff
-//   PUT  ?path=<collection>/<id>   replace one record: its owner (x-device) or staff
+//   GET  ?path=<collection>/<id>   read one record: the signed-in patient it belongs to, or an admin
+//   PUT  ?path=<collection>/<id>   replace one record: the signed-in patient it belongs to, or an admin
 //   GET  ?collection=<collection>  list records: admins see everything; a doctor sees only bookings made with them
-import { json, fail, staffSession, overLimit } from '../_lib/util.js';
+import { json, fail, staffSession, patientSession, overLimit } from '../_lib/util.js';
 
 const COLLECTIONS = new Set(['appts', 'bugs', 'demos']);
 const MAX_BYTES = 64 * 1024;
@@ -12,10 +12,13 @@ function parsePath(path) {
   return m && COLLECTIONS.has(m[1]) ? { collection: m[1], id: m[2] } : null;
 }
 
-async function canTouch(request, env, id) {
-  if (request.headers.get('x-device') === id) return true;
+// Patients must be signed in (Google + WhatsApp) to keep records; each patient owns the one id derived from their email.
+// Returns who is acting ({ patient } or { admin }), or null.
+async function actor(request, env, id) {
+  const p = await patientSession(request, env);
+  if (p && p.pid === id) return { patient: p };
   const s = await staffSession(request, env);
-  return !!s && s.role === 'admin';
+  return s && s.role === 'admin' ? { admin: s } : null;
 }
 
 export async function onRequestGet({ request, env }) {
@@ -47,7 +50,8 @@ export async function onRequestGet({ request, env }) {
 
   const p = parsePath(url.searchParams.get('path'));
   if (!p) return fail('bad_request', 'Alamat data tidak valid.', 400);
-  if (!(await canTouch(request, env, p.id))) return fail('not_granted', 'Tidak punya akses.', 403);
+  // a visitor who has not signed in simply has no records yet
+  if (!(await actor(request, env, p.id))) return json({ data: null });
   return json({ data: await env.DH_KV.get(`${p.collection}/${p.id}`, 'json') });
 }
 
@@ -56,7 +60,8 @@ export async function onRequestPut({ request, env }) {
   if (await overLimit(env, request, 'data', 30)) return fail('rate_limited', 'Terlalu banyak permintaan.', 429);
   const p = parsePath(new URL(request.url).searchParams.get('path'));
   if (!p) return fail('bad_request', 'Alamat data tidak valid.', 400);
-  if (!(await canTouch(request, env, p.id))) return fail('not_granted', 'Tidak punya akses.', 403);
+  const who = await actor(request, env, p.id);
+  if (!who) return fail('login_required', 'Masuk dulu dengan Google dan nomor WhatsApp.', 401);
 
   const raw = await request.text();
   if (raw.length > MAX_BYTES) return fail('bad_request', 'Data terlalu besar.', 400);
@@ -64,6 +69,10 @@ export async function onRequestPut({ request, env }) {
   try { data = JSON.parse(raw); } catch (_) { return fail('bad_request', 'Data tidak valid.', 400); }
   if (!data || typeof data !== 'object' || Array.isArray(data)) return fail('bad_request', 'Data tidak valid.', 400);
 
-  await env.DH_KV.put(`${p.collection}/${p.id}`, JSON.stringify(data));
+  // the account behind the record, for the clinic: set from the patient's session, kept when an admin edits
+  const key = `${p.collection}/${p.id}`;
+  if (who.patient) data.patient = { email: who.patient.email, name: who.patient.name, wa: who.patient.wa };
+  else { const old = await env.DH_KV.get(key, 'json'); if (old && old.patient) data.patient = old.patient; else delete data.patient; }
+  await env.DH_KV.put(key, JSON.stringify(data));
   return json({ ok: true });
 }
