@@ -1,4 +1,4 @@
-"""Make the transparent logo and the tab icons from the original logo on black (Dhealth-original.png, one folder up).
+"""Make the transparent logo and the tab icons from the original logo on black (Dhealth.png, one folder up).
 
 Run from klinik-site/:  python3 tools/make_icons.py
 The black is removed by brightness: solid parts keep their colour, the glow fades out with its full-brightness hue,
@@ -9,7 +9,7 @@ import numpy as np
 from PIL import Image
 
 SRC = pathlib.Path(__file__).resolve().parent.parent.parent
-im = np.asarray(Image.open(SRC / 'Dhealth-original.png').convert('RGB')).astype(np.float32)
+im = np.asarray(Image.open(SRC / 'Dhealth.png').convert('RGB')).astype(np.float32)
 m = im.max(axis=2)
 lo, hi = 10.0, 140.0
 t = np.clip((m - lo) / (hi - lo), 0, 1)
