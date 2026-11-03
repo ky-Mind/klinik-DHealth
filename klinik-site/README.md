@@ -55,24 +55,23 @@ npm run deploy
 
 ## Petugas klinik (admin & dokter)
 
-- Buka **https://klinik.xianzing.my.id/admin**, isi kata sandi petugas (`STAFF_PASSWORD`). Di sana ada semua janji pasien, jadwal per dokter, permintaan demo, dan laporan bug.
-- Halaman publik tidak punya tautan atau kotak kata sandi petugas sama sekali; alamat `/admin` hanya dibagikan ke admin dan dokter.
-- Keluar: tombol **Keluar** di kanan atas `/admin`.
-- Mengganti `STAFF_PASSWORD` membuat semua petugas otomatis keluar.
-- **Login Google** (opsional): tombol "Login dengan Google" muncul di `/admin` setelah dua secret ini diisi:
-  - `GOOGLE_CLIENT_ID`: Client ID OAuth tipe *Web application* dari Google Cloud Console, dengan *Authorized JavaScript origin* `https://klinik.xianzing.my.id`.
-  - `ADMIN_EMAILS`: daftar email Google petugas, dipisah koma.
-  ```bash
-  npx wrangler pages secret put GOOGLE_CLIENT_ID --project-name devhealth-klinik
-  ```
-  ```bash
-  npx wrangler pages secret put ADMIN_EMAILS --project-name devhealth-klinik
-  ```
-  Lalu jalankan `npm run deploy` lagi.
-- **Lupa kata sandi**: masuk dengan Google, atau ganti kata sandinya:
-  ```bash
-  npx wrangler pages secret put STAFF_PASSWORD --project-name devhealth-klinik
-  ```
+Login di **/admin** ada dua langkah:
+1. **Masuk dengan Google.** Hanya email yang terdaftar sebagai petugas yang bisa lanjut.
+2. **Kata sandi pribadi.** Setiap petugas punya kata sandinya sendiri. Akunnya menentukan isi dasbor: **admin** melihat semua janji, demo, laporan bug, dan tab **Akun petugas**; **dokter** hanya melihat jadwal dan pasiennya sendiri.
+
+- Login pertama: setelah Google, petugas langsung diminta membuat kata sandi (minimal 8 karakter).
+- Lupa kata sandi: masuk dengan Google, lalu pilih **Lupa kata sandi? Ganti di sini**. Karena identitas sudah dipastikan Google, kata sandi baru bisa langsung dibuat; sesi di perangkat lain otomatis keluar.
+- Admin menambah, mengubah, mereset kata sandi, atau menghapus akun dokter dan admin di tab **Akun petugas**.
+
+Pengaturan di Cloudflare (Workers & Pages → `devhealth-klinik` → Settings → Variables and Secrets), lalu deploy ulang:
+
+| Nama | Isi |
+|---|---|
+| `GOOGLE_CLIENT_ID` | Client ID OAuth "Web application" dari Google Cloud Console; tambahkan `https://klinik.xianzing.my.id` ke *Authorized JavaScript origins* |
+| `ADMIN_EMAILS` | Email Google admin pertama, dipisah koma. Akun ini selalu admin |
+| `SESSION_SECRET` | Rahasia acak panjang untuk menandatangani sesi (`openssl rand -hex 32`). Bila kosong, memakai `STAFF_PASSWORD` |
+
+Uji di komputer sendiri tanpa Google: isi `DEV_LOGIN=1` dan `ADMIN_EMAILS=...` di `.dev.vars`. Formulir "mode uji lokal" hanya muncul di `localhost`, tidak pernah di situs online.
 
 ## Uji lokal
 

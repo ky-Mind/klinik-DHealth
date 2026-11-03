@@ -1,30 +1,38 @@
-// /api/staff-google — sign staff in with their Google account instead of the shared password.
-// GET tells /admin whether Google sign-in is set up (and which OAuth client to use);
-// POST exchanges a Google ID token for the same staff token the password gives, but only for emails in ADMIN_EMAILS.
-import { json, fail, staffToken, overLimit } from '../_lib/util.js';
+// /api/staff-google — step 1 of staff sign-in: prove who you are with Google.
+// GET tells /admin which sign-in methods are set up. POST checks a Google ID token (or, in local testing only, a typed
+// email), looks the email up among staff accounts, and returns a 10-minute ticket for step 2 (password, or setting one).
+import { json, fail, overLimit, signToken, getAccount, publicAccount, devLoginAllowed } from '../_lib/util.js';
 
-const allowed = (env) => (env.ADMIN_EMAILS || '').split(',').map((e) => e.trim().toLowerCase()).filter(Boolean);
-const ready = (env) => !!(env.GOOGLE_CLIENT_ID && env.STAFF_PASSWORD && allowed(env).length);
-
-export async function onRequestGet({ env }) {
-  return json(ready(env) ? { clientId: env.GOOGLE_CLIENT_ID } : { clientId: null });
+export async function onRequestGet({ request, env }) {
+  return json({ clientId: env.GOOGLE_CLIENT_ID || null, devLogin: devLoginAllowed(request, env) });
 }
 
 export async function onRequestPost({ request, env }) {
-  if (!ready(env)) return fail('unavailable', 'Login Google belum dikonfigurasi.', 503);
+  if (!env.DH_KV || !(env.SESSION_SECRET || env.STAFF_PASSWORD)) return fail('unavailable', 'Login petugas belum dikonfigurasi.', 503);
   if (await overLimit(env, request, 'staff-google', 10)) return fail('rate_limited', 'Terlalu banyak percobaan.', 429);
-  let credential;
-  try { ({ credential } = await request.json()); } catch (_) { return fail('bad_request', 'Permintaan tidak valid.', 400); }
-  if (typeof credential !== 'string' || credential.length > 4096) return fail('bad_request', 'Permintaan tidak valid.', 400);
+  let body;
+  try { body = await request.json(); } catch (_) { return fail('bad_request', 'Permintaan tidak valid.', 400); }
 
-  // Google's tokeninfo endpoint checks the signature and expiry; we check it was issued for this site and to whom.
-  const res = await fetch('https://oauth2.googleapis.com/tokeninfo?id_token=' + encodeURIComponent(credential));
-  if (!res.ok) return fail('not_granted', 'Login Google tidak valid. Coba lagi.', 401);
-  const info = await res.json();
-  const email = String(info.email || '').toLowerCase();
-  const issuerOk = info.iss === 'accounts.google.com' || info.iss === 'https://accounts.google.com';
-  if (info.aud !== env.GOOGLE_CLIENT_ID || !issuerOk || String(info.email_verified) !== 'true' || Number(info.exp) * 1000 < Date.now())
-    return fail('not_granted', 'Login Google tidak valid. Coba lagi.', 401);
-  if (!allowed(env).includes(email)) return fail('not_allowed', `Email ${email} belum terdaftar sebagai petugas.`, 403);
-  return json({ token: await staffToken(env), email });
+  let email;
+  if (body.devEmail != null) {
+    if (!devLoginAllowed(request, env)) return fail('not_granted', 'Mode uji lokal tidak aktif.', 403);
+    email = String(body.devEmail).trim().toLowerCase();
+  } else {
+    if (!env.GOOGLE_CLIENT_ID) return fail('unavailable', 'Login Google belum dikonfigurasi.', 503);
+    const credential = body.credential;
+    if (typeof credential !== 'string' || credential.length > 4096) return fail('bad_request', 'Permintaan tidak valid.', 400);
+    // Google's tokeninfo endpoint checks the signature and expiry; we check it was issued for this site and to whom.
+    const res = await fetch('https://oauth2.googleapis.com/tokeninfo?id_token=' + encodeURIComponent(credential));
+    if (!res.ok) return fail('not_granted', 'Login Google tidak valid. Coba lagi.', 401);
+    const info = await res.json();
+    const issuerOk = info.iss === 'accounts.google.com' || info.iss === 'https://accounts.google.com';
+    if (info.aud !== env.GOOGLE_CLIENT_ID || !issuerOk || String(info.email_verified) !== 'true' || Number(info.exp) * 1000 < Date.now())
+      return fail('not_granted', 'Login Google tidak valid. Coba lagi.', 401);
+    email = String(info.email || '').toLowerCase();
+  }
+
+  const acc = await getAccount(env, email);
+  if (!acc) return fail('not_allowed', `Email ${email} belum terdaftar sebagai petugas.`, 403);
+  const ticket = await signToken(env, { kind: 'ticket', email: acc.email, exp: Date.now() + 10 * 60e3 });
+  return json({ ticket, account: publicAccount(acc) });
 }

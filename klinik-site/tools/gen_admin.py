@@ -52,13 +52,38 @@ ADMIN_CSS = '''<style>
 #admGoogle{min-height:44px;display:flex;justify-content:center}
 .adm-card .adm-help{font-size:13.5px;color:var(--faint)}
 @media (max-width:520px){.adm-nav .chip{display:none}.adm-panel{padding:14px}}
+/* the sign-in card never grows past its width: every grid level may shrink, long emails are clipped */
+.adm-card{grid-template-columns:minmax(0,1fr);width:100%;box-sizing:border-box}
+.adm-card>*,.adm-step,.adm-step>*,.adm-step .field{min-width:0}
+.adm-step{display:grid;gap:14px;grid-template-columns:minmax(0,1fr)}
+.adm-step .field input{width:100%;box-sizing:border-box}
+.adm-dev{display:grid;gap:10px;padding:14px;border:1px dashed var(--line);border-radius:14px}
+.adm-who{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:14px;background:var(--bg);border:1px solid var(--line)}
+.adm-who b{display:block;font-size:14.5px}
+.adm-who small{color:var(--faint);font-size:12.5px}
+.adm-who .btn-link{margin-left:auto;white-space:nowrap;flex:none}
+.adm-who>div{min-width:0}
+.adm-who small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.adm-av{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--primary);color:#fff;font-weight:800;flex:none}
+.btn-link{background:none;border:0;padding:4px 0;color:var(--primary);font-weight:700;font-size:14px;cursor:pointer;justify-self:start}
+.btn-link:hover{text-decoration:underline}
+.pw-box{position:relative}
+.pw-box input{padding-right:64px}
+.pw-eye{position:absolute;right:6px;top:50%;transform:translateY(-50%);border:0;background:var(--surface);color:var(--primary);font-weight:700;font-size:12.5px;padding:6px 10px;border-radius:8px;cursor:pointer}
+.adm-me{font-size:13px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:240px}
+.adm-me b{color:var(--ink)}
+.acc-form{display:grid;grid-template-columns:1.3fr 1fr .7fr 1.2fr auto;gap:10px;align-items:end}
+@media (max-width:900px){.acc-form{grid-template-columns:1fr 1fr}.acc-form .btn{grid-column:1/-1}}
+@media (max-width:520px){.acc-form{grid-template-columns:1fr}.adm-me{display:none}}
+.acc-row{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;justify-content:space-between}
+.acc-row .appt-acts{margin-left:auto}
 </style>'''
 
 BODY = f'''<header class="nav adm-nav" id="nav">
   <div class="wrap nav-in">
     <a class="logo" href="index.html" aria-label="DHealth beranda">{logo}<span>D<b>Health</b></span></a>
     <span class="chip">Admin &amp; dokter</span>
-    <div class="adm-act"><a class="btn btn-line btn-sm" href="index.html">Lihat situs</a><button class="btn btn-soft btn-sm" type="button" id="admOut" hidden>Keluar</button></div>
+    <div class="adm-act"><span class="adm-me" id="admMe" hidden></span><a class="btn btn-line btn-sm" href="index.html">Lihat situs</a><button class="btn btn-soft btn-sm" type="button" id="admOut" hidden>Keluar</button></div>
   </div>
 </header>
 
@@ -66,19 +91,40 @@ BODY = f'''<header class="nav adm-nav" id="nav">
   <section id="admLoad" class="adm-card"><p>Memuat…</p></section>
 
   <section id="admLogin" class="adm-card" hidden>
-    <span class="eyebrow">Khusus petugas</span>
-    <h1>Masuk Dasbor Klinik</h1>
-    <p>Untuk admin dan dokter DHealth: janji pasien, jadwal per dokter, permintaan demo, dan laporan bug.</p>
-    <form id="admForm" style="display:grid;gap:14px">
-      <div class="field"><label for="admPw">Kata sandi petugas</label><input id="admPw" type="password" autocomplete="current-password" required></div>
-      <p class="err" id="admErr" hidden></p>
-      <button class="btn btn-primary" type="submit">Masuk</button>
-    </form>
-    <div id="admGoogleWrap" class="adm-google" hidden>
-      <div class="adm-or"><span>atau</span></div>
+    <span class="eyebrow" id="admStepLbl">Khusus petugas · langkah 1 dari 2</span>
+
+    <div id="stepGoogle" class="adm-step">
+      <h1>Masuk Dasbor Klinik</h1>
+      <p>Untuk admin dan dokter DHealth. Masuk dulu dengan akun Google yang terdaftar di klinik, lalu isi kata sandi Anda.</p>
       <div id="admGoogle"></div>
+      <form id="devForm" class="adm-dev" hidden>
+        <div class="field"><label for="devEmail">Email petugas (mode uji lokal)</label><input id="devEmail" type="email" autocomplete="email" placeholder="nama@dhealth.id" required></div>
+        <button class="btn btn-line" type="submit">Lanjut tanpa Google</button>
+        <p class="adm-help">Mode ini hanya muncul di komputer pengembang (localhost) untuk menguji login.</p>
+      </form>
+      <p class="err" id="googleNone" hidden>Login Google belum dikonfigurasi di situs ini. Hubungi pengelola situs.</p>
     </div>
-    <p class="adm-help" id="admHelp">Lupa kata sandi? Hubungi pengelola situs untuk menggantinya.</p>
+
+    <form id="stepPw" class="adm-step" hidden>
+      <div class="adm-who"><span class="adm-av" id="pwAv">A</span><div><b id="pwName"></b><small id="pwMeta"></small></div><button class="btn-link" type="button" data-restart>Ganti akun</button></div>
+      <h1>Kata sandi Anda</h1>
+      <p>Kata sandi menentukan akun yang dibuka: admin, atau jadwal dokter Anda sendiri.</p>
+      <div class="field"><label for="admPw">Kata sandi</label><div class="pw-box"><input id="admPw" type="password" autocomplete="current-password" required><button class="pw-eye" type="button" data-eye="admPw" aria-label="Tampilkan kata sandi">Lihat</button></div></div>
+      <button class="btn btn-primary" type="submit">Masuk</button>
+      <button class="btn-link" type="button" id="toForgot">Lupa kata sandi? Ganti di sini</button>
+    </form>
+
+    <form id="stepNew" class="adm-step" hidden>
+      <div class="adm-who"><span class="adm-av" id="newAv">A</span><div><b id="newName"></b><small id="newMeta"></small></div><button class="btn-link" type="button" data-restart>Ganti akun</button></div>
+      <h1 id="newTitle">Buat kata sandi baru</h1>
+      <p id="newLead">Identitas Anda sudah dipastikan lewat Google, jadi Anda bisa langsung membuat kata sandi baru. Sesi di perangkat lain akan otomatis keluar.</p>
+      <div class="field"><label for="newPw">Kata sandi baru</label><div class="pw-box"><input id="newPw" type="password" autocomplete="new-password" minlength="8" required><button class="pw-eye" type="button" data-eye="newPw" aria-label="Tampilkan kata sandi">Lihat</button></div><small class="adm-help" id="pwRule">Minimal 8 karakter. Gabungkan huruf dan angka.</small></div>
+      <div class="field"><label for="newPw2">Ulangi kata sandi baru</label><div class="pw-box"><input id="newPw2" type="password" autocomplete="new-password" required><button class="pw-eye" type="button" data-eye="newPw2" aria-label="Tampilkan kata sandi">Lihat</button></div></div>
+      <button class="btn btn-primary" type="submit">Simpan &amp; masuk</button>
+      <button class="btn-link" type="button" id="backPw">Kembali ke kata sandi</button>
+    </form>
+
+    <p class="err" id="admErr" hidden></p>
   </section>
 
   <section id="admDenied" class="adm-card" hidden>
@@ -89,16 +135,16 @@ BODY = f'''<header class="nav adm-nav" id="nav">
   </section>
 
   <section id="admDash" hidden>
-    <div class="adm-head"><span class="eyebrow">Dasbor Klinik</span><h1>Janji temu pasien</h1><p class="st-sub">Data diperbarui otomatis. Tidak terlihat oleh pasien.</p></div>
+    <div class="adm-head"><span class="eyebrow" id="dashEyebrow">Dasbor Klinik</span><h1 id="dashTitle">Janji temu pasien</h1><p class="st-sub">Data diperbarui otomatis. Tidak terlihat oleh pasien.</p></div>
     <div class="st-stats" id="stStats"></div>
     <div class="adm-panel">
-      <div class="search-tabs" id="stTabs" role="tablist"><button type="button" role="tab" aria-selected="true" data-tab="all">Semua janji pasien</button><button type="button" role="tab" aria-selected="false" data-tab="doc">Jadwal per dokter</button><button type="button" role="tab" aria-selected="false" data-tab="inbox">Demo &amp; laporan bug</button></div>
+      <div class="search-tabs" id="stTabs" role="tablist"><button type="button" role="tab" aria-selected="true" data-tab="all">Semua janji pasien</button><button type="button" role="tab" aria-selected="false" data-tab="doc">Jadwal per dokter</button><button type="button" role="tab" aria-selected="false" data-tab="inbox" data-admin>Demo &amp; laporan bug</button><button type="button" role="tab" aria-selected="false" data-tab="staff" data-admin hidden>Akun petugas</button></div>
       <div id="stAllWrap" class="st-wrap">
         <div class="filters" id="stStatus" role="group" aria-label="Status janji"><button type="button" aria-pressed="true" data-st="all">Semua</button><button type="button" aria-pressed="false" data-st="aktif">Terjadwal</button><button type="button" aria-pressed="false" data-st="batal">Dibatalkan</button></div>
         <div class="appts" id="stAll"></div>
       </div>
       <div id="stDocWrap" class="st-wrap" hidden>
-        <div class="field"><label for="stDocSel">Dokter</label><select id="stDocSel"></select></div>
+        <div class="field" id="stDocField"><label for="stDocSel">Dokter</label><select id="stDocSel"></select></div>
         <p class="appt-policy" id="stDocInfo"></p>
         <div class="appts" id="stDoc"></div>
       </div>
@@ -107,6 +153,18 @@ BODY = f'''<header class="nav adm-nav" id="nav">
         <div class="appts" id="stDemos"><p class="appt-policy">Memuat…</p></div>
         <h4 class="st-h">Laporan bug</h4>
         <div class="appts" id="stBugs"><p class="appt-policy">Memuat…</p></div>
+      </div>
+      <div id="stStaffWrap" class="st-wrap" hidden>
+        <p class="appt-policy">Setiap petugas masuk dengan akun Google-nya, lalu kata sandinya sendiri. Akun dokter hanya melihat jadwal dan pasien dokter itu.</p>
+        <form id="accForm" class="acc-form">
+          <div class="field"><label for="accEmail">Email Google</label><input id="accEmail" type="email" required placeholder="nama@gmail.com"></div>
+          <div class="field"><label for="accName">Nama</label><input id="accName" type="text" placeholder="dr. Nadia Prameswari"></div>
+          <div class="field"><label for="accRole">Peran</label><select id="accRole"><option value="dokter">Dokter</option><option value="admin">Admin</option></select></div>
+          <div class="field" id="accDocF"><label for="accDoc">Dokter</label><select id="accDoc"></select></div>
+          <button class="btn btn-primary" type="submit">Simpan akun</button>
+        </form>
+        <p class="err" id="accErr" hidden></p>
+        <div class="appts" id="accList"></div>
       </div>
     </div>
   </section>
@@ -119,45 +177,79 @@ SCRIPT = '''<script>
 ''' + helpers + r'''
   const show=id=>['admLoad','admLogin','admDenied','admDash'].forEach(x=>{$('#'+x).hidden=x!==id;});
 
-  // who may enter: on the self-hosted site, whoever signs in with the clinic password; in the artifact, its owner and editors
+  // who may enter: on the self-hosted site, staff who pass Google + their own password; in the artifact, its owner and editors
+  let me={role:'admin',name:'',email:'',doc:''};
   (async()=>{
     const [db,user]=await Promise.all([window.claude?.use?.('db'),window.claude?.use?.('user')].map(p=>Promise.resolve(p).catch(()=>null)));
     if(window.dhStaff){
-      $('#admForm').addEventListener('submit',async e=>{
-        e.preventDefault();const err=$('#admErr');err.hidden=true;
-        const btn=e.submitter||$('#admForm button');btn.disabled=true;
-        try{await dhStaff.login($('#admPw').value);location.reload();}
-        catch(ex){err.textContent=ex.code==='rate_limited'?'Terlalu banyak percobaan. Coba lagi beberapa menit lagi.':'Kata sandi salah.';err.hidden=false;btn.disabled=false;}
-      });
       $('#admOut').addEventListener('click',()=>{dhStaff.logout();location.reload();});
-      if(!dhStaff.signedIn())googleButton();
-      if(!dhStaff.signedIn()){show('admLogin');$('#admPw').focus();return;}
+      if(dhStaff.signedIn()){
+        try{me=(await dhStaff.accounts()).me;}catch(_){dhStaff.logout();}
+      }
+      if(!dhStaff.signedIn()){signIn();return;}
       $('#admOut').hidden=false;
+      $('#admMe').innerHTML=`<b>${esc(me.name)}</b> · ${me.role==='admin'?'Admin':'Dokter'}`;$('#admMe').hidden=false;
     }else if(!db||!user||!user.canEdit()){show('admDenied');return;}
     show('admDash');dashboard(db);
   })();
 
-  // "Masuk dengan Google" for staff whose email is on the clinic's list; hidden until the site has a Google client
-  async function googleButton(){
-    const clientId=await dhStaff.googleClientId(); if(!clientId)return;
-    const s=document.createElement('script');s.src='https://accounts.google.com/gsi/client';s.async=true;
-    s.onload=()=>{
-      google.accounts.id.initialize({client_id:clientId,ux_mode:'popup',callback:async r=>{
-        const err=$('#admErr');err.hidden=true;
-        try{await dhStaff.loginGoogle(r.credential);location.reload();}
-        catch(ex){err.textContent=ex.code==='not_allowed'?ex.message+' Minta pengelola situs menambahkannya.':ex.code==='rate_limited'?'Terlalu banyak percobaan. Coba lagi beberapa menit lagi.':'Login Google gagal. Coba lagi.';err.hidden=false;}
-      }});
-      google.accounts.id.renderButton($('#admGoogle'),{theme:'outline',size:'large',shape:'pill',text:'signin_with',locale:'id',width:Math.min(384,$('#admForm').clientWidth||320)});
-      $('#admGoogleWrap').hidden=false;
-      $('#admHelp').textContent='Lupa kata sandi? Masuk dengan akun Google yang terdaftar, atau hubungi pengelola situs untuk menggantinya.';
-    };
-    document.head.appendChild(s);
+  // step 1 Google (or the local test form), step 2 the person's own password, or a new password when it is the
+  // first sign-in or they forgot it
+  function signIn(){
+    show('admLogin');
+    const err=$('#admErr'), oops=m=>{err.textContent=m;err.hidden=false;}, clear=()=>{err.hidden=true;};
+    const msg=ex=>({rate_limited:'Terlalu banyak percobaan. Tunggu 1 menit, lalu coba lagi.',expired:ex.message,not_allowed:ex.message+' Minta admin klinik menambahkannya.',weak:ex.message,no_password:ex.message})[ex.code]||(ex.code==='not_granted'?ex.message:'Tidak bisa terhubung. Periksa koneksi lalu coba lagi.');
+    let acc=null;
+    const step=id=>{['stepGoogle','stepPw','stepNew'].forEach(x=>$('#'+x).hidden=x!==id);$('#admStepLbl').textContent='Khusus petugas · langkah '+(id==='stepGoogle'?'1':'2')+' dari 2';clear();};
+    const who=(pre)=>{const r=acc.role==='admin'?'Admin':'Dokter'+(acc.doc?' · '+acc.doc:'');$('#'+pre+'Av').textContent=(acc.name||acc.email)[0].toUpperCase();$('#'+pre+'Name').textContent=acc.name||acc.email;$('#'+pre+'Meta').textContent=acc.email+' · '+r;};
+    const afterId=a=>{acc=a;if(a.hasPassword){who('pw');step('stepPw');$('#admPw').value='';$('#admPw').focus();}else newPw(true);};
+    const newPw=first=>{who('new');step('stepNew');$('#newTitle').textContent=first?'Buat kata sandi':'Ganti kata sandi';
+      $('#newLead').textContent=first?'Ini login pertama Anda. Buat kata sandi untuk akun ini; berikutnya Anda masuk dengan Google lalu kata sandi ini.':'Identitas Anda sudah dipastikan lewat Google, jadi Anda bisa langsung membuat kata sandi baru. Sesi di perangkat lain akan otomatis keluar.';
+      $('#backPw').hidden=first;$('#newPw').value='';$('#newPw2').value='';$('#newPw').focus();};
+    $$('[data-restart]').forEach(b=>b.addEventListener('click',()=>{dhStaff.logout();step('stepGoogle');}));
+    $$('[data-eye]').forEach(b=>b.addEventListener('click',()=>{const i=$('#'+b.dataset.eye);const v=i.type==='password';i.type=v?'text':'password';b.textContent=v?'Sembunyi':'Lihat';b.setAttribute('aria-label',v?'Sembunyikan kata sandi':'Tampilkan kata sandi');}));
+    $('#toForgot').addEventListener('click',()=>newPw(false));
+    $('#backPw').addEventListener('click',()=>{who('pw');step('stepPw');});
+    const busy=(f,on)=>f.querySelectorAll('button').forEach(b=>b.disabled=on);
+    $('#stepPw').addEventListener('submit',async e=>{e.preventDefault();busy(e.target,true);
+      try{await dhStaff.password($('#admPw').value);location.reload();}
+      catch(ex){oops(msg(ex));if(ex.code==='expired')step('stepGoogle');busy(e.target,false);}});
+    $('#stepNew').addEventListener('submit',async e=>{e.preventDefault();clear();
+      const a=$('#newPw').value,b=$('#newPw2').value;
+      if(a.length<8)return oops('Kata sandi minimal 8 karakter.');
+      if(a!==b)return oops('Kedua kata sandi belum sama. Ketik ulang.');
+      busy(e.target,true);
+      try{await dhStaff.setPassword(a);location.reload();}
+      catch(ex){oops(msg(ex));if(ex.code==='expired')step('stepGoogle');busy(e.target,false);}});
+    $('#devForm').addEventListener('submit',async e=>{e.preventDefault();busy(e.target,true);
+      try{afterId(await dhStaff.devLogin($('#devEmail').value));}catch(ex){oops(msg(ex));}busy(e.target,false);});
+    step('stepGoogle');
+    dhStaff.methods().then(m=>{
+      if(m.devLogin)$('#devForm').hidden=false;
+      if(!m.clientId){if(!m.devLogin)$('#googleNone').hidden=false;return;}
+      const s=document.createElement('script');s.src='https://accounts.google.com/gsi/client';s.async=true;
+      s.onload=()=>{
+        google.accounts.id.initialize({client_id:m.clientId,ux_mode:'popup',callback:async r=>{clear();
+          try{afterId(await dhStaff.google(r.credential));}catch(ex){oops(ex.code==='not_allowed'||ex.code==='rate_limited'?msg(ex):'Login Google gagal. Coba lagi.');}}});
+        google.accounts.id.renderButton($('#admGoogle'),{theme:'outline',size:'large',shape:'pill',text:'signin_with',locale:'id',width:Math.min(384,$('#stepGoogle').clientWidth||320)});
+      };
+      document.head.appendChild(s);
+    });
   }
 
   function dashboard(db){
     const allBox=$('#stAll'), docBox=$('#stDoc'), docSel=$('#stDocSel');
     docSel.innerHTML=docs.map((d,i)=>`<option value="${i}">${esc(d.n)} · ${esc(spLabel(d))}</option>`).join('');
     let rows=[], status='all', tab='all';
+    const isDoc=me.role==='dokter';
+    if(isDoc){
+      // a doctor's account: only their own schedule (the server already sends only their patients)
+      const i=docs.findIndex(d=>d.n===me.doc); if(i>=0)docSel.value=i;
+      $('#stDocField').hidden=true;$$('[data-admin]').forEach(b=>b.hidden=true);
+      $('#dashEyebrow').textContent='Jadwal dokter';$('#dashTitle').textContent='Jadwal '+(me.name||me.doc);
+      const t=$$('#stTabs button');t[0].textContent='Semua pasien saya';t[1].textContent='Jadwal saya';
+      tab='doc';t.forEach(x=>x.setAttribute('aria-selected',String(x.dataset.tab==='doc')));$('#stAllWrap').hidden=true;$('#stDocWrap').hidden=false;
+    }else if(window.dhStaff&&me.role==='admin'){$('[data-tab="staff"]').hidden=false;}
     const todayIso=iso(new Date());
     const slotOf=a=>a.slot||(a.when.match(/(\d{2}\.\d{2}) WIB/)||[])[1]||'';
     const isVideo=a=>a.type==='video'||/Video call/.test(a.loc);
@@ -190,7 +282,7 @@ SCRIPT = '''<script>
     },()=>{clearTimeout(t);allBox.innerHTML='<p class="err">Akun ini tidak punya akses ke data janji pasien. Coba keluar lalu masuk lagi.</p>';});
     $('#stTabs').addEventListener('click',e=>{const b=e.target.closest('[data-tab]');if(!b)return;tab=b.dataset.tab;
       $$('#stTabs button').forEach(x=>x.setAttribute('aria-selected',String(x===b)));
-      $('#stAllWrap').hidden=tab!=='all';$('#stDocWrap').hidden=tab!=='doc';$('#stInboxWrap').hidden=tab!=='inbox';if(tab==='inbox')startInbox();draw();});
+      $('#stAllWrap').hidden=tab!=='all';$('#stDocWrap').hidden=tab!=='doc';$('#stInboxWrap').hidden=tab!=='inbox';$('#stStaffWrap').hidden=tab!=='staff';if(tab==='inbox')startInbox();if(tab==='staff')startStaff();draw();});
     // demo requests and bug reports sent from the forms (bugs/<id>, demos/<id>); newest first
     let inboxOn=false;
     function startInbox(){
@@ -205,6 +297,35 @@ SCRIPT = '''<script>
         <div class="appt-meta"><span>${esc(x.name)} · WA ${esc(x.wa)}</span><span>Demo ${esc(new Date(x.date+'T00:00').toLocaleDateString('id-ID',{weekday:'short',day:'numeric',month:'short'}))}, ${esc(x.time)} WIB</span><span>Modul: ${esc((x.modules||[]).join(', '))}</span><span>Dikirim ${esc(when(x.at))}</span></div></article>`,'Belum ada permintaan demo.');
       watch('bugs',$('#stBugs'),x=>`<article class="appt"><div class="appt-top"><div><div class="appt-num">${esc(x.type)}</div><div class="st-time">${esc(x.page)} · ${esc(when(x.at))}</div></div><span class="chip chip-muted">${esc(x.id)}</span></div>
         <div class="appt-meta"><span>${esc(x.desc)}</span>${x.email?`<span>Email: ${esc(x.email)}</span>`:''}</div></article>`,'Belum ada laporan bug.');
+    }
+    // admin: manage who may sign in and as which doctor
+    let staffOn=false;
+    function startStaff(){
+      if(staffOn)return;staffOn=true;
+      const err=$('#accErr'),list=$('#accList');
+      $('#accDoc').innerHTML=docs.map(d=>`<option>${esc(d.n)}</option>`).join('');
+      const roleSync=()=>{$('#accDocF').hidden=$('#accRole').value!=='dokter';};
+      $('#accRole').addEventListener('change',roleSync);roleSync();
+      $('#accDoc').addEventListener('change',()=>{if(!$('#accName').value)$('#accName').value=$('#accDoc').value;});
+      const load=async()=>{
+        try{const {accounts}=await dhStaff.accounts();
+          list.innerHTML=accounts.map(a=>`<article class="appt" data-email="${esc(a.email)}"><div class="acc-row"><div><div class="appt-doc">${esc(a.name)}</div><div class="appt-meta"><span>${esc(a.email)}</span><span>${a.role==='admin'?'Admin':'Dokter · '+esc(a.doc)}</span><span>${a.hasPassword?'Kata sandi sudah dibuat':'Belum membuat kata sandi'}</span></div></div>
+            <div class="appt-acts">${a.email===me.email?'<span class="chip">Akun Anda</span>':`<button class="btn btn-line btn-sm" type="button" data-acc="edit">Ubah</button>${a.hasPassword?'<button class="btn btn-line btn-sm" type="button" data-acc="reset">Reset kata sandi</button>':''}<button class="btn btn-danger-line btn-sm" type="button" data-acc="del">Hapus</button>`}</div></div></article>`).join('')||'<div class="appt-empty"><p>Belum ada akun petugas.</p></div>';
+          list._accounts=accounts;
+        }catch(ex){list.innerHTML='<p class="err">Daftar akun belum bisa dimuat.</p>';}
+      };
+      $('#accForm').addEventListener('submit',async e=>{e.preventDefault();err.hidden=true;
+        try{await dhStaff.saveAccount({email:$('#accEmail').value,name:$('#accName').value,role:$('#accRole').value,doc:$('#accDoc').value});e.target.reset();roleSync();load();}
+        catch(ex){err.textContent=ex.message;err.hidden=false;}});
+      list.addEventListener('click',async e=>{
+        const b=e.target.closest('[data-acc]');if(!b)return;const email=b.closest('[data-email]').dataset.email;
+        const a=(list._accounts||[]).find(x=>x.email===email);err.hidden=true;
+        if(b.dataset.acc==='edit'){$('#accEmail').value=a.email;$('#accName').value=a.name;$('#accRole').value=a.role;roleSync();if(a.doc)$('#accDoc').value=a.doc;$('#accEmail').focus();return;}
+        if(b.dataset.ok!=='1'){b.dataset.ok='1';b.textContent=b.dataset.acc==='del'?'Yakin hapus?':'Yakin reset?';setTimeout(()=>{b.dataset.ok='';b.textContent=b.dataset.acc==='del'?'Hapus':'Reset kata sandi';},4000);return;}
+        try{if(b.dataset.acc==='del')await dhStaff.removeAccount(email);else await dhStaff.resetAccount(email);load();}
+        catch(ex){err.textContent=ex.message;err.hidden=false;}
+      });
+      load();
     }
     $('#stStatus').addEventListener('click',e=>{const b=e.target.closest('[data-st]');if(!b)return;status=b.dataset.st;setPressed('#stStatus button',b);draw();});
     docSel.addEventListener('change',draw);

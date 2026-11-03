@@ -1,8 +1,8 @@
 // /api/data — records from the site's forms, stored in Workers KV.
 //   GET  ?path=<collection>/<id>   read one record: its owner (x-device) or staff
 //   PUT  ?path=<collection>/<id>   replace one record: its owner (x-device) or staff
-//   GET  ?collection=<collection>  list all records: staff only
-import { json, fail, isStaff, overLimit } from '../_lib/util.js';
+//   GET  ?collection=<collection>  list records: admins see everything; a doctor sees only bookings made with them
+import { json, fail, staffSession, overLimit } from '../_lib/util.js';
 
 const COLLECTIONS = new Set(['appts', 'bugs', 'demos']);
 const MAX_BYTES = 64 * 1024;
@@ -13,7 +13,9 @@ function parsePath(path) {
 }
 
 async function canTouch(request, env, id) {
-  return request.headers.get('x-device') === id || (await isStaff(request, env));
+  if (request.headers.get('x-device') === id) return true;
+  const s = await staffSession(request, env);
+  return !!s && s.role === 'admin';
 }
 
 export async function onRequestGet({ request, env }) {
@@ -23,7 +25,9 @@ export async function onRequestGet({ request, env }) {
   const collection = url.searchParams.get('collection');
   if (collection) {
     if (!COLLECTIONS.has(collection)) return fail('bad_request', 'Koleksi tidak dikenal.', 400);
-    if (!(await isStaff(request, env))) return fail('not_granted', 'Khusus petugas klinik.', 403);
+    const s = await staffSession(request, env);
+    if (!s) return fail('not_granted', 'Khusus petugas klinik.', 403);
+    if (s.role !== 'admin' && collection !== 'appts') return fail('not_granted', 'Khusus admin.', 403);
     const docs = [];
     let cursor;
     do {
@@ -32,6 +36,12 @@ export async function onRequestGet({ request, env }) {
       page.keys.forEach((k, i) => values[i] && docs.push({ id: k.name.slice(collection.length + 1), data: values[i] }));
       cursor = page.list_complete ? null : page.cursor;
     } while (cursor);
+    if (s.role !== 'admin') {
+      // doctors: keep only their own patients' bookings, and drop patients with none
+      const mine = docs.map((d) => ({ id: d.id, data: { ...d.data, items: (d.data.items || []).filter((a) => a && a.doc === s.doc) } }))
+        .filter((d) => d.data.items.length);
+      return json({ docs: mine });
+    }
     return json({ docs });
   }
 

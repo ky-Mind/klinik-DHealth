@@ -68,7 +68,7 @@
   }
   const db = { doc: docRef, collection: collectionRef };
 
-  // viewer: staff are whoever signed in on /admin with the clinic password
+  // viewer: staff are whoever signed in on /admin (Google, then their own password)
   const user = {
     id: async () => device,
     me: async () => ({ id: device, name: '' }),
@@ -94,18 +94,21 @@
   window.claude = { use: async (name) => caps[name] || null };
 
   // Staff sign-in lives only on /admin (admin.html); public pages never show a password prompt or staff links.
+  // Two steps: Google proves who you are (a 10-minute ticket), then your own password opens your account
+  // (admin, or one doctor). A forgotten password is replaced with the same Google ticket.
+  let ticket = null;
+  const keep = (out) => { put('dh-staff', out.token); return out.account; };
   window.dhStaff = {
     signedIn: () => !!staffToken(),
-    async login(password) {
-      const out = await api('/api/staff', { method: 'POST', body: JSON.stringify({ password }) });
-      put('dh-staff', out.token);
-    },
-    // Google sign-in: null when the site has no Google client configured, so /admin shows the password form only
-    googleClientId: () => api('/api/staff-google').then((r) => r.clientId, () => null),
-    async loginGoogle(credential) {
-      const out = await api('/api/staff-google', { method: 'POST', body: JSON.stringify({ credential }) });
-      put('dh-staff', out.token);
-    },
-    logout: () => put('dh-staff', null),
+    methods: () => api('/api/staff-google').catch(() => ({ clientId: null, devLogin: false })),
+    async google(credential) { const out = await api('/api/staff-google', { method: 'POST', body: JSON.stringify({ credential }) }); ticket = out.ticket; return out.account; },
+    async devLogin(email) { const out = await api('/api/staff-google', { method: 'POST', body: JSON.stringify({ devEmail: email }) }); ticket = out.ticket; return out.account; },
+    password: async (password) => keep(await api('/api/staff', { method: 'POST', body: JSON.stringify({ ticket, password }) })),
+    setPassword: async (password) => keep(await api('/api/staff-password', { method: 'POST', body: JSON.stringify({ ticket, password }) })),
+    accounts: () => api('/api/staff-accounts'),
+    saveAccount: (acc) => api('/api/staff-accounts', { method: 'PUT', body: JSON.stringify(acc) }),
+    resetAccount: (email) => api('/api/staff-accounts', { method: 'POST', body: JSON.stringify({ email, action: 'reset' }) }),
+    removeAccount: (email) => api('/api/staff-accounts?email=' + encodeURIComponent(email), { method: 'DELETE' }),
+    logout: () => { ticket = null; put('dh-staff', null); },
   };
 })();
