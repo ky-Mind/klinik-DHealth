@@ -11,18 +11,18 @@
 /* Layout: spacious, light-only pages on a 1200px grid; flat colors, no gradients; a pale cyan band separates the clinic software (B2B) section */
 :root{
   /* fresh neutrals with a faint green bias, layered in three tones */
-  --bg:#F6F9F7; --surface:#FFFFFF; --surface-2:#EAF3EE; --ink:#1A2B2F; --muted:#4A5E63; --faint:#6E8185; --line:#D9E5E0;
+  --bg:#F5F9FC; --surface:#FFFFFF; --surface-2:#E8F2FA; --ink:#14283A; --muted:#475B6B; --faint:#6B7F8E; --line:#D5E4F0;
   /* clear medical cyan: brighter than petrol, still below neon saturation */
-  --primary:#1A7A8C; --primary-strong:#135F6D; --primary-soft:#DDEFF2;
+  --primary:#0A5BB0; --primary-strong:#084A8F; --primary-soft:#E0EEFB;
   /* supporting hues: leaf green (healing), calm blue, warm orange (action), honey (rating) */
   --teal:#3B8B3F; --teal-soft:#E4F2E1; --sky:#2F78B7; --sky-soft:#E0ECF7;
-  --accent:#C7591F; --accent-strong:#A7481A; --on-accent:#FFFFFF; --accent-soft:#FCE8DA;
+  --accent:#0778C8; --accent-strong:#0662A5; --on-accent:#FFFFFF; --accent-soft:#DDF0FC;
   --star:#E09B26; --star-soft:#FCF0D6; --danger:#C4443A; --danger-soft:#F9E2DF;
   --wa:#2E8B4E; --wa-strong:#23703E;
-  --band:#E6F2F2; --band-2:#FFFFFF; --on-band:#1A2B2F; --band-muted:#4A5E63; --band-line:#CDE1E1;
+  --band:#E3F1FB; --band-2:#FFFFFF; --on-band:#14283A; --band-muted:#475B6B; --band-line:#C9E0F2;
   --skin-1:#EDC7A6; --skin-2:#D3A07E; --skin-3:#A97A5C; --hair:#2B3133;
-  --shadow-sm:0 1px 2px rgba(28,43,47,.06);
-  --shadow:0 1px 2px rgba(28,43,47,.05),0 12px 30px -14px rgba(26,122,140,.2);
+  --shadow-sm:0 1px 2px rgba(20,40,58,.06);
+  --shadow:0 1px 2px rgba(20,40,58,.05),0 12px 30px -14px rgba(10,91,176,.2);
   --f-sans:"Plus Jakarta Sans",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   --f-mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
   --r-xl:28px; --r-lg:20px; --r-md:14px; --r-sm:10px;
@@ -479,7 +479,7 @@ footer{background:var(--surface);border-top:1px solid var(--line);padding-block:
 
 /* dialog */
 dialog{border:0;padding:0;border-radius:24px;width:min(520px,calc(100% - 32px));background:var(--surface);color:var(--ink);box-shadow:0 40px 80px -20px rgba(0,0,0,.45)}
-dialog::backdrop{background:rgba(28,43,47,.22);backdrop-filter:blur(4px)}
+dialog::backdrop{background:rgba(20,40,58,.22);backdrop-filter:blur(4px)}
 .dlg-h{display:flex;justify-content:space-between;align-items:center;padding:18px 24px;border-bottom:1px solid var(--line)}
 .dlg-h h3{font-size:1.2rem;font-weight:800}
 .x{background:var(--bg);border:0;width:36px;height:36px;border-radius:50%;cursor:pointer;display:grid;place-items:center;color:var(--ink)}
@@ -570,7 +570,7 @@ a.doc-ph{text-decoration:none}
 .sd-scrim{pointer-events:auto;position:fixed;inset:0;background:rgba(16,32,36,.5);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);animation:fadeIn .2s ease-out;z-index:-1;touch-action:none;overscroll-behavior:contain}
 /* lock only the root scroller: locking body too turns it into its own scroll box and pushes the sticky header off screen */
 html.sd-lock,html.ai-lock{overflow:hidden;overscroll-behavior:none}
-.sd-main{pointer-events:auto;width:58px;height:58px;border-radius:50%;border:0;background:var(--primary);color:#fff;display:grid;place-items:center;cursor:pointer;box-shadow:0 12px 26px -10px rgba(26,122,140,.6);transition:background .2s,transform .25s}
+.sd-main{pointer-events:auto;width:58px;height:58px;border-radius:50%;border:0;background:var(--primary);color:#fff;display:grid;place-items:center;cursor:pointer;box-shadow:0 12px 26px -10px rgba(10,91,176,.6);transition:background .2s,transform .25s}
 .sd-main:hover{background:var(--primary-strong)}
 .sd-main .ico{width:26px;height:26px;transition:transform .25s ease}
 /* the FAB tucks away while scrolling down so it never sits on top of buttons, and returns on scroll up or at the page end */
@@ -696,7 +696,7 @@ html.menu-lock #nav>.wrap{background:var(--surface)}
 /* dialogs and panels arrive on the spring; on phones dialogs rise as bottom sheets */
 dialog[open]{animation:dlgIn .5s var(--spring) backwards}
 dialog[open]::backdrop{animation:fadeIn .3s var(--ease-out)}
-dialog::backdrop{background:rgba(28,43,47,.26);-webkit-backdrop-filter:blur(6px) saturate(140%);backdrop-filter:blur(6px) saturate(140%)}
+dialog::backdrop{background:rgba(20,40,58,.26);-webkit-backdrop-filter:blur(6px) saturate(140%);backdrop-filter:blur(6px) saturate(140%)}
 @keyframes dlgIn{from{opacity:0;transform:translateY(28px) scale(.96)}to{opacity:1;transform:none}}
 @media (max-width:600px){
   dialog{width:100%;max-width:100%;margin:auto 0 0;border-radius:32px 32px 0 0;max-height:calc(100% - 24px - env(safe-area-inset-top,0px));padding-bottom:env(safe-area-inset-bottom,0px)}
