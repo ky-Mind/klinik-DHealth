@@ -1,6 +1,6 @@
-# DEVHEALTH di klinik.xianzing.my.id
+# DHealth di klinik.xianzing.my.id
 
-Situs DEVHEALTH versi publik untuk Cloudflare Pages: halaman statis + Pages Functions untuk Asisten AI (Cloudflare Workers AI, gratis), penyimpanan janji/laporan bug/permintaan demo (Workers KV), dan login petugas.
+Situs DHealth versi publik untuk Cloudflare Pages: halaman statis + Pages Functions untuk Asisten AI (Cloudflare Workers AI, gratis), penyimpanan janji/laporan bug/permintaan demo (Workers KV), dan login petugas.
 
 ## Isi folder
 

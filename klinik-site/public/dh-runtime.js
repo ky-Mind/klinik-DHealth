@@ -1,4 +1,4 @@
-// DEVHEALTH runtime for the self-hosted site (klinik.xianzing.my.id).
+// DHealth runtime for the self-hosted site (klinik.xianzing.my.id).
 // The pages were written against the artifact runtime (window.claude.use(...)); this file provides the same small
 // surface they use — sample (assistant), db, user, downloads — backed by the site's own Pages Functions.
 (function () {
