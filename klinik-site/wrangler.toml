@@ -1,0 +1,14 @@
+name = "devhealth-klinik"
+pages_build_output_dir = "public"
+compatibility_date = "2026-10-01"
+compatibility_flags = ["nodejs_compat"]
+
+# Workers KV for appointments, bug reports and demo requests.
+# Create it once:  npx wrangler kv namespace create DH_KV   and paste the id it prints below.
+[[kv_namespaces]]
+binding = "DH_KV"
+id = "bd3ed20e562941baa2efc1ff630a0926"
+
+# Workers AI for the clinic assistant (free daily allowance, no API key).
+[ai]
+binding = "AI"

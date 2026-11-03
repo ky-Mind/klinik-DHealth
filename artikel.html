@@ -1,0 +1,1417 @@
+<!doctype html>
+<html lang="id"><head>
+<title>Artikel DEVHEALTH</title>
+<script>try{document.documentElement.dataset.nav=sessionStorage.getItem('dh-nav')||'';sessionStorage.removeItem('dh-nav');}catch(e){}</script>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0} img{max-width:100%} [hidden]{display:none!important}
+
+/* Layout: spacious, light-only pages on a 1200px grid; flat colors, no gradients; a pale cyan band separates the clinic software (B2B) section */
+:root{
+  /* fresh neutrals with a faint green bias, layered in three tones */
+  --bg:#F6F9F7; --surface:#FFFFFF; --surface-2:#EAF3EE; --ink:#1A2B2F; --muted:#4A5E63; --faint:#6E8185; --line:#D9E5E0;
+  /* clear medical cyan: brighter than petrol, still below neon saturation */
+  --primary:#1A7A8C; --primary-strong:#135F6D; --primary-soft:#DDEFF2;
+  /* supporting hues: leaf green (healing), calm blue, warm orange (action), honey (rating) */
+  --teal:#3B8B3F; --teal-soft:#E4F2E1; --sky:#2F78B7; --sky-soft:#E0ECF7;
+  --accent:#C7591F; --accent-strong:#A7481A; --on-accent:#FFFFFF; --accent-soft:#FCE8DA;
+  --star:#E09B26; --star-soft:#FCF0D6; --danger:#C4443A; --danger-soft:#F9E2DF;
+  --wa:#2E8B4E; --wa-strong:#23703E;
+  --band:#E6F2F2; --band-2:#FFFFFF; --on-band:#1A2B2F; --band-muted:#4A5E63; --band-line:#CDE1E1;
+  --skin-1:#EDC7A6; --skin-2:#D3A07E; --skin-3:#A97A5C; --hair:#2B3133;
+  --shadow-sm:0 1px 2px rgba(28,43,47,.06);
+  --shadow:0 1px 2px rgba(28,43,47,.05),0 12px 30px -14px rgba(26,122,140,.2);
+  --f-sans:"Plus Jakarta Sans",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --r-xl:28px; --r-lg:20px; --r-md:14px; --r-sm:10px;
+  --gl:max(16px,env(safe-area-inset-left,0px)); --gr:max(16px,env(safe-area-inset-right,0px));
+}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-sans);font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--surface)}
+h1,h2,h3,h4{line-height:1.15;margin:0;text-wrap:balance;letter-spacing:-.02em}
+p{margin:0}
+a{color:inherit}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--sky);outline-offset:2px}
+.wrap{max-width:1200px;margin:0 auto;padding-left:var(--gl);padding-right:var(--gr)}
+.num{font-variant-numeric:tabular-nums}
+.mono{font-family:var(--f-mono);font-size:.92em}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--primary)}
+.lead{font-size:1.08rem;color:var(--muted);max-width:62ch}
+.sec{padding-block:clamp(64px,8vw,104px)}
+.sec-head{display:grid;gap:12px;margin-bottom:36px;max-width:680px}
+.sec-head h2{font-size:clamp(1.85rem,3.6vw,2.6rem);font-weight:800}
+.sec-row{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:end;margin-bottom:28px}
+.sec-row .sec-head{margin:0}
+.ico{width:22px;height:22px;flex:none;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.ico-sm{width:18px;height:18px}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;cursor:pointer;text-decoration:none;font-weight:700;border-radius:12px;padding:12px 20px;transition:background .15s,box-shadow .15s,color .15s,transform .15s;white-space:nowrap;font-size:15px}
+.btn:active{transform:translateY(1px)}
+.btn-accent{background:var(--accent);color:var(--on-accent)}
+.btn-accent:hover{background:var(--accent-strong)}
+.btn-primary{background:var(--primary);color:#fff}
+.btn-primary:hover{background:var(--primary-strong)}
+.btn-soft{background:var(--primary-soft);color:var(--primary)}
+.btn-soft:hover{box-shadow:inset 0 0 0 1.5px var(--primary)}
+.btn-line{background:var(--surface);color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--line)}
+.btn-line:hover{box-shadow:inset 0 0 0 1.5px var(--primary);color:var(--primary)}
+.btn-sm{padding:9px 14px;font-size:14px;border-radius:10px}
+
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;padding:4px 10px;border-radius:999px;background:var(--primary-soft);color:var(--primary);white-space:nowrap}
+.chip-teal{background:var(--teal-soft);color:var(--teal)}
+.chip-accent{background:var(--accent-soft);color:var(--accent)}
+.chip-muted{background:var(--bg);color:var(--muted);box-shadow:inset 0 0 0 1px var(--line)}
+.dot{width:7px;height:7px;border-radius:50%;background:currentColor;flex:none}
+
+/* nav */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:var(--surface);border-bottom:1px solid var(--line)}
+.nav-in{display:flex;align-items:center;gap:20px;height:70px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:800;font-size:1.25rem;letter-spacing:-.02em;color:var(--ink)}
+.logo-mark{width:36px;height:36px;border-radius:11px;background:var(--primary);display:grid;place-items:center;color:#fff}
+.logo-mark svg{width:22px;height:22px}
+.logo b{color:var(--primary)}
+/* three zones: brand left, section links centred, actions right behind a hairline divider */
+.nav-links{display:flex;gap:2px;flex:1;justify-content:center}
+.nav-links a{text-decoration:none;font-weight:600;font-size:15px;color:var(--muted);padding:8px 12px;border-radius:10px;white-space:nowrap}
+.nav-links a:hover{color:var(--ink);background:var(--bg)}
+.nav-links a.on{color:var(--primary);background:var(--primary-soft)}
+.nav-cta{display:flex;align-items:center;gap:8px;margin-left:auto;padding-left:16px;border-left:1px solid var(--line)}
+.nav-cta .btn{height:40px;padding:0 16px;border-radius:10px;font-size:14px}
+.nav-cta [data-appts]{position:relative}
+.nav-cta .appt-count{position:absolute;top:-7px;right:-7px;margin:0;box-shadow:0 0 0 2px var(--surface)}
+.nav-cta .staff-btn{width:40px;padding:0;position:relative}
+.nav-cta .staff-btn .t{display:none}
+@media (min-width:1280px){.nav-cta .staff-btn{width:auto;padding:0 14px}.nav-cta .staff-btn .t{display:inline}}
+.menu-btn{display:none;align-items:center;gap:8px;height:40px;padding:0 12px;border:1.5px solid var(--line);border-radius:10px;background:var(--surface);cursor:pointer;color:var(--ink);font-weight:700;font-size:14px}
+.menu-btn:hover,.menu-btn[aria-expanded="true"]{border-color:var(--primary);color:var(--primary)}
+.menu-btn .ico{width:20px;height:20px}
+.menu-btn .i-close,.menu-btn[aria-expanded="true"] .i-open{display:none}
+.menu-btn[aria-expanded="true"] .i-close{display:block}
+#mobileMenu{border-top:1px solid var(--line);animation:viewIn .22s ease-out;max-height:calc(100vh - 70px - env(safe-area-inset-top,0px));overflow-y:auto;overscroll-behavior:contain}
+/* the scrim sits under the header content; header rows repaint the white so the dim only shows below */
+#nav>.wrap{background:var(--surface)}
+.menu-scrim{position:fixed;inset:0;z-index:-1;background:rgba(26,43,47,.14);touch-action:none}
+html.menu-lock{overflow:hidden;overscroll-behavior:none}
+.mobile-menu{display:grid;gap:4px;padding-block:10px 16px}
+.mobile-menu a{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:10px;border-radius:12px;text-decoration:none}
+.mobile-menu a:hover{background:var(--bg)}
+/* mobile menu: quick tiles for the visitor's own things, then the page sections, then help contacts */
+.mm-quick{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;padding-bottom:6px}
+.mm-quick .mm-tile{position:relative;display:flex;gap:10px;align-items:center;padding:12px;border:1px solid var(--line);border-radius:14px;background:var(--surface);text-decoration:none}
+.mm-quick .mm-tile:hover{border-color:var(--primary)}
+.mm-quick .mm-tile b{display:block;font-size:14.5px}
+.mm-quick .appt-count{position:absolute;top:8px;right:8px;margin:0}
+.mm-lbl{font-size:11.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);padding:10px 10px 2px}
+.mobile-menu a.mm-link.on{background:var(--primary-soft)}
+.mobile-menu a.mm-link.on b{color:var(--primary-strong)}
+.mm-foot{display:flex;flex-wrap:wrap;gap:8px 16px;justify-content:space-between;align-items:center;margin-top:6px;padding:12px 10px 4px;border-top:1px solid var(--line);font-size:13.5px;color:var(--muted)}
+.mm-foot span,.mm-foot a{display:inline-flex;align-items:center;gap:6px}
+.mm-foot span{color:var(--danger)}
+.mm-foot a{color:var(--wa);font-weight:700;text-decoration:none}
+.mobile-menu .mi{width:38px;height:38px;border-radius:10px;background:var(--primary-soft);color:var(--primary);display:grid;place-items:center}
+.mobile-menu .mi .ico{width:19px;height:19px}
+.mobile-menu b{display:block;font-size:15px}
+.mobile-menu small{font-size:12.5px;color:var(--faint)}
+.mobile-menu .chev{width:18px;height:18px;color:var(--faint)}
+@media (max-width:1180px){.nav-links,.nav-cta .btn-line{display:none}.menu-btn{display:inline-flex}.nav-in{gap:8px}.nav-cta{border-left:0;padding-left:0}.nav-cta .btn{height:40px;padding:0 14px;border-radius:10px}}
+@media (max-width:400px){.menu-btn .lbl{display:none}}
+@media (max-width:400px){.nav-cta .btn{padding:9px 12px;font-size:14px}}
+
+/* hero */
+.hero{position:relative;padding-block:clamp(40px,6vw,72px) 0;overflow:hidden}
+.hero-in{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
+.hero-copy{display:grid;gap:22px;min-width:0}
+.hero h1{font-size:clamp(2.3rem,5.2vw,3.9rem);font-weight:800;letter-spacing:-.035em;line-height:1.08}
+.hero h1 span{color:var(--primary)}
+.trust{display:flex;flex-wrap:wrap;gap:10px}
+.badge{display:inline-flex;align-items:center;gap:8px;padding:8px 12px 8px 8px;border-radius:12px;background:var(--surface);box-shadow:inset 0 0 0 1px var(--line);font-size:13px;font-weight:600;line-height:1.25}
+.badge i{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;font-style:normal;flex:none}
+.badge i .ico{width:17px;height:17px}
+.badge small{display:block;font-weight:500;color:var(--faint);font-size:11.5px}
+.b-cyan i{background:var(--primary-soft);color:var(--primary)}
+.b-teal i{background:var(--teal-soft);color:var(--teal)}
+.b-sky i{background:var(--sky-soft);color:var(--sky)}
+.b-acc i{background:var(--accent-soft);color:var(--accent)}
+
+/* hero photo stays fully visible: the three info cards sit in a row under it instead of over it */
+.hero-art{position:relative;min-width:0;justify-self:center;width:100%;max-width:470px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.hero-art .portrait{grid-column:1/-1}
+.portrait{aspect-ratio:1/1.05;max-width:100%;border-radius:40% 40% var(--r-xl) var(--r-xl);background:var(--primary-soft);overflow:hidden;display:grid;place-items:end center}
+.portrait img{width:100%;height:100%;object-fit:cover;object-position:50% 20%;display:block}
+.float{min-width:0;background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow-sm);padding:9px 10px;display:flex;gap:8px;align-items:center;font-size:12.5px;line-height:1.3}
+.float b{font-size:14px;display:block}
+.float small{color:var(--faint)}
+.float .fi{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;flex:none}
+@media (max-width:960px){.hero-in{grid-template-columns:1fr}.hero-art{max-width:400px}}
+@media (max-width:520px){.hero-art{grid-template-columns:1fr}}
+.float .fi+span{min-width:0}
+
+/* search */
+.search-wrap{position:relative;margin-top:clamp(36px,5vw,56px);padding-bottom:8px}
+.search{background:var(--surface);border-radius:var(--r-lg);box-shadow:var(--shadow);border:1px solid var(--line);padding:10px}
+.search-tabs{display:flex;gap:4px;padding:2px 2px 10px;flex-wrap:wrap}
+.search-tabs button{border:0;background:transparent;padding:8px 14px;border-radius:10px;font-weight:600;font-size:14px;color:var(--muted);cursor:pointer;display:inline-flex;gap:8px;align-items:center}
+.search-tabs button[aria-selected="true"]{background:var(--primary-soft);color:var(--primary)}
+.search form{display:grid;grid-template-columns:1.4fr 1fr 1fr auto;gap:8px}
+.sf{display:grid;gap:2px;padding:10px 14px;border-radius:12px;background:var(--surface-2);min-width:0;cursor:text}
+.sf:focus-within{box-shadow:inset 0 0 0 2px var(--primary)}
+.sf:hover:not(:focus-within){box-shadow:inset 0 0 0 1.5px var(--line)}
+.sf select,.sf input[type="date"]{cursor:pointer}
+.sf span{font-size:12px;font-weight:600;color:var(--faint);display:flex;align-items:center;gap:6px}
+.sf span .ico{width:15px;height:15px}
+.sf input,.sf select{border:0;background:transparent;outline:none;font-weight:600;padding:0;width:100%;min-width:0;font-size:15px}
+.search form .btn{padding:0 28px;border-radius:12px;font-size:16px;min-height:56px}
+.popular{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:12px 4px 2px;font-size:13.5px;color:var(--faint)}
+.popular button{border:1px solid var(--line);background:var(--surface);padding:5px 12px;border-radius:999px;cursor:pointer;font-size:13px;font-weight:500;color:var(--muted)}
+.popular button:hover{border-color:var(--primary);color:var(--primary)}
+@media (max-width:860px){.search form{grid-template-columns:1fr 1fr}.sf:first-child{grid-column:1/-1}.search form .btn{grid-column:1/-1}}
+@media (max-width:480px){.search form{grid-template-columns:1fr}}
+
+/* quick access */
+.quick{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.qa{position:relative;display:grid;gap:10px;align-content:start;padding:24px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);text-decoration:none;transition:border-color .15s,box-shadow .15s,transform .15s}
+.qa:hover{border-color:var(--primary);box-shadow:var(--shadow);transform:translateY(-3px)}
+.qa .qi{width:52px;height:52px;border-radius:16px;display:grid;place-items:center}
+.qa .qi .ico{width:26px;height:26px}
+.qa h3{font-size:1.15rem;font-weight:700}
+.qa p{font-size:14.5px;color:var(--muted)}
+.qa .go{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:700;color:var(--primary);margin-top:4px}
+.qa .go .ico{width:16px;height:16px;transition:transform .15s}
+.qa:hover .go .ico{transform:translateX(3px)}
+.qa .tag{position:absolute;top:20px;right:20px}
+.sos-strip{margin-top:16px;display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center;justify-content:space-between;padding:16px 20px;border-radius:var(--r-md);background:var(--danger-soft);color:var(--danger)}
+.sos-strip b{font-weight:800}
+.sos-strip p{display:flex;gap:10px;align-items:center;font-weight:600}
+.sos-strip .nums{display:flex;flex-wrap:wrap;gap:8px 16px;font-weight:700}
+@media (max-width:980px){.quick{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.quick{grid-template-columns:1fr}}
+
+/* doctors */
+.sym{display:grid;gap:14px;padding:20px;margin-bottom:24px;border:1px solid var(--line);border-radius:var(--r-lg);background:var(--surface)}
+.sym-head h3{font-size:1.15rem;font-weight:800}
+.sym-head p{font-size:14.5px;color:var(--muted)}
+.sym-group{display:grid;gap:8px}
+.sym-lbl{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--faint)}
+.sym-chips{display:flex;flex-wrap:wrap;gap:8px}
+.sym-chips button{border:1.5px solid var(--line);background:var(--bg);border-radius:999px;padding:7px 14px;font-size:14px;font-weight:600;color:var(--ink);cursor:pointer;transition:border-color .15s,background .15s}
+.sym-chips button:hover{border-color:var(--primary)}
+.sym-chips button[aria-pressed="true"]{background:var(--primary);border-color:var(--primary);color:#fff}
+.sym-chips .sym-odd{border-style:dashed}
+.sym-result{display:grid;gap:10px;padding:14px 16px;border-radius:var(--r-md);background:var(--primary-soft);font-size:14.5px;animation:viewIn .25s var(--ios,ease) both}
+.sym-result b{color:var(--primary-strong)}
+.sym-result .acts{display:flex;flex-wrap:wrap;gap:8px}
+.sym-flag{display:flex;gap:8px;align-items:flex-start;font-size:13.5px;color:var(--danger)}
+.sym-flag .ico{margin-top:2px}
+.doc-tools{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin-bottom:20px}
+.filters{display:flex;flex-wrap:wrap;gap:8px}
+.filters button,.seg button{border:1px solid var(--line);background:var(--surface);padding:8px 15px;border-radius:999px;cursor:pointer;font-weight:600;font-size:14px;color:var(--muted)}
+.filters button[aria-pressed="true"]{background:var(--primary);border-color:var(--primary);color:#fff}
+.seg{display:inline-flex;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:4px;gap:2px}
+.seg button{border:0;border-radius:9px;padding:7px 14px}
+.seg button[aria-pressed="true"]{background:var(--primary-soft);color:var(--primary)}
+.carousel{position:relative}
+.track{display:grid;grid-auto-flow:column;grid-auto-columns:calc((100% - 48px)/4);gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-bottom:4px}
+.track::-webkit-scrollbar{display:none}
+@media (max-width:1060px){.track{grid-auto-columns:calc((100% - 32px)/3)}}
+@media (max-width:800px){.track{grid-auto-columns:calc((100% - 16px)/2)}}
+@media (max-width:540px){.track{grid-auto-columns:85%}}
+.doc{scroll-snap-align:start;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;display:flex;flex-direction:column;min-width:0}
+.doc-ph{position:relative;aspect-ratio:5/4;max-width:100%;display:grid;place-items:end center;overflow:hidden}
+.doc-ph svg{width:74%;height:auto;display:block}
+.doc-ph .chip{position:absolute;top:12px;left:12px;background:var(--surface);box-shadow:var(--shadow-sm)}
+.st-on{color:var(--teal)} .st-later{color:var(--sky)} .st-off{color:var(--faint)}
+.doc-b{padding:16px;display:grid;gap:8px;flex:1}
+.doc-b h3{font-size:1.02rem;font-weight:700;letter-spacing:-.01em}
+.doc-b .sp{color:var(--muted);font-size:14px}
+.doc-meta{display:flex;gap:6px 14px;font-size:13px;color:var(--muted);flex-wrap:wrap;align-items:center}
+.doc-meta .ico{width:15px;height:15px}
+.doc-meta span{display:inline-flex;align-items:center;gap:5px}
+.stars{color:var(--star);letter-spacing:1px}
+.doc-f{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px 16px;border-top:1px solid var(--line)}
+.doc-f .btn{min-height:44px;padding-inline:18px;touch-action:manipulation}
+.doc{cursor:pointer}
+.doc-f small{display:block;font-size:11.5px;color:var(--faint)}
+.doc-f b{font-size:15px}
+.car-nav{display:flex;gap:8px}
+.car-nav button{width:42px;height:42px;border-radius:12px;border:1px solid var(--line);background:var(--surface);cursor:pointer;display:grid;place-items:center;color:var(--ink)}
+.car-nav button:hover{border-color:var(--primary);color:var(--primary)}
+.car-nav button:disabled{opacity:.4;cursor:default}
+.empty{padding:40px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:var(--r-lg)}
+.sched-wrap{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg)}
+.sched{border-collapse:collapse;width:100%;min-width:760px;font-size:14px}
+.sched th,.sched td{padding:12px 14px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+.sched thead th{font-size:12.5px;font-weight:700;color:var(--faint);text-transform:uppercase;letter-spacing:.05em;background:var(--surface-2)}
+.sched thead th.today{color:var(--primary)}
+.sched tbody th{font-weight:700;white-space:nowrap}
+.sched tbody th small{display:block;font-weight:500;color:var(--faint);font-size:12.5px}
+.sched tr:last-child>*{border-bottom:0}
+.sched td span{display:inline-block;padding:3px 8px;border-radius:8px;background:var(--primary-soft);color:var(--primary);font-weight:600;font-size:12.5px;white-space:nowrap}
+.sched td.today{background:color-mix(in srgb,var(--primary-soft) 45%,transparent)}
+.sched td .off{background:transparent;color:var(--faint);font-weight:500;padding:3px 0}
+
+/* clinic: branch finder + prices */
+.finder{display:grid;grid-template-columns:360px 1fr;gap:20px;align-items:stretch}
+.branches{display:grid;gap:10px;align-content:start}
+.br{display:grid;grid-template-columns:auto 1fr;gap:2px 12px;text-align:left;padding:16px;border-radius:var(--r-md);border:1px solid var(--line);background:var(--surface);cursor:pointer}
+.br .ico{grid-row:span 3;color:var(--faint);margin-top:2px}
+.br b{font-size:15.5px}
+.br small{color:var(--muted);font-size:13.5px}
+.br .chip{justify-self:start;margin-top:6px}
+.br[aria-pressed="true"]{border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-soft)}
+.br[aria-pressed="true"] .ico{color:var(--primary)}
+.map-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;display:grid;grid-template-rows:1fr auto;min-width:0}
+.map{position:relative;min-height:280px;background:var(--teal-soft)}
+.map svg{position:absolute;inset:0;width:100%;height:100%}
+.map-label{position:absolute;left:14px;bottom:12px;font-size:11.5px;color:var(--faint);background:var(--surface);padding:3px 8px;border-radius:6px}
+.map-info{padding:20px;display:grid;gap:14px}
+.map-info h3{font-size:1.3rem;font-weight:800}
+.mi-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 24px;font-size:14px}
+.mi-grid div{display:flex;gap:10px;align-items:flex-start;color:var(--muted)}
+.mi-grid .ico{width:18px;height:18px;color:var(--primary);margin-top:2px}
+.mi-grid b{color:var(--ink);font-weight:600}
+.mi-act{display:flex;flex-wrap:wrap;gap:10px}
+.btn-wa{background:var(--wa);color:#fff}
+.btn-wa:hover{background:var(--wa-strong)}
+@media (max-width:900px){.finder{grid-template-columns:1fr}.branches{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}}
+@media (max-width:520px){.mi-grid{grid-template-columns:1fr}}
+
+.prices{margin-top:56px;display:grid;grid-template-columns:.8fr 1.2fr;gap:40px;align-items:start}
+.price-list{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden}
+.pr{display:grid;grid-template-columns:auto 1fr auto;gap:4px 14px;align-items:center;padding:16px 20px;border-bottom:1px solid var(--line)}
+.pr:last-child{border-bottom:0}
+.pr .pi{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:var(--primary-soft);color:var(--primary);grid-row:span 2}
+.pr b{font-size:15px}
+.pr small{color:var(--faint);font-size:13px;grid-column:2}
+.pr .amt{grid-row:span 2;text-align:right;font-weight:800;font-size:16px;white-space:nowrap}
+.pr .amt small{display:block;font-weight:500;font-size:12px}
+.price-cats{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+.pkg{margin-top:20px;padding:22px;border-radius:var(--r-lg);background:var(--accent-soft);display:grid;gap:10px}
+.pkg h3{font-size:1.15rem;font-weight:800}
+.pkg p{font-size:14.5px;color:var(--muted)}
+.pkg .big{font-size:1.9rem;font-weight:800;color:var(--accent);letter-spacing:-.02em}
+.pkg .big s{font-size:1rem;color:var(--faint);font-weight:500;margin-left:6px}
+@media (max-width:900px){.prices{grid-template-columns:1fr}}
+@media (max-width:440px){.pr{grid-template-columns:1fr auto}.pr .pi{display:none}.pr small{grid-column:1}}
+
+/* B2B band */
+.b2b{background:var(--band);color:var(--on-band);position:relative;border-block:1px solid var(--band-line)}
+.b2b .eyebrow{color:var(--primary)}
+.b2b .lead{color:var(--band-muted)}
+.b2b-hero{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:end;margin-bottom:40px}
+.b2b-hero h2{font-size:clamp(2rem,4vw,2.9rem);font-weight:800}
+.b2b-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:8px}
+.demo-note{font-size:14px;color:var(--muted);max-width:52ch}
+.demo-intro{display:grid;gap:12px;padding:16px;border-radius:14px;background:var(--primary-soft);font-size:14px}
+.demo-intro h4{font-size:14px;font-weight:800;color:var(--primary);text-transform:uppercase;letter-spacing:.05em}
+.demo-intro ul{margin:0;padding-left:1.2em;display:grid;gap:4px}
+.demo-intro .two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.checks{display:flex;flex-wrap:wrap;gap:8px}
+.checks label{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:600;padding:7px 11px;border:1.5px solid var(--line);border-radius:10px;cursor:pointer}
+.checks input{accent-color:var(--primary)}
+@media (max-width:480px){.demo-intro .two{grid-template-columns:1fr}}
+.btn-band{background:var(--surface);color:var(--on-band);box-shadow:inset 0 0 0 1.5px var(--band-line)}
+.btn-band:hover{box-shadow:inset 0 0 0 1.5px var(--primary);color:var(--primary)}
+.b2b-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-left:1px solid var(--band-line)}
+.b2b-stats div{padding:6px 20px;border-right:1px solid var(--band-line)}
+.b2b-stats b{display:block;font-size:clamp(1.7rem,3vw,2.3rem);font-weight:800;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.b2b-stats span{font-size:13.5px;color:var(--band-muted)}
+.integr{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.integr span{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:10px;background:var(--band-2);border:1px solid var(--band-line);font-size:13.5px;font-weight:600}
+.integr span::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--teal)}
+@media (max-width:900px){.b2b-hero{grid-template-columns:1fr}.b2b-stats{border-left:0}.b2b-stats div:first-child{padding-left:0}}
+@media (max-width:440px){.b2b-stats{grid-template-columns:1fr 1fr}.b2b-stats div:nth-child(3){padding-left:0;border-right:0;padding-top:14px}.b2b-stats div:nth-child(2){border-right:0}}
+
+.mod{display:grid;grid-template-columns:300px 1fr;gap:24px;align-items:start;position:relative}
+.tabs{display:grid;gap:6px}
+.tab{display:grid;grid-template-columns:auto 1fr;gap:2px 12px;text-align:left;padding:14px 16px;border-radius:14px;border:1px solid transparent;background:transparent;cursor:pointer;color:var(--on-band)}
+.tab .ico{grid-row:span 2;margin-top:1px;color:var(--band-muted)}
+.tab b{font-weight:700;font-size:15px}
+.tab small{color:var(--band-muted);font-size:13px;line-height:1.45}
+.tab[aria-selected="true"]{background:var(--band-2);border-color:var(--band-line);box-shadow:var(--shadow-sm)}
+.tab[aria-selected="true"] .ico{color:var(--primary)}
+.tab:hover:not([aria-selected="true"]){background:color-mix(in srgb,var(--band-2) 55%,transparent)}
+.screen{background:var(--bg);color:var(--ink);border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--band-line);box-shadow:var(--shadow);min-width:0}
+.scr-bar{display:flex;align-items:center;gap:12px;padding:10px 16px;background:var(--primary);color:#fff;flex-wrap:wrap}
+.scr-app{display:flex;align-items:center;gap:8px;font-weight:800;font-size:14px;white-space:nowrap}
+.scr-app i{width:24px;height:24px;border-radius:6px;background:#fff;color:var(--primary);display:grid;place-items:center;font-style:normal}
+.scr-app i svg{width:14px;height:14px}
+.scr-app small{font-weight:500;opacity:.8;font-size:12.5px}
+.scr-user{margin-left:auto;display:flex;align-items:center;gap:8px;font-size:12.5px;opacity:.95;white-space:nowrap}
+.scr-user b{width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,.2);display:grid;place-items:center;font-size:11px}
+.scr-crumb{display:flex;gap:6px;align-items:center;padding:9px 16px;border-bottom:1px solid var(--line);background:var(--surface);font-size:12.5px;color:var(--faint)}
+.scr-crumb b{color:var(--ink);font-weight:700}
+.panel{padding:20px;display:grid;gap:14px}
+.panel h4{font-size:1.08rem;font-weight:700}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px}
+.kpi small{display:block;font-size:12px;color:var(--faint)}
+.kpi b{font-size:1.35rem;font-weight:800;font-variant-numeric:tabular-nums}
+.kpi em{font-style:normal;font-size:12px;color:var(--teal);font-weight:700;margin-left:4px}
+.tbl{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+.tbl table{border-collapse:collapse;width:100%;font-size:14px;min-width:540px}
+.tbl th,.tbl td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--line);white-space:nowrap}
+.tbl th{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);font-weight:700}
+.tbl tr:last-child td{border-bottom:0}
+.st{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:3px 9px;border-radius:999px}
+.st::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.s-ok{background:var(--teal-soft);color:var(--teal)}
+.s-wait{background:var(--accent-soft);color:var(--accent)}
+.s-bad{background:var(--danger-soft);color:var(--danger)}
+.soap{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.soap div{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:14px}
+.soap b{font-size:11.5px;color:var(--primary);display:block;margin-bottom:4px;letter-spacing:.08em;font-weight:800}
+.rx{display:flex;flex-wrap:wrap;gap:8px}
+.rm-head{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:flex-start;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.rm-meta{font-size:13px;color:var(--muted)}
+.rm-sync{display:grid;grid-template-columns:auto auto;gap:2px 10px;margin:0;font-size:12px;color:var(--faint)}
+.rm-sync dd{margin:0;color:var(--muted)}
+.rm-sign{font-size:12.5px;color:var(--faint);border-top:1px dashed var(--line);padding-top:10px}
+.bars{display:flex;align-items:end;gap:10px;height:150px;padding:16px 16px 0;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+.bars div{flex:1;display:grid;gap:6px;justify-items:center;align-content:end;height:100%}
+.bars i{display:block;width:100%;max-width:34px;background:var(--primary);border-radius:6px 6px 0 0;opacity:.85}
+.bars i.hl{background:var(--teal);opacity:1}
+.bars span{font-size:11.5px;color:var(--faint);padding-bottom:8px;font-weight:600}
+.bridge{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.bridge div{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px;display:grid;gap:4px;font-size:13.5px}
+.bridge b{font-size:14.5px}
+.bridge small{color:var(--faint)}
+@media (max-width:960px){.mod{grid-template-columns:1fr}.tabs{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}}
+@media (max-width:640px){.kpis{grid-template-columns:1fr 1fr}.soap,.bridge{grid-template-columns:1fr}}
+
+.pricing{margin-top:72px;position:relative}
+.pricing-head{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:end;margin-bottom:24px}
+.pricing-head h3{font-size:clamp(1.6rem,3vw,2.1rem);font-weight:800}
+.bill{display:inline-flex;background:var(--band-2);border:1px solid var(--band-line);border-radius:12px;padding:4px}
+.bill button{border:0;background:transparent;padding:8px 16px;border-radius:9px;cursor:pointer;font-weight:700;color:var(--band-muted);font-size:14px}
+.bill button[aria-pressed="true"]{background:var(--primary);color:#fff}
+.bill small{color:var(--teal);font-size:11.5px;margin-left:4px}
+.bill button[aria-pressed="true"] small{color:#fff}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.plan{padding:26px;border-radius:var(--r-lg);background:var(--band-2);border:1px solid var(--band-line);display:flex;flex-direction:column;gap:16px;position:relative}
+.plan.pop{border:2px solid var(--primary);box-shadow:var(--shadow)}
+.plan.pop .for{color:var(--muted)}
+.plan .tagpop{position:absolute;top:-12px;left:24px;background:var(--accent);color:var(--on-accent)}
+.plan h4{font-size:1.25rem;font-weight:800}
+.plan .for{color:var(--band-muted);font-size:14px;margin-top:4px}
+.amt-big{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap}
+.amt-big b{font-size:2.2rem;font-weight:800;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.amt-big span{font-size:14px;opacity:.75}
+.plan ul{list-style:none;padding:0;margin:0;display:grid;gap:9px;font-size:14.5px;flex:1}
+.plan li{display:flex;gap:10px}
+.plan li .ico{width:18px;height:18px;color:var(--teal);margin-top:3px}
+.plan.pop li .ico{color:var(--teal)}
+@media (max-width:900px){.plans{grid-template-columns:1fr}}
+
+/* reviews */
+.rev{display:grid;grid-template-columns:320px 1fr;gap:32px;align-items:start}
+.score{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:24px;display:grid;gap:14px}
+.score .big{font-size:3.4rem;font-weight:800;letter-spacing:-.04em;line-height:1}
+.score .stars{font-size:20px}
+.score p{color:var(--muted);font-size:14px}
+.dist{display:grid;gap:7px}
+.dist div{display:grid;grid-template-columns:22px 1fr 40px;gap:10px;align-items:center;font-size:13px;color:var(--muted)}
+.dist i{display:block;height:8px;border-radius:8px;background:var(--surface-2);overflow:hidden}
+.dist i::after{content:"";display:block;height:100%;width:var(--w);background:var(--star);border-radius:8px}
+.dist span:last-child{text-align:right;font-variant-numeric:tabular-nums}
+.reviews{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.review{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:22px;display:grid;gap:12px;align-content:start;margin:0}
+.review .top{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap}
+.review p{font-size:15px}
+.who{display:flex;gap:12px;align-items:center;font-size:14px}
+.who small{display:block;color:var(--faint);font-size:12.5px}
+.av{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:14px;flex:none}
+.av-1{background:var(--primary-soft);color:var(--primary)} .av-2{background:var(--teal-soft);color:var(--teal)} .av-3{background:var(--accent-soft);color:var(--accent)} .av-4{background:var(--sky-soft);color:var(--sky)}
+.review.clinic{grid-column:1/-1;background:var(--primary-soft);border-color:transparent}
+.review.clinic p{font-size:1.15rem;font-weight:600;line-height:1.5;max-width:70ch}
+@media (max-width:900px){.rev{grid-template-columns:1fr}}
+@media (max-width:600px){.reviews{grid-template-columns:1fr}}
+
+/* articles */
+.arts{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:16px}
+.art{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;text-decoration:none;display:flex;flex-direction:column;transition:box-shadow .15s,transform .15s}
+.art:hover{box-shadow:var(--shadow);transform:translateY(-3px)}
+.cover{aspect-ratio:16/9;max-width:100%;position:relative;overflow:hidden;display:grid;place-items:center}
+.cover svg{width:46%;height:auto;opacity:.95}
+.art.lg .cover{aspect-ratio:16/10}
+.art-b{padding:18px;display:grid;gap:8px;align-content:start;flex:1}
+.art-b h3{font-size:1.08rem;font-weight:700;line-height:1.35}
+.art.lg .art-b h3{font-size:1.3rem}
+.art-b p{font-size:14px;color:var(--muted)}
+.verified{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--muted);margin-top:4px}
+.verified .ico{width:16px;height:16px;color:var(--teal)}
+@media (max-width:900px){.arts{grid-template-columns:1fr 1fr}.art.lg{grid-column:1/-1}}
+@media (max-width:560px){.arts{grid-template-columns:1fr}}
+
+/* faq + cta */
+.faq-wrap{display:grid;grid-template-columns:.8fr 1.2fr;gap:48px}
+.faq details{border-bottom:1px solid var(--line)}
+/* the whole row is the target: generous padding, hover tint, press feedback */
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:20px 14px;margin:0 -14px;border-radius:14px;font-weight:700;font-size:1.03rem;-webkit-tap-highlight-color:transparent;user-select:none;transition:background .2s ease,color .2s ease}
+.faq summary:hover{background:var(--bg)}
+.faq summary:active{background:var(--primary-soft)}
+.faq details[open] summary{color:var(--primary-strong)}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary .ico{flex:none;width:34px;height:34px;padding:7px;border-radius:50%;background:var(--primary-soft);color:var(--primary);transition:transform .35s var(--ios,ease),background .2s}
+.faq details[open] summary .ico{transform:rotate(45deg);background:var(--primary);color:#fff}
+.faq details p{padding:0 0 20px;color:var(--muted);max-width:62ch;overflow:hidden}
+@media (max-width:860px){.faq-wrap{grid-template-columns:1fr;gap:8px}}
+
+/* footer */
+footer{background:var(--surface);border-top:1px solid var(--line);padding-block:56px 28px;font-size:14px;color:var(--muted)}
+.foot-top{display:grid;grid-template-columns:1.3fr 1fr 1fr 1.2fr;gap:32px;padding-bottom:32px;border-bottom:1px solid var(--line)}
+.foot-top h4{font-size:13px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);margin-bottom:14px}
+.foot-top ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.foot-top a{text-decoration:none}
+.foot-top a:hover{color:var(--primary)}
+.contact{display:grid;gap:10px}
+.contact div{display:flex;gap:10px;align-items:flex-start}
+.contact .ico{width:18px;height:18px;color:var(--primary);margin-top:2px}
+.contact b{color:var(--ink);display:block}
+.copy-btn{border:0;background:var(--primary-soft);color:var(--primary);padding:2px 8px;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;margin-left:6px}
+.legal{display:flex;flex-wrap:wrap;gap:16px 32px;justify-content:space-between;align-items:center;padding-top:24px;font-size:13px}
+.legal .trust .badge{font-size:12px}
+@media (max-width:900px){.foot-top{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.foot-top{grid-template-columns:1fr}}
+
+/* dialog */
+dialog{border:0;padding:0;border-radius:24px;width:min(520px,calc(100% - 32px));background:var(--surface);color:var(--ink);box-shadow:0 40px 80px -20px rgba(0,0,0,.45)}
+dialog::backdrop{background:rgba(28,43,47,.22);backdrop-filter:blur(4px)}
+.dlg-h{display:flex;justify-content:space-between;align-items:center;padding:18px 24px;border-bottom:1px solid var(--line)}
+.dlg-h h3{font-size:1.2rem;font-weight:800}
+.x{background:var(--bg);border:0;width:36px;height:36px;border-radius:50%;cursor:pointer;display:grid;place-items:center;color:var(--ink)}
+.dlg-b{padding:20px 24px 24px;display:grid;gap:14px}
+.field{display:grid;gap:6px}
+.field label,.field>span{font-size:13px;font-weight:700}
+.field input,.field select,.field textarea{border:1.5px solid var(--line);background:var(--bg);border-radius:12px;padding:11px 14px;width:100%}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--primary)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+/* dialogs never scroll sideways: grid cells and controls may shrink, long option text is clipped with an ellipsis */
+dialog{overflow-x:hidden;max-height:calc(100dvh - 32px);overflow-y:auto;overscroll-behavior:contain}
+.dlg-b,.field,.row2>*{min-width:0}
+.field input,.field select,.field textarea{min-width:0;max-width:100%;text-overflow:ellipsis}
+.field textarea{resize:vertical}
+.slots label{flex:1 0 auto;text-align:center}
+.slots{display:flex;flex-wrap:wrap;gap:8px}
+.slots{position:relative}
+.slots input{position:absolute;left:0;top:0;width:1px;height:1px;margin:0;opacity:0;pointer-events:none}
+.slots label{font-size:13.5px;font-weight:600;padding:8px 12px;border-radius:10px;border:1.5px solid var(--line);cursor:pointer;font-variant-numeric:tabular-nums}
+.slots input:checked+label{background:var(--primary);color:#fff;border-color:var(--primary)}
+.slots input:focus-visible+label{outline:3px solid var(--sky);outline-offset:2px}
+.err{color:var(--danger);font-size:13px;font-weight:600}
+.ticket{display:grid;gap:14px;text-align:center}
+.ticket .qn{font-size:3.8rem;font-weight:800;color:var(--primary);letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
+.ticket .ql{font-size:13px;font-weight:700;color:var(--faint);text-transform:uppercase;letter-spacing:.08em}
+.ticket dl{display:grid;grid-template-columns:auto 1fr;gap:8px 16px;text-align:left;margin:0;padding:16px;background:var(--bg);border-radius:14px;font-size:14px}
+.ticket dt{color:var(--faint)}
+.ticket dd{margin:0;font-weight:600}
+.perf{border-top:2px dashed var(--line);margin:0 -24px}
+.tk-actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.staff-dlg{width:min(720px,calc(100% - 32px))}
+.st-sub{font-size:12.5px;color:var(--faint)}
+.st-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.st-stats div{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:10px 12px;display:grid}
+.st-stats b{font-size:1.4rem;font-weight:800;color:var(--primary);font-variant-numeric:tabular-nums;line-height:1.1}
+.st-stats span{font-size:12.5px;color:var(--muted)}
+.st-wrap{display:grid;gap:12px}
+.st-time{font-size:13px;color:var(--muted);margin-top:4px}
+.st-time b{color:var(--accent)}
+.st-day{display:grid;gap:8px}
+.st-day h4{font-size:14px;font-weight:800;display:flex;justify-content:space-between;gap:8px;padding:6px 2px;border-bottom:1px solid var(--line)}
+.st-day h4 span{font-weight:600;color:var(--faint)}
+@media (max-width:520px){.st-stats{grid-template-columns:1fr 1fr}}
+.ticket-img{display:block;width:100%;max-width:360px;margin:0 auto;border-radius:16px;box-shadow:var(--shadow);-webkit-touch-callout:default;user-select:auto}
+.link-appts{font-size:14px;font-weight:700;color:var(--primary);text-align:center}
+.appt-count{display:inline-grid;place-items:center;min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:var(--accent);color:#fff;font-size:11.5px;font-weight:800;margin-left:2px}
+.doc-name{text-decoration:none;color:inherit}
+.doc-name:hover{color:var(--primary)}
+.doc-more{color:var(--primary);font-weight:700;text-decoration:none;font-size:13.5px}
+.doc-more:hover{text-decoration:underline}
+a.doc-ph{text-decoration:none}
+.sample-note{display:flex;gap:8px;align-items:flex-start;font-size:13.5px;color:var(--muted);background:var(--star-soft);border-radius:10px;padding:8px 12px;max-width:62ch}
+.sample-note .ico{color:var(--star);margin-top:2px;flex:none}
+.st-h{font-size:14px;font-weight:800;margin:6px 0 -2px}
+.appts{display:grid;gap:12px;max-height:min(60vh,520px);overflow-y:auto;overscroll-behavior:contain;padding:2px}
+.appt{border:1px solid var(--line);border-radius:16px;padding:16px;display:grid;gap:10px;background:var(--surface)}
+.appt.off{background:var(--bg)}
+.appt.off .appt-num,.appt.off .appt-doc{color:var(--faint);text-decoration:line-through}
+.appt-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.appt-status{display:inline-flex;align-items:center;gap:6px;flex:none;padding:5px 11px 5px 6px;border-radius:999px;font-size:12.5px;font-weight:700;letter-spacing:.01em;white-space:nowrap}
+.appt-status .ico{width:18px;height:18px;padding:3px;border-radius:50%;stroke-width:3}
+.appt-status.ok{background:var(--teal-soft);color:var(--teal)}
+.appt-status.ok .ico{background:var(--teal);color:#fff}
+.appt-status.off{background:var(--danger-soft);color:var(--danger)}
+.appt-status.off .ico{background:var(--danger);color:#fff}
+.appt-num{font-size:1.6rem;font-weight:800;color:var(--primary);letter-spacing:-.02em;line-height:1;font-variant-numeric:tabular-nums}
+.appt-doc{font-weight:700}
+.appt-meta{display:grid;gap:3px;font-size:13.5px;color:var(--muted)}
+.appt-acts{display:flex;flex-wrap:wrap;gap:8px}
+.btn-danger-line{background:var(--surface);color:var(--danger);box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--danger) 40%,transparent)}
+.btn-danger-line:hover{box-shadow:inset 0 0 0 1.5px var(--danger)}
+.btn-danger{background:var(--danger);color:#fff}
+.cancel-box{display:grid;gap:10px;padding:12px;border-radius:12px;background:var(--danger-soft);animation:viewIn .2s var(--ios,ease) both}
+.cancel-box p{font-size:13.5px;color:var(--ink)}
+.cancel-box select{border:1.5px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--surface)}
+.appt-empty{text-align:center;display:grid;gap:12px;justify-items:center;padding:24px 8px;color:var(--muted)}
+.appt-policy{font-size:12.5px;color:var(--faint)}
+@media (max-width:440px){.row2{grid-template-columns:1fr}}
+
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);background:var(--primary);color:#fff;padding:12px 18px;border-radius:12px;font-size:14px;font-weight:600;opacity:0;pointer-events:none;transition:.25s;z-index:100;max-width:calc(100% - 32px)}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.fab{position:fixed;right:calc(20px + env(safe-area-inset-right,0px));bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:40;width:56px;height:56px;border-radius:50%;background:var(--wa);color:#fff;display:grid;place-items:center;box-shadow:0 10px 22px -10px rgba(48,93,70,.55);text-decoration:none}
+.fab .ico{width:26px;height:26px}
+
+/* speed dial FAB */
+.sd{pointer-events:none;position:fixed;right:calc(20px + env(safe-area-inset-right,0px));bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:45;display:flex;flex-direction:column;align-items:flex-end;gap:14px}
+.ov-scrim{position:fixed;inset:0;background:rgba(26,43,47,.10);touch-action:none;overscroll-behavior:contain;animation:fadeIn .18s ease-out}
+.sd-scrim{pointer-events:auto;position:fixed;inset:0;background:rgba(16,32,36,.5);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);animation:fadeIn .2s ease-out;z-index:-1;touch-action:none;overscroll-behavior:contain}
+/* lock only the root scroller: locking body too turns it into its own scroll box and pushes the sticky header off screen */
+html.sd-lock,html.ai-lock{overflow:hidden;overscroll-behavior:none}
+.sd-main{pointer-events:auto;width:58px;height:58px;border-radius:50%;border:0;background:var(--primary);color:#fff;display:grid;place-items:center;cursor:pointer;box-shadow:0 12px 26px -10px rgba(26,122,140,.6);transition:background .2s,transform .25s}
+.sd-main:hover{background:var(--primary-strong)}
+.sd-main .ico{width:26px;height:26px;transition:transform .25s ease}
+/* the FAB tucks away while scrolling down so it never sits on top of buttons, and returns on scroll up or at the page end */
+.sd{transition:transform .3s var(--ios,ease),opacity .2s ease}
+.sd.tucked:not(.open){transform:translateY(calc(100% + 40px));opacity:0}
+.sd.tucked:not(.open) .sd-main{pointer-events:none}
+footer{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
+@media (max-width:600px){.sd-main{width:52px;height:52px}.sd{right:calc(14px + env(safe-area-inset-right,0px));bottom:calc(14px + env(safe-area-inset-bottom,0px))}}
+.sd.open .sd-main .ico{transform:rotate(135deg)}
+.sd-list{list-style:none;margin:0;padding:0 7px 0 0;display:flex;flex-direction:column;align-items:flex-end;gap:12px;pointer-events:none}
+.sd-list li{opacity:0;visibility:hidden;transform:translateY(12px) scale(.9);transition:opacity .18s ease,transform .22s ease,visibility .22s;transition-delay:calc((4 - var(--i)) * 25ms)}
+.sd.open .sd-list{pointer-events:auto}
+.sd.open .sd-list li{pointer-events:auto}
+.sd.open .sd-list li{opacity:1;visibility:visible;transform:none;transition-delay:calc(var(--i) * 40ms)}
+.sd-act{display:flex;align-items:center;gap:12px;text-decoration:none;background:none;border:0;padding:0;cursor:pointer;color:var(--ink)}
+.sd-label{background:var(--surface);padding:7px 12px;border-radius:10px;font-size:14px;font-weight:600;box-shadow:var(--shadow);white-space:nowrap}
+.sd-btn{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;color:#fff;flex:none;box-shadow:0 8px 18px -8px rgba(26,43,47,.45)}
+.sd-btn .ico{width:20px;height:20px}
+.sd-act:hover .sd-label{color:var(--primary)}
+.sd-act:focus-visible{outline:none}
+.sd-act:focus-visible .sd-btn{outline:3px solid var(--sky);outline-offset:2px}
+.ai-scrim{position:fixed;inset:0;z-index:46;background:rgba(26,43,47,.14);touch-action:none}
+.ai-panel.nudge,.nudge{animation:nudge .32s var(--ios,ease)}
+@keyframes nudge{0%,100%{transform:none}30%{transform:scale(1.02)}60%{transform:scale(.995)}}
+.ai-panel{position:fixed;right:calc(20px + env(safe-area-inset-right,0px));bottom:calc(92px + env(safe-area-inset-bottom,0px));z-index:47;width:min(360px,calc(100vw - 32px));max-height:min(520px,calc(100vh - 140px));background:var(--surface);border:1px solid var(--line);border-radius:20px;box-shadow:0 24px 50px -18px rgba(26,43,47,.35);display:flex;flex-direction:column;overflow:hidden;animation:viewIn .25s ease-out}
+.ai-head{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid var(--line)}
+.ai-head b{display:block;font-size:15px}
+.ai-head small{font-size:12px;color:var(--faint)}
+.ai-head .x{margin-left:auto}
+.ai-body{flex:1;overflow-y:auto;overscroll-behavior:contain;padding:14px 16px;display:flex;flex-direction:column;gap:8px;background:var(--bg)}
+.msg{max-width:85%;padding:9px 12px;border-radius:14px;font-size:14px;line-height:1.5}
+.msg.bot{background:var(--surface);border:1px solid var(--line);border-top-left-radius:4px;align-self:flex-start}
+.msg.typing{color:var(--faint);font-style:italic}
+.msg.me{background:var(--primary);color:#fff;border-top-right-radius:4px;align-self:flex-end}
+.ai-quick{display:flex;flex-wrap:wrap;gap:6px;padding:10px 16px 0}
+.ai-quick button{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 11px;font-size:12.5px;font-weight:600;color:var(--primary);cursor:pointer}
+.ai-quick button:hover{border-color:var(--primary)}
+.ai-form{display:flex;gap:8px;padding:12px 16px 14px}
+.ai-form input{flex:1;min-width:0;border:1.5px solid var(--line);border-radius:10px;padding:9px 12px;background:var(--bg)}
+.ai-form input:focus{outline:none;border-color:var(--primary)}
+
+/* desktop (mouse): labels become tooltips on hover/focus; touch screens keep the always-visible labels */
+@media (hover:hover) and (pointer:fine){
+  .sd-act{position:relative}
+  .sd-label{position:absolute;right:calc(100% + 12px);top:50%;transform:translate(6px,-50%);opacity:0;pointer-events:none;background:var(--primary-strong);color:#fff;font-size:12.5px;padding:6px 10px;border-radius:8px;box-shadow:0 6px 16px -8px rgba(26,43,47,.5);transition:opacity .15s ease,transform .18s var(--ios,ease)}
+  .sd-label::after{content:"";position:absolute;left:100%;top:50%;transform:translateY(-50%);border:5px solid transparent;border-left-color:var(--primary-strong)}
+  .sd-act:hover .sd-label,.sd-act:focus-visible .sd-label{opacity:1;transform:translate(0,-50%);color:#fff}
+  .sd-list{gap:14px}
+}
+
+/* scrollbars: thin, rounded, tinted with the primary cyan */
+html{scrollbar-width:thin;scrollbar-color:color-mix(in srgb,var(--primary) 40%,transparent) transparent}
+.ai-body,.tbl,.sched-wrap,.tbl-x,dialog{scrollbar-width:thin;scrollbar-color:color-mix(in srgb,var(--primary) 32%,transparent) transparent}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:color-mix(in srgb,var(--primary) 35%,transparent);border-radius:999px;border:3px solid transparent;background-clip:padding-box}
+::-webkit-scrollbar-thumb:hover{background-color:color-mix(in srgb,var(--primary) 60%,transparent)}
+::-webkit-scrollbar-corner{background:transparent}
+
+/* page transitions */
+/* iOS-style push: content slides in from the side on a fast spring-like curve; header stays put */
+:root{--ios:cubic-bezier(.32,.72,0,1)}
+body>main,body>footer{animation:pageIn .34s var(--ios) backwards}
+body>header{animation:fadeIn .22s ease-out backwards}
+:root[data-nav="back"] body>main,:root[data-nav="back"] body>footer{animation-name:pageInBack}
+body.leaving>main,body.leaving>footer{opacity:0;transform:translateX(-22px);transition:opacity .15s ease-in,transform .17s var(--ios)}
+body.leaving.back>main,body.leaving.back>footer{transform:translateX(22px)}
+@keyframes pageIn{from{opacity:0;transform:translateX(26px)}to{opacity:1;transform:none}}
+@keyframes pageInBack{from{opacity:0;transform:translateX(-26px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.view-in{animation:viewIn .3s var(--ios) both}
+.view-in-back{animation:viewInBack .3s var(--ios) both}
+@keyframes viewIn{from{opacity:0;transform:translateX(24px)}to{opacity:1;transform:none}}
+@keyframes viewInBack{from{opacity:0;transform:translateX(-24px)}to{opacity:1;transform:none}}
+
+/* iOS feel: softer corners (squircle where supported), capsule controls, press-to-shrink on a gentle spring, frosted header, sheet dialogs on phones */
+:root{--r-xl:32px;--r-lg:24px;--r-md:18px;--r-sm:12px;--ease-out:cubic-bezier(.22,1,.36,1);--spring:cubic-bezier(.3,1.25,.5,1)}
+/* a lightly damped spring (about 4% overshoot) for browsers that support linear() easing */
+@supports (transition-timing-function:linear(0,1)){:root{--spring:linear(0,.063,.22 6.4%,.43 10.1%,.85 18.9%,.99 24.7%,1.035 29.5%,1.04 33%,1.02 41%,1.003 52%,.998 63%,1)}}
+@supports (corner-shape:squircle){
+  /* continuous corners read smaller than round ones, so the radii grow with them */
+  :root{--r-xl:48px;--r-lg:36px;--r-md:26px}
+  .qa,.doc,.art,.review,.score,.plan,.map-card,.price-list,.search,.sym,.sched-wrap,.screen,.br,.pkg,.appt,.empty,.sos-strip,.sym-result,dialog,.ai-panel,.float,.mm-quick .mm-tile,.tab,.demo-intro,.ticket dl,.faq summary{corner-shape:squircle}
+  dialog,.ai-panel{border-radius:40px}
+  .float,.mm-quick .mm-tile,.tab,.demo-intro,.ticket dl,.appt{border-radius:24px}
+  .logo-mark,.qa .qi,.pr .pi,.mobile-menu .mi,.float .fi,.badge i{corner-shape:squircle;border-radius:16px}
+  .qa .qi{border-radius:22px}
+}
+
+/* capsules for every control */
+.btn,.btn-sm,.nav-cta .btn,.search form .btn,.menu-btn,.nav-links a,.search-tabs button,.checks label,.slots label,.copy-btn,.integr span,.sd-label,.toast,.badge,.seg,.seg button,.bill,.bill button,.ai-form input,.sample-note{border-radius:999px}
+.car-nav button{border-radius:50%}
+.field input,.field select,.field textarea,.cancel-box select,.sf{border-radius:16px}
+.field textarea{border-radius:18px}
+.msg{border-radius:20px}.msg.bot{border-top-left-radius:6px}.msg.me{border-top-right-radius:6px}
+
+/* motion: quick ease for colour, spring for movement; pressing shrinks, releasing springs back */
+.btn,.menu-btn,.car-nav button,.search-tabs button,.filters button,.seg button,.bill button,.sym-chips button,.popular button,.ai-quick button,.checks label,.slots label,.x,.sd-main,.sd-btn,.fab,.qa,.art,.tab,.br,.mm-quick .mm-tile,.mobile-menu a,.nav-links a,.faq summary,.copy-btn,.sd-main .ico{
+  -webkit-tap-highlight-color:transparent;
+  transition:transform .55s var(--spring),background-color .25s var(--ease-out),border-color .25s var(--ease-out),box-shadow .35s var(--ease-out),color .25s var(--ease-out),opacity .25s var(--ease-out)}
+.btn:active,.menu-btn:active,.car-nav button:active,.search-tabs button:active,.filters button:active,.seg button:active,.bill button:active,.sym-chips button:active,.popular button:active,.ai-quick button:active,.checks label:active,.slots label:active,.x:active,.copy-btn:active,.fab:active,.sd-act:active .sd-btn{transform:scale(.95);transition-duration:.12s}
+.sd-main:active{transform:scale(.9);transition-duration:.12s}
+.qa:active,.art:active,.tab:active,.br:active,.mm-quick .mm-tile:active,.mobile-menu a:active,.faq summary:active{transform:scale(.98);transition-duration:.15s}
+.qa:hover,.art:hover{transform:translateY(-4px)}
+.qa:hover:active,.art:hover:active{transform:translateY(-2px) scale(.98)}
+.btn:hover{box-shadow:0 8px 20px -12px rgba(26,43,47,.45)}
+.btn-line:hover{box-shadow:inset 0 0 0 1.5px var(--primary),0 8px 20px -14px rgba(26,43,47,.35)}
+.btn-soft:hover{box-shadow:inset 0 0 0 1.5px var(--primary)}
+.btn:disabled{opacity:.55;transform:none}
+
+/* focus: a soft halo on fields, rounded outline that follows each control's own shape */
+:focus-visible{outline:3px solid color-mix(in srgb,var(--sky) 70%,transparent);outline-offset:3px}
+.field input,.field select,.field textarea,.ai-form input{transition:border-color .2s var(--ease-out),box-shadow .3s var(--ease-out),background-color .2s var(--ease-out)}
+.field input:focus,.field select:focus,.field textarea:focus,.ai-form input:focus{background:var(--surface);box-shadow:0 0 0 4px color-mix(in srgb,var(--primary) 16%,transparent)}
+
+/* frosted header: the blur lives on a pseudo-element so the header never becomes a containing block for the fixed menu scrim */
+.nav{background:transparent}
+.nav::before{content:"";position:absolute;inset:0;z-index:-1;background:color-mix(in srgb,var(--surface) 80%,transparent);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px)}
+#nav>.wrap{background:transparent}
+html.menu-lock #nav>.wrap{background:var(--surface)}
+#mobileMenu{animation:viewIn .32s var(--ios)}
+
+/* dialogs and panels arrive on the spring; on phones dialogs rise as bottom sheets */
+dialog[open]{animation:dlgIn .5s var(--spring) backwards}
+dialog[open]::backdrop{animation:fadeIn .3s var(--ease-out)}
+dialog::backdrop{background:rgba(28,43,47,.26);-webkit-backdrop-filter:blur(6px) saturate(140%);backdrop-filter:blur(6px) saturate(140%)}
+@keyframes dlgIn{from{opacity:0;transform:translateY(28px) scale(.96)}to{opacity:1;transform:none}}
+@media (max-width:600px){
+  dialog{width:100%;max-width:100%;margin:auto 0 0;border-radius:32px 32px 0 0;max-height:calc(100% - 24px - env(safe-area-inset-top,0px));padding-bottom:env(safe-area-inset-bottom,0px)}
+  @supports (corner-shape:squircle){dialog{border-radius:44px 44px 0 0}}
+  dialog[open]{animation:sheetIn .45s var(--ios) backwards}
+}
+@keyframes sheetIn{from{transform:translateY(100%)}to{transform:none}}
+.ai-panel{animation:dlgIn .45s var(--spring) backwards;transform-origin:bottom right}
+.toast{border-radius:999px;transition:opacity .25s var(--ease-out),transform .55s var(--spring)}
+.sd-list li{transition:opacity .2s var(--ease-out),transform .5s var(--spring),visibility .5s}
+.sd-main .ico{transition:transform .5s var(--spring)}
+.sd-scrim{-webkit-backdrop-filter:blur(8px) saturate(140%);backdrop-filter:blur(8px) saturate(140%);background:rgba(16,32,36,.38);animation:fadeIn .3s var(--ease-out)}
+.sd-label{transition:opacity .2s var(--ease-out),transform .35s var(--spring)}
+
+/* sections rise into view as you scroll (marked by script; content stays visible without it) */
+html.rv-on .rv:not(.in){opacity:0}
+.rv.in{animation:rise .7s var(--ios) backwards;animation-delay:var(--d,0s)}
+@keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+
+
+.nav-links a[aria-current="page"]{color:var(--primary);background:var(--primary-soft)}
+.crumbs{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:14px;color:var(--faint)}
+.crumbs a{text-decoration:none;color:var(--muted)}
+.crumbs a:hover{color:var(--primary)}
+.page-head{padding-block:clamp(36px,6vw,64px) 28px;border-bottom:1px solid var(--line);background:var(--surface)}
+.page-head .wrap{display:grid;gap:14px}
+.page-head h1{font-size:clamp(2rem,4.4vw,3rem);font-weight:800;letter-spacing:-.03em}
+.tools{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;margin-block:28px 20px}
+.searchbox{display:flex;align-items:center;gap:8px;background:var(--surface);border:1.5px solid var(--line);border-radius:12px;padding:0 12px;min-width:0;flex:1;max-width:340px}
+.searchbox:focus-within{border-color:var(--primary)}
+.searchbox input{border:0;outline:none;background:transparent;padding:10px 0;width:100%;min-width:0}
+.searchbox .ico{width:18px;height:18px;color:var(--faint)}
+.list{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.count{font-size:14px;color:var(--muted);margin:-6px 0 16px}
+.more{display:flex;justify-content:center;padding-block:28px 72px}
+.list .art .cover{aspect-ratio:16/9}
+.art-meta{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:12.5px;color:var(--faint)}
+@media (max-width:900px){.list{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){.list{grid-template-columns:1fr}}
+.reader{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:48px;padding-block:32px 80px;align-items:start}
+.article{min-width:0;display:grid;gap:18px}
+.article h1{font-size:clamp(1.9rem,4vw,2.7rem);font-weight:800;letter-spacing:-.03em}
+.article .hero-cover{aspect-ratio:21/9;max-width:100%;border-radius:var(--r-lg);display:grid;place-items:center}
+.article .hero-cover svg{width:22%;height:auto}
+.byline{display:flex;flex-wrap:wrap;gap:10px 20px;align-items:center;padding-block:14px;border-block:1px solid var(--line);font-size:14px;color:var(--muted)}
+.byline .verified{margin:0}
+.prose{font-size:17px;line-height:1.75;max-width:68ch;display:grid;gap:16px}
+.prose h2{font-size:1.4rem;font-weight:800;margin-top:12px}
+.prose ul,.prose ol{margin:0;padding-left:1.3em;display:grid;gap:6px}
+.prose .callout{padding:16px 18px;border-radius:var(--r-md);background:var(--danger-soft);color:var(--ink);font-size:15.5px;border-left:4px solid var(--danger)}
+.prose .callout.info{background:var(--teal-soft);border-left-color:var(--teal)}
+.prose table{border-collapse:collapse;width:100%;font-size:15px}
+.prose th,.prose td{border-bottom:1px solid var(--line);padding:10px 12px;text-align:left}
+.prose th{font-size:12.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--faint)}
+.tbl-x{overflow-x:auto}
+.refs{font-size:13.5px;color:var(--faint);border-top:1px solid var(--line);padding-top:14px}
+.side{display:grid;gap:16px;position:sticky;top:96px}
+.side .box{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:20px;display:grid;gap:12px}
+.side h3{font-size:1.05rem;font-weight:800}
+.side p{font-size:14px;color:var(--muted)}
+.rel{display:grid;gap:12px}
+.rel a{text-decoration:none;display:grid;gap:2px;font-size:14.5px;font-weight:600;line-height:1.4}
+.rel a small{font-weight:500;color:var(--faint);font-size:12.5px}
+.rel a:hover{color:var(--primary)}
+.back{display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-weight:700;font-size:14px;color:var(--primary);background:none;border:0;cursor:pointer;padding:0}
+@media (max-width:960px){.reader{grid-template-columns:1fr}.side{position:static}}
+
+</style>
+</head><body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-logo" viewBox="0 0 24 24"><path d="M12 4v16M4 12h16" stroke-width="3.2"/><path d="M2 12h3l1.5-3 2 6 1.5-3H12" stroke-width="0"/></symbol>
+  <symbol id="i-video" viewBox="0 0 24 24"><rect x="2.5" y="6" width="13" height="12" rx="2.5"/><path d="m15.5 10.5 6-3.5v10l-6-3.5"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4M8 14h3"/></symbol>
+  <symbol id="i-flask" viewBox="0 0 24 24"><path d="M9.5 3h5M10 3v6.2L4.8 18a2 2 0 0 0 1.7 3h11a2 2 0 0 0 1.7-3L14 9.2V3"/><path d="M7.5 14.5h9"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M3.5 11 12 4l8.5 7"/><path d="M5.5 9.5V20h13V9.5"/><path d="M12 12v5M9.5 14.5h5"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-left" viewBox="0 0 24 24"><path d="m15 6-6 6 6 6"/></symbol>
+  <symbol id="i-right" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 4.5 6v6c0 4.5 3.2 7.8 7.5 9 4.3-1.2 7.5-4.5 7.5-9V6Z"/><path d="m9 12 2.2 2.2L15.5 10"/></symbol>
+  <symbol id="i-award" viewBox="0 0 24 24"><circle cx="12" cy="9" r="6"/><path d="M8.5 14 7 21l5-2.5 5 2.5-1.5-7"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/><path d="M12 14.5v2.5"/></symbol>
+  <symbol id="i-card" viewBox="0 0 24 24"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="M2.5 10h19M6.5 15h4"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></symbol>
+  <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></symbol>
+  <symbol id="i-steth" viewBox="0 0 24 24"><path d="M6 3v6a4 4 0 0 0 8 0V3"/><path d="M10 13v2a5 5 0 0 0 10 0v-2"/><circle cx="20" cy="11" r="2"/></symbol>
+  <symbol id="i-tooth" viewBox="0 0 24 24"><path d="M12 5.5C10 4 6 3.5 5 6.5c-1 3 .5 5 1 7.5.6 3 .8 6 2.3 6 1.6 0 1.4-4 3.7-4s2.1 4 3.7 4c1.5 0 1.7-3 2.3-6 .5-2.5 2-4.5 1-7.5-1-3-5-2.5-7 0Z"/></symbol>
+  <symbol id="i-drop" viewBox="0 0 24 24"><path d="M12 3s6.5 7 6.5 11.5a6.5 6.5 0 0 1-13 0C5.5 10 12 3 12 3Z"/><path d="M9 15a3 3 0 0 0 3 3"/></symbol>
+  <symbol id="i-syringe" viewBox="0 0 24 24"><path d="m18 2 4 4M20 4l-3 3M15 6l3 3M16.5 7.5 8 16l-3 .5.5-3L14 5ZM5.5 18.5 2 22M10 10l2 2M12.5 8.5l2 2"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20s-7.5-4.6-9-9.5C2 7 4.5 4 7.6 4 9.8 4 11 5.4 12 6.7 13 5.4 14.2 4 16.4 4 19.5 4 22 7 21 10.5 19.5 15.4 12 20 12 20Z"/><path d="M3.5 12h4l1.5-3 2.5 6 1.5-3h7.5"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.3a6.5 6.5 0 0 1 3.5 5.7"/></symbol>
+  <symbol id="i-box" viewBox="0 0 24 24"><path d="M21 8 12 3 3 8v8l9 5 9-5Z"/><path d="m3 8 9 5 9-5M12 13v8"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V4M4 20h16"/><path d="M8 16v-4M12 16V8M16 16v-6"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 14a4.5 4.5 0 0 0 6.4 0l3-3a4.5 4.5 0 0 0-6.4-6.4l-1 1"/><path d="M14 10a4.5 4.5 0 0 0-6.4 0l-3 3a4.5 4.5 0 0 0 6.4 6.4l1-1"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3 2 20h20Z"/><path d="M12 10v4M12 17h.01"/></symbol>
+  <symbol id="i-brief" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2.5"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 12.5h18"/></symbol>
+  <symbol id="i-badge" viewBox="0 0 24 24"><path d="M12 2.5 14.6 5l3.6-.3.6 3.5 3 2-1.6 3.2 1 3.4-3.4 1-1.4 3.3-3.4-1.2L9.6 21l-1.9-3-3.5-.6.5-3.6L2.6 11l2.5-2.6-.2-3.6 3.6-.3Z"/><path d="m8.8 12 2.2 2.2 4.2-4.4"/></symbol>
+</svg>
+<header class="nav" id="nav">
+  <div class="wrap nav-in">
+    <a class="logo" href="index.html#top" aria-label="DEVHEALTH beranda">
+      <span class="logo-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12.5h4l2-4.5 3 9 2.5-6.5 1.5 2h6"/></svg></span>
+      <span>DEV<b>HEALTH</b></span>
+    </a>
+    <nav class="nav-links" aria-label="Menu utama">
+      <a href="index.html#layanan">Layanan</a>
+      <a href="index.html#dokter">Cari Dokter</a>
+      <a href="index.html#klinik">Klinik &amp; Harga</a>
+      <a href="index.html#untuk-klinik">Untuk Klinik</a>
+      <a href="artikel.html" aria-current="page">Artikel</a>
+      <a href="index.html#faq">Bantuan</a>
+    </nav>
+    <div class="nav-cta">
+      <a class="btn btn-line btn-sm staff-btn" href="index.html#dasbor" data-staff data-staff-open hidden title="Dasbor Klinik (khusus petugas)" aria-label="Dasbor Klinik"><svg class="ico ico-sm"><use href="#i-chart"/></svg><span class="t">Dasbor Klinik</span></a>
+      <a class="btn btn-line btn-sm" href="index.html#janji" data-appts><svg class="ico ico-sm"><use href="#i-cal"/></svg>Janji Saya<span class="appt-count" hidden></span></a>
+      <a class="btn btn-accent btn-sm" href="index.html#dokter">Buat Janji</a>
+    </div>
+    <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="mobileMenu"><svg class="ico i-open"><use href="#i-menu"/></svg><svg class="ico i-close"><use href="#i-x"/></svg><span class="lbl">Menu</span></button>
+  </div>
+  <div class="menu-scrim" id="menuScrim" hidden></div>
+  <div class="wrap" id="mobileMenu" hidden>
+    <nav class="mobile-menu" aria-label="Menu seluler">
+      <div class="mm-quick">
+        <a href="index.html#janji" class="mm-tile" data-appts><span class="mi" style="background:var(--accent-soft);color:var(--accent)"><svg class="ico"><use href="#i-cal"/></svg></span><span><b>Janji Saya</b><small>Lihat & batalkan</small></span><span class="appt-count" hidden></span></a>
+        <a href="index.html#dasbor" class="mm-tile" data-staff data-staff-open hidden><span class="mi" style="background:var(--sky-soft);color:var(--sky)"><svg class="ico"><use href="#i-chart"/></svg></span><span><b>Dasbor Klinik</b><small>Khusus petugas</small></span></a>
+      </div>
+      <span class="mm-lbl">Jelajahi</span>
+      <a href="index.html#layanan" class="mm-link"><span class="mi"><svg class="ico"><use href="#i-steth"/></svg></span><span><b>Layanan</b><small>Telekonsultasi, lab, home care</small></span><svg class="ico chev"><use href="#i-right"/></svg></a><a href="index.html#dokter" class="mm-link"><span class="mi"><svg class="ico"><use href="#i-search"/></svg></span><span><b>Cari Dokter</b><small>Jadwal & buat janji</small></span><svg class="ico chev"><use href="#i-right"/></svg></a><a href="index.html#klinik" class="mm-link"><span class="mi"><svg class="ico"><use href="#i-pin"/></svg></span><span><b>Klinik & Harga</b><small>Cabang, jam buka, tarif</small></span><svg class="ico chev"><use href="#i-right"/></svg></a><a href="index.html#untuk-klinik" class="mm-link"><span class="mi"><svg class="ico"><use href="#i-brief"/></svg></span><span><b>Untuk Klinik</b><small>SIMKlinik & demo</small></span><svg class="ico chev"><use href="#i-right"/></svg></a><a href="index.html#testimoni" class="mm-link"><span class="mi"><svg class="ico"><use href="#i-heart"/></svg></span><span><b>Ulasan</b><small>Cerita pasien setelah berobat</small></span><svg class="ico chev"><use href="#i-right"/></svg></a><a href="artikel.html" class="mm-link"><span class="mi"><svg class="ico"><use href="#i-file"/></svg></span><span><b>Artikel</b><small>Info kesehatan dari dokter</small></span><svg class="ico chev"><use href="#i-right"/></svg></a><a href="index.html#faq" class="mm-link"><span class="mi"><svg class="ico"><use href="#i-users"/></svg></span><span><b>Bantuan</b><small>Pertanyaan umum</small></span><svg class="ico chev"><use href="#i-right"/></svg></a>
+      <div class="mm-foot"><span><svg class="ico ico-sm"><use href="#i-alert"/></svg>Darurat <b>119</b></span><a href="https://wa.me/6289506138191" target="_blank" rel="noopener"><svg class="ico ico-sm"><use href="#i-wa"/></svg>Chat WhatsApp</a></div>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section id="listView">
+    <div class="page-head">
+      <div class="wrap">
+        <nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Beranda</a><span>/</span><span>Artikel kesehatan</span></nav>
+        <h1>Artikel kesehatan</h1>
+        <p class="lead">Informasi kesehatan untuk keluarga, ditulis tim medis DEVHEALTH dan ditinjau dokter sebelum terbit. Artikel tidak menggantikan pemeriksaan langsung.</p>
+        <p class="sample-note"><svg class="ico ico-sm"><use href="#i-alert"/></svg>Nama dokter peninjau masih contoh dan akan diganti dengan tim medis asli.</p>
+      </div>
+    </div>
+    <div class="wrap">
+      <div class="tools">
+        <div class="filters" id="cats" role="group" aria-label="Kategori artikel"></div>
+        <label class="searchbox" for="q"><svg class="ico"><use href="#i-search"/></svg><input id="q" type="search" placeholder="Cari artikel, mis. demam" autocomplete="off"></label>
+      </div>
+      <p class="count" id="count"></p>
+      <div class="list" id="list" aria-live="polite"></div>
+      <div class="more"><button class="btn btn-line" type="button" id="more">Muat artikel lainnya</button></div>
+    </div>
+  </section>
+
+  <section id="readView" hidden>
+    <div class="wrap reader">
+      <article class="article" id="article"></article>
+      <aside class="side">
+        <div class="box">
+          <h3>Perlu bicara dengan dokter?</h3>
+          <p>Konsultasi online mulai Rp25.000, atau buat janji di klinik DEVHEALTH terdekat.</p>
+          <a class="btn btn-accent" href="index.html#dokter">Buat janji dokter</a>
+        </div>
+        <div class="box"><h3>Artikel terkait</h3><div class="rel" id="related"></div></div>
+      </aside>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div style="display:grid;gap:14px;align-content:start">
+        <a class="logo" href="index.html#top"><span class="logo-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12.5h4l2-4.5 3 9 2.5-6.5 1.5 2h6"/></svg></span><span>DEV<b>HEALTH</b></span></a>
+        <p style="max-width:34ch">Layanan kesehatan keluarga dan sistem manajemen klinik dalam satu ekosistem.</p>
+      </div>
+      <div><h4>Pasien</h4><ul><li><a href="index.html#dokter">Cari dokter</a></li><li><a href="index.html#layanan">Telekonsultasi</a></li><li><a href="index.html#harga">Harga layanan</a></li><li><a href="artikel.html">Artikel kesehatan</a></li></ul></div>
+      <div><h4>Untuk klinik</h4><ul><li><a href="index.html#untuk-klinik">SIMKlinik &amp; RME</a></li><li><a href="index.html#untuk-klinik">Bridging SATUSEHAT</a></li><li><a href="index.html#untuk-klinik">Paket &amp; harga</a></li><li><a href="index.html#untuk-klinik">Jadwalkan demo</a></li></ul></div>
+      <div>
+        <h4>Kontak</h4>
+        <div class="contact">
+          <div><svg class="ico" style="color:var(--danger)"><use href="#i-alert"/></svg><span><b>Gawat darurat 119</b>IGD Caringin: <span class="num">(0266) 621-118</span></span></div>
+          <div><svg class="ico" style="color:var(--wa)"><use href="#i-wa"/></svg><span><b>WhatsApp hub</b><span class="num" id="waNum">0895-0613-8191</span></span></div>
+          <div><svg class="ico"><use href="#i-pin"/></svg><span><b>Kantor pusat</b>Jl. Selakopi-Cijengkol, Cijengkol, Kec. Caringin, Kabupaten Sukabumi, Jawa Barat 43155</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="legal">
+      <div class="trust">
+        <span class="badge b-teal"><i><svg class="ico"><use href="#i-link"/></svg></i>SATUSEHAT</span>
+        <span class="badge b-cyan"><i><svg class="ico"><use href="#i-shield"/></svg></i>BPJS Kesehatan</span>
+      </div>
+      <div style="display:grid;gap:4px">
+        <span>© 2026 DEVHEALTH</span>
+        <span>Informasi di situs ini tidak menggantikan pemeriksaan langsung oleh dokter.</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const $=s=>document.querySelector(s);
+  const TONE={cyan:['--primary-soft','--primary'],green:['--teal-soft','--teal'],orange:['--accent-soft','--accent'],blue:['--sky-soft','--sky'],honey:['--star-soft','--star']};
+  const A=[
+    {id:'dbd',cat:'Penyakit musiman',tone:'cyan',icon:'i-drop',read:6,date:'28 Oktober 2026',rev:'dr. Arif Gunawan',
+      title:'Demam berdarah di musim hujan: kenali fase kritis hari ke-3 sampai ke-5',
+      ex:'Penurunan suhu tubuh justru bisa menjadi tanda bahaya. Pelajari gejala yang perlu segera dibawa ke klinik.',
+      body:`<p>Demam berdarah dengue (DBD) disebabkan virus dengue yang ditularkan nyamuk <i>Aedes aegypti</i>. Kasusnya biasanya naik saat musim hujan, ketika genangan air bersih menjadi tempat nyamuk berkembang biak.</p>
+<h2>Tiga fase demam berdarah</h2>
+<ol><li><b>Fase demam (hari 1–3).</b> Demam tinggi mendadak, sakit kepala, nyeri di belakang mata, nyeri otot dan sendi, kadang muncul bintik merah.</li>
+<li><b>Fase kritis (sekitar hari 3–5).</b> Demam mulai turun dan pasien terlihat membaik, padahal pada fase ini dapat terjadi kebocoran plasma darah. Inilah fase yang paling perlu diawasi.</li>
+<li><b>Fase pemulihan (setelah hari 6–7).</b> Cairan kembali ke pembuluh darah, nafsu makan membaik, dan trombosit perlahan naik.</li></ol>
+<div class="callout"><b>Segera ke IGD bila muncul:</b> nyeri perut hebat, muntah terus-menerus, mimisan atau gusi berdarah, muntah atau BAB berwarna hitam, tangan dan kaki dingin, lemas sekali, gelisah, atau tidak buang air kecil lebih dari 6 jam.</div>
+<h2>Yang bisa dilakukan di rumah</h2>
+<ul><li>Minum cukup cairan: air putih, oralit, jus, atau sup.</li><li>Gunakan paracetamol untuk demam. Hindari ibuprofen dan aspirin karena dapat meningkatkan risiko perdarahan.</li><li>Catat suhu, jumlah minum, dan frekuensi buang air kecil.</li><li>Periksa darah lengkap sesuai anjuran dokter untuk memantau trombosit dan hematokrit.</li></ul>
+<h2>Pencegahan dengan 3M Plus</h2>
+<p>Menguras dan menutup tempat penampungan air, mendaur ulang barang bekas yang bisa menampung air, ditambah memakai lotion antinyamuk, memasang kawat kasa, dan memelihara ikan pemakan jentik. Vaksin dengue juga tersedia untuk usia tertentu; tanyakan kepada dokter apakah sesuai untuk Anda.</p>`},
+    {id:'tensi',cat:'Jantung & pembuluh darah',tone:'green',icon:'i-heart',read:4,date:'21 Oktober 2026',rev:'dr. Bima Santoso, Sp.PD',
+      title:'Tekanan darah 130/85 mmHg: sudah hipertensi atau belum?',
+      ex:'Angka di perbatasan sering membingungkan. Begini cara membacanya dan kapan perlu ke dokter.',
+      body:`<p>Tekanan darah ditulis sebagai dua angka: sistolik (saat jantung memompa) dan diastolik (saat jantung beristirahat). Angka 130/85 mmHg berada di wilayah perbatasan, sehingga cara mengukur dan pola dari waktu ke waktu menjadi penting.</p>
+<h2>Cara membaca angka tekanan darah</h2>
+<div class="tbl-x"><table><thead><tr><th>Kategori</th><th>Sistolik (mmHg)</th><th>Diastolik (mmHg)</th></tr></thead><tbody>
+<tr><td>Normal</td><td>&lt; 120</td><td>&lt; 80</td></tr><tr><td>Normal-tinggi</td><td>120–139</td><td>80–89</td></tr><tr><td>Hipertensi derajat 1</td><td>140–159</td><td>90–99</td></tr><tr><td>Hipertensi derajat 2</td><td>≥ 160</td><td>≥ 100</td></tr></tbody></table></div>
+<p>Pada pembagian di atas, 130/85 mmHg termasuk normal-tinggi. Sebagian pedoman internasional lain sudah menggolongkannya sebagai hipertensi tahap awal. Keduanya sepakat bahwa angka ini adalah sinyal untuk mulai memperbaiki gaya hidup.</p>
+<h2>Ukur dengan benar</h2>
+<ul><li>Duduk tenang 5 menit, punggung bersandar, kaki menapak lantai.</li><li>Hindari kopi, rokok, dan olahraga 30 menit sebelumnya.</li><li>Ukur dua kali dengan jeda 1 menit, pagi dan malam, selama 7 hari.</li><li>Bawa catatannya saat kontrol ke dokter.</li></ul>
+<div class="callout info">Mengurangi garam hingga kurang dari 1 sendok teh per hari, aktif bergerak 150 menit per minggu, dan menurunkan berat badan bila berlebih dapat menurunkan tekanan darah beberapa mmHg.</div>
+<p>Segera periksa bila tekanan darah ≥ 180/110 mmHg, terutama disertai nyeri dada, sesak, sakit kepala hebat, atau gangguan penglihatan.</p>`},
+    {id:'imunisasi',cat:'Anak',tone:'orange',icon:'i-syringe',read:5,date:'14 Oktober 2026',rev:'dr. Nadia Prameswari, Sp.A',
+      title:'Jadwal imunisasi anak sesuai rekomendasi IDAI',
+      ex:'Ringkasan vaksin penting di tahun pertama dan apa yang perlu disiapkan sebelum imunisasi.',
+      body:`<p>Imunisasi melindungi anak dari penyakit yang dapat menyebabkan kecacatan atau kematian. Ikatan Dokter Anak Indonesia (IDAI) memperbarui jadwal imunisasi secara berkala, jadi selalu cocokkan dengan buku KIA dan dokter anak Anda.</p>
+<h2>Vaksin utama di tahun pertama</h2>
+<ul><li><b>Hepatitis B:</b> diberikan segera setelah lahir, kemudian dilanjutkan dalam vaksin kombinasi.</li><li><b>Polio:</b> beberapa dosis tetes (OPV) dan suntik (IPV) sejak bayi.</li><li><b>BCG:</b> untuk mencegah tuberkulosis berat, sebaiknya sebelum usia 1 bulan.</li><li><b>DTP-HB-Hib:</b> serangkaian dosis mulai usia 2 bulan.</li><li><b>PCV dan rotavirus:</b> melindungi dari pneumonia dan diare berat.</li><li><b>Campak-rubela (MR):</b> mulai usia 9 bulan.</li></ul>
+<div class="callout info">Terlambat imunisasi? Tidak perlu mengulang dari awal. Dokter akan membuat jadwal kejar sesuai usia anak.</div>
+<h2>Sebelum dan sesudah imunisasi</h2>
+<ul><li>Bawa buku KIA atau catatan imunisasi.</li><li>Sampaikan bila anak sedang demam tinggi atau pernah alergi berat setelah vaksin.</li><li>Demam ringan dan nyeri di bekas suntikan wajar selama 1–2 hari. Paracetamol boleh diberikan sesuai dosis berat badan.</li><li>Segera hubungi dokter bila anak kejang, sesak, atau bengkak di wajah.</li></ul>`},
+    {id:'gula',cat:'Diabetes',tone:'blue',icon:'i-flask',read:5,date:'9 Oktober 2026',rev:'dr. Bima Santoso, Sp.PD',
+      title:'Gula darah puasa 110 mg/dL: artinya apa?',
+      ex:'Mengenal prediabetes dan langkah sederhana agar tidak berlanjut menjadi diabetes.',
+      body:`<p>Gula darah puasa normal di bawah 100 mg/dL. Angka 100–125 mg/dL disebut gula darah puasa terganggu atau prediabetes, sedangkan 126 mg/dL atau lebih pada dua kali pemeriksaan mengarah ke diabetes.</p>
+<h2>Prediabetes masih bisa kembali normal</h2><p>Menurunkan 5–7% berat badan, membatasi minuman manis, dan berjalan cepat 30 menit sehari terbukti menurunkan risiko berkembang menjadi diabetes.</p>
+<h2>Kapan perlu cek ulang</h2><ul><li>Lakukan pemeriksaan HbA1c untuk melihat rata-rata gula darah 3 bulan terakhir.</li><li>Ulangi pemeriksaan setiap tahun bila hasil masih normal tetapi Anda berisiko: berat badan berlebih, riwayat keluarga, atau pernah diabetes saat hamil.</li></ul>`},
+    {id:'batuk',cat:'Pernapasan',tone:'cyan',icon:'i-steth',read:4,date:'2 Oktober 2026',rev:'dr. Arif Gunawan',
+      title:'Batuk pilek pada anak: kapan cukup di rumah, kapan ke dokter',
+      ex:'Sebagian besar batuk pilek sembuh sendiri. Kenali tanda bahaya yang tidak boleh ditunggu.',
+      body:`<p>Batuk pilek umumnya disebabkan virus dan membaik dalam 7–10 hari. Antibiotik tidak diperlukan untuk infeksi virus.</p>
+<h2>Perawatan di rumah</h2><ul><li>Cukupi cairan dan ASI.</li><li>Bersihkan hidung dengan cairan saline.</li><li>Madu boleh untuk anak di atas 1 tahun untuk meredakan batuk.</li></ul>
+<div class="callout"><b>Ke dokter bila:</b> napas cepat atau tarikan dinding dada, bibir kebiruan, demam lebih dari 3 hari, bayi di bawah 3 bulan demam, atau anak sangat lemas dan sulit minum.</div>`},
+    {id:'gigi',cat:'Gigi & mulut',tone:'honey',icon:'i-tooth',read:3,date:'25 September 2026',rev:'drg. Laras Wulandari',
+      title:'Berapa kali sebaiknya scaling gigi dalam setahun?',
+      ex:'Karang gigi tidak hilang dengan sikat gigi biasa. Ini jadwal yang dianjurkan.',
+      body:`<p>Karang gigi adalah plak yang mengeras dan hanya bisa dibersihkan dokter gigi. Bila dibiarkan, karang gigi memicu gusi berdarah, bau mulut, hingga gigi goyang.</p>
+<h2>Jadwal yang dianjurkan</h2><p>Umumnya setiap 6 bulan. Perokok, penderita diabetes, atau pengguna behel mungkin perlu lebih sering sesuai saran dokter gigi.</p>
+<h2>Setelah scaling</h2><ul><li>Gigi bisa terasa ngilu 1–2 hari, ini wajar.</li><li>Sikat gigi 2 kali sehari dengan pasta berfluoride dan bersihkan sela gigi dengan benang gigi.</li></ul>`},
+    {id:'kulit',cat:'Kulit',tone:'orange',icon:'i-shield',read:4,date:'18 September 2026',rev:'dr. Kirana Putri, Sp.KK',
+      title:'Tabir surya untuk iklim tropis: memilih SPF dan cara memakainya',
+      ex:'Paparan UV di Indonesia tinggi sepanjang tahun. Ini panduan praktis memilih sunscreen.',
+      body:`<p>Indeks UV di Indonesia sering berada di kategori sangat tinggi, terutama pukul 10.00–15.00. Tabir surya membantu mencegah kulit terbakar, flek, dan penuaan dini.</p>
+<h2>Memilih tabir surya</h2><ul><li>Pilih SPF minimal 30 dengan label broad spectrum (UVA dan UVB).</li><li>Kulit berminyak atau berjerawat: pilih tekstur gel atau label non-comedogenic.</li></ul>
+<h2>Cara memakai</h2><ul><li>Oleskan sekitar dua ruas jari untuk wajah dan leher.</li><li>Ulangi setiap 2–3 jam bila beraktivitas di luar atau berkeringat.</li></ul>`},
+    {id:'lambung',cat:'Pencernaan',tone:'green',icon:'i-heart',read:4,date:'11 September 2026',rev:'dr. Bima Santoso, Sp.PD',
+      title:'Maag kambuh saat puasa atau telat makan: cara mencegahnya',
+      ex:'Dispepsia termasuk 10 besar diagnosis di klinik. Pola makan kecil tapi sering bisa membantu.',
+      body:`<p>Dispepsia atau maag ditandai nyeri ulu hati, perut kembung, mual, dan cepat kenyang. Pemicunya antara lain telat makan, makanan pedas atau berlemak, kopi, stres, dan obat antinyeri tertentu.</p>
+<h2>Langkah pencegahan</h2><ul><li>Makan porsi kecil tapi teratur.</li><li>Jangan langsung berbaring setelah makan, beri jeda 2–3 jam.</li><li>Batasi kopi, minuman bersoda, dan makanan sangat pedas.</li></ul>
+<div class="callout"><b>Periksa segera bila</b> muntah darah, BAB hitam, berat badan turun tanpa sebab, atau sulit menelan.</div>`},
+    {id:'mcu',cat:'Pemeriksaan rutin',tone:'blue',icon:'i-flask',read:3,date:'4 September 2026',rev:'dr. Arif Gunawan',
+      title:'Persiapan medical check-up agar hasilnya akurat',
+      ex:'Puasa berapa jam, boleh minum obat atau tidak, dan apa yang perlu dibawa.',
+      body:`<p>Persiapan yang tepat membuat hasil pemeriksaan laboratorium lebih bisa diandalkan.</p>
+<h2>Sebelum datang</h2><ul><li>Puasa 10–12 jam bila ada pemeriksaan gula darah puasa dan profil lemak. Air putih tetap boleh.</li><li>Obat rutin tetap diminum kecuali dokter meminta berhenti.</li><li>Hindari olahraga berat dan alkohol sehari sebelumnya.</li><li>Bawa hasil MCU sebelumnya untuk perbandingan.</li></ul>
+<div class="callout info">Paket MCU Basic DEVHEALTH bisa direservasi dari halaman utama, dan hasilnya tersedia di aplikasi dalam hari yang sama.</div>`}
+    ,{id:'diabetes',cat:'Diabetes',tone:'blue',icon:'i-drop',read:4,date:'1 September 2026',rev:'dr. Bima Santoso, Sp.PD',
+      title:'Gejala awal diabetes yang sering diabaikan',
+      ex:'Sering haus, sering buang air kecil, dan luka lama sembuh bisa jadi tanda gula darah tinggi.',
+      body:`<p>Diabetes tipe 2 sering berkembang perlahan sehingga gejalanya dianggap biasa. Banyak orang baru tahu setelah muncul komplikasi.</p>
+<h2>Tanda yang perlu diwaspadai</h2><ul><li>Sering haus, sering buang air kecil terutama malam hari, dan cepat lapar.</li><li>Berat badan turun tanpa sebab.</li><li>Luka sulit sembuh, sering kesemutan di kaki, atau pandangan kabur.</li><li>Infeksi berulang, misalnya keputihan atau infeksi kulit.</li></ul>
+<h2>Siapa yang perlu cek rutin</h2><p>Orang dengan berat badan berlebih, usia di atas 40 tahun, riwayat keluarga diabetes, hipertensi, atau pernah diabetes saat hamil sebaiknya memeriksa gula darah minimal setahun sekali.</p>`},
+    {id:'tbc',cat:'Penyakit menular',tone:'cyan',icon:'i-steth',read:5,date:'28 Agustus 2026',rev:'dr. Arif Gunawan',
+      title:'Batuk lebih dari 2 minggu? Waspadai tuberkulosis',
+      ex:'TBC bisa disembuhkan bila obat diminum teratur sampai tuntas. Pemeriksaan dan obatnya gratis.',
+      body:`<p>Tuberkulosis (TBC) disebabkan bakteri <i>Mycobacterium tuberculosis</i> dan menular lewat percikan dahak saat penderita batuk atau bersin. Indonesia termasuk negara dengan kasus TBC terbanyak di dunia.</p>
+<h2>Gejala</h2><ul><li>Batuk berdahak 2 minggu atau lebih, kadang berdarah.</li><li>Demam ringan, keringat malam, nafsu makan dan berat badan turun.</li></ul>
+<h2>Pengobatan</h2><p>Pemeriksaan dahak dan obat anti-TBC tersedia gratis di puskesmas dan fasilitas kesehatan pemerintah. Obat diminum setiap hari minimal 6 bulan. Berhenti di tengah jalan dapat membuat kuman kebal obat.</p>
+<div class="callout info">Anggota keluarga yang serumah dengan penderita TBC sebaiknya ikut diperiksa.</div>`},
+    {id:'tifoid',cat:'Penyakit menular',tone:'orange',icon:'i-drop',read:4,date:'25 Agustus 2026',rev:'dr. Yusuf Hidayat',
+      title:'Tifus (demam tifoid): gejala, pemeriksaan, dan pencegahan',
+      ex:'Demam yang naik bertahap terutama sore dan malam hari perlu diperiksa dokter.',
+      body:`<p>Demam tifoid disebabkan bakteri <i>Salmonella</i> Typhi yang masuk lewat makanan atau minuman tercemar.</p>
+<h2>Gejala</h2><ul><li>Demam naik bertahap, lebih tinggi pada sore dan malam hari.</li><li>Sakit kepala, lemas, nyeri perut, sembelit atau diare.</li></ul>
+<h2>Pemeriksaan dan pengobatan</h2><p>Diagnosis ditegakkan dokter dari gejala dan pemeriksaan laboratorium. Hasil tes Widal saja sering kurang akurat. Bila diberi antibiotik, minum sampai habis sesuai resep.</p>
+<h2>Pencegahan</h2><ul><li>Cuci tangan dengan sabun sebelum makan dan setelah dari toilet.</li><li>Minum air yang sudah dimasak dan pilih makanan yang matang.</li><li>Vaksin tifoid tersedia untuk anak dan dewasa.</li></ul>`},
+    {id:'diare',cat:'Anak',tone:'green',icon:'i-drop',read:4,date:'21 Agustus 2026',rev:'dr. Sekar Ayuningtyas, Sp.A',
+      title:'Diare pada anak: oralit, zinc, dan tanda dehidrasi',
+      ex:'Kunci penanganan diare adalah mencegah kekurangan cairan.',
+      body:`<p>Diare pada anak paling sering disebabkan virus dan biasanya membaik dalam beberapa hari. Bahaya utamanya adalah dehidrasi.</p>
+<h2>Yang perlu dilakukan</h2><ul><li>Berikan oralit sedikit-sedikit tapi sering, setiap kali anak buang air besar cair.</li><li>Berikan zinc selama 10 hari sesuai dosis dari tenaga kesehatan, meski diare sudah berhenti.</li><li>Tetap berikan ASI dan makanan seperti biasa.</li></ul>
+<div class="callout"><b>Segera ke dokter bila</b> anak sangat lemas, mata cekung, tidak buang air kecil lebih dari 6 jam, muntah terus, atau tinja berdarah.</div>`},
+    {id:'stroke',cat:'Saraf',tone:'orange',icon:'i-alert',read:4,date:'18 Agustus 2026',rev:'dr. Bima Santoso, Sp.PD',
+      title:'Kenali gejala stroke dengan SeGeRa Ke RS',
+      ex:'Setiap menit berharga. Pengenalan gejala sejak awal menentukan pemulihan.',
+      body:`<p>Stroke terjadi saat aliran darah ke otak tersumbat atau pembuluh darah otak pecah. Penanganan dalam beberapa jam pertama sangat menentukan.</p>
+<h2>SeGeRa Ke RS</h2><ul><li><b>Se</b>nyum tidak simetris atau wajah mencong.</li><li><b>Ge</b>rak anggota tubuh melemah atau sulit digerakkan di satu sisi.</li><li>Bica<b>Ra</b> pelo atau sulit dipahami.</li><li><b>K</b>ebas atau baal di satu sisi tubuh.</li><li><b>R</b>abun atau pandangan kabur mendadak.</li><li><b>S</b>akit kepala hebat yang muncul tiba-tiba.</li></ul>
+<div class="callout"><b>Jangan menunggu gejala hilang.</b> Hubungi 119 atau segera bawa ke rumah sakit dengan fasilitas penanganan stroke. Jangan memberi makan atau minum karena berisiko tersedak.</div>`},
+    {id:'kolesterol',cat:'Jantung & pembuluh darah',tone:'green',icon:'i-heart',read:4,date:'14 Agustus 2026',rev:'dr. Bima Santoso, Sp.PD',
+      title:'Membaca hasil cek kolesterol: LDL, HDL, dan trigliserida',
+      ex:'Kolesterol total saja tidak cukup. Begini arti tiap angka di hasil lab Anda.',
+      body:`<div class="tbl-x"><table><thead><tr><th>Pemeriksaan</th><th>Nilai yang diharapkan</th></tr></thead><tbody>
+<tr><td>Kolesterol total</td><td>&lt; 200 mg/dL</td></tr><tr><td>LDL (kolesterol jahat)</td><td>&lt; 100 mg/dL, lebih rendah bila berisiko tinggi</td></tr><tr><td>HDL (kolesterol baik)</td><td>≥ 40 mg/dL pria, ≥ 50 mg/dL wanita</td></tr><tr><td>Trigliserida</td><td>&lt; 150 mg/dL</td></tr></tbody></table></div>
+<p>Target LDL dapat lebih ketat bagi orang dengan diabetes, penyakit jantung, atau riwayat stroke. Dokter akan menentukannya.</p>
+<h2>Menurunkan kolesterol</h2><ul><li>Kurangi gorengan, santan kental, jeroan, dan makanan olahan.</li><li>Perbanyak sayur, buah, kacang-kacangan, dan ikan.</li><li>Olahraga teratur dan berhenti merokok.</li></ul>`},
+    {id:'asamurat',cat:'Penyakit kronis',tone:'honey',icon:'i-flask',read:4,date:'11 Agustus 2026',rev:'dr. Bima Santoso, Sp.PD',
+      title:'Asam urat kambuh: penyebab dan pantangan makanan',
+      ex:'Nyeri sendi mendadak di jempol kaki adalah ciri khas serangan gout.',
+      body:`<p>Gout terjadi saat kristal asam urat menumpuk di sendi. Serangan sering datang malam hari dengan sendi merah, bengkak, panas, dan sangat nyeri.</p>
+<h2>Batasi</h2><ul><li>Jeroan, daging merah berlebihan, dan beberapa makanan laut.</li><li>Minuman manis tinggi fruktosa dan alkohol.</li></ul>
+<h2>Saat serangan</h2><ul><li>Istirahatkan sendi dan kompres dingin.</li><li>Jangan dipijat karena dapat memperberat peradangan.</li><li>Periksakan ke dokter untuk obat yang tepat. Obat penurun asam urat jangka panjang diminum sesuai anjuran.</li></ul>`},
+    {id:'asma',cat:'Pernapasan',tone:'blue',icon:'i-steth',read:4,date:'7 Agustus 2026',rev:'dr. Arif Gunawan',
+      title:'Asma: mengenali pemicu dan memakai inhaler dengan benar',
+      ex:'Inhaler pelega dan inhaler pengontrol punya fungsi berbeda.',
+      body:`<p>Asma adalah peradangan saluran napas yang membuatnya mudah menyempit. Gejalanya sesak, mengi, batuk, dan dada terasa berat.</p>
+<h2>Pemicu umum</h2><p>Debu, tungau, bulu hewan, asap rokok, udara dingin, infeksi saluran napas, dan olahraga berat.</p>
+<h2>Dua jenis obat</h2><ul><li><b>Pelega:</b> dipakai saat serangan untuk membuka saluran napas dengan cepat.</li><li><b>Pengontrol:</b> dipakai rutin setiap hari walau tidak ada gejala, untuk mencegah serangan.</li></ul>
+<div class="callout"><b>Ke IGD bila</b> sesak membuat sulit bicara, bibir atau kuku kebiruan, atau inhaler pelega tidak membantu.</div>`},
+    {id:'gerd',cat:'Pencernaan',tone:'green',icon:'i-heart',read:4,date:'4 Agustus 2026',rev:'dr. Bima Santoso, Sp.PD',
+      title:'GERD: dada terasa panas setelah makan',
+      ex:'Asam lambung yang naik ke kerongkongan bisa dikurangi dengan perubahan kebiasaan sederhana.',
+      body:`<p>GERD terjadi saat isi lambung naik ke kerongkongan. Gejalanya rasa panas di dada (heartburn), mulut terasa asam, sering bersendawa, atau batuk kronis.</p>
+<h2>Kebiasaan yang membantu</h2><ul><li>Beri jeda 3 jam antara makan dan tidur.</li><li>Tinggikan kepala tempat tidur sekitar 15–20 cm.</li><li>Makan porsi kecil dan turunkan berat badan bila berlebih.</li><li>Kurangi kopi, cokelat, makanan berlemak, dan rokok.</li></ul>
+<p>Periksa ke dokter bila gejala muncul lebih dari dua kali seminggu, sulit menelan, atau berat badan turun. Nyeri dada yang menjalar ke lengan atau rahang perlu diperiksa segera karena bisa berasal dari jantung.</p>`},
+    {id:'anemia',cat:'Kesehatan wanita',tone:'orange',icon:'i-drop',read:4,date:'31 Juli 2026',rev:'dr. Arif Gunawan',
+      title:'Anemia pada remaja putri dan wanita: lebih dari sekadar lemas',
+      ex:'Kurang zat besi membuat mudah lelah dan sulit konsentrasi.',
+      body:`<p>Anemia berarti kadar hemoglobin (Hb) di bawah normal, misalnya di bawah 12 g/dL pada wanita dewasa. Penyebab tersering adalah kekurangan zat besi, terutama karena menstruasi dan asupan yang kurang.</p>
+<h2>Gejala</h2><p>Lemas, letih, lesu, pusing, wajah pucat, berdebar, dan sulit konsentrasi.</p>
+<h2>Pencegahan</h2><ul><li>Konsumsi hati, daging merah, ikan, telur, dan sayur hijau.</li><li>Padukan dengan sumber vitamin C, seperti jeruk atau jambu, untuk membantu penyerapan.</li><li>Hindari minum teh atau kopi bersamaan dengan makan.</li><li>Minum tablet tambah darah sesuai program sekolah atau anjuran tenaga kesehatan.</li></ul>`},
+    {id:'stunting',cat:'Anak',tone:'green',icon:'i-users',read:5,date:'27 Juli 2026',rev:'dr. Nadia Prameswari, Sp.A',
+      title:'Mencegah stunting sejak 1.000 hari pertama kehidupan',
+      ex:'Stunting bukan hanya soal tinggi badan, tetapi juga perkembangan otak anak.',
+      body:`<p>Stunting adalah kondisi tinggi badan anak jauh di bawah standar usianya akibat kekurangan gizi kronis dan infeksi berulang. Periode paling menentukan adalah 1.000 hari pertama: sejak kehamilan hingga anak berusia 2 tahun.</p>
+<h2>Langkah pencegahan</h2><ul><li>Ibu hamil rutin periksa kehamilan dan cukup gizi.</li><li>ASI eksklusif 6 bulan, lalu MPASI yang kaya protein hewani seperti telur, ikan, dan daging.</li><li>Timbang dan ukur panjang atau tinggi anak setiap bulan di posyandu.</li><li>Lengkapi imunisasi dan jaga kebersihan air serta sanitasi.</li></ul>
+<div class="callout info">Bila grafik pertumbuhan di buku KIA mendatar atau menurun, konsultasikan ke dokter anak.</div>`},
+    {id:'cacar',cat:'Penyakit menular',tone:'cyan',icon:'i-shield',read:3,date:'23 Juli 2026',rev:'dr. Sekar Ayuningtyas, Sp.A',
+      title:'Cacar air: merawat di rumah dan kapan anak boleh sekolah',
+      ex:'Ruam berubah menjadi lepuh lalu keropeng. Penularan berlangsung sampai semua lepuh mengering.',
+      body:`<p>Cacar air (varisela) disebabkan virus varicella-zoster. Gejalanya demam ringan lalu ruam gatal yang berubah menjadi lepuh berisi cairan dan akhirnya mengering.</p>
+<h2>Perawatan</h2><ul><li>Potong kuku dan usahakan tidak menggaruk agar tidak infeksi dan berbekas.</li><li>Mandi seperti biasa dengan air hangat dan keringkan dengan ditepuk.</li><li>Untuk demam gunakan paracetamol. Jangan beri aspirin pada anak.</li></ul>
+<p>Anak dapat kembali sekolah setelah semua lepuh mengering menjadi keropeng. Vaksin varisela dapat mencegah penyakit ini.</p>`},
+    {id:'campak',cat:'Anak',tone:'orange',icon:'i-syringe',read:4,date:'19 Juli 2026',rev:'dr. Nadia Prameswari, Sp.A',
+      title:'Campak: lebih berbahaya dari yang dikira',
+      ex:'Campak dapat menyebabkan radang paru dan diare berat. Vaksin MR adalah perlindungan terbaik.',
+      body:`<p>Campak sangat mudah menular. Gejalanya demam tinggi, batuk, pilek, mata merah, lalu muncul ruam merah dari wajah dan belakang telinga yang menyebar ke seluruh tubuh.</p>
+<h2>Komplikasi</h2><p>Radang paru, diare berat, infeksi telinga, dan pada kasus jarang radang otak. Anak dengan gizi kurang lebih berisiko.</p>
+<h2>Perlindungan</h2><ul><li>Pastikan anak mendapat imunisasi MR sesuai jadwal.</li><li>Bila anak tertular, periksakan ke dokter. Pemberian vitamin A dapat dianjurkan.</li><li>Pisahkan anak yang sakit dari bayi dan ibu hamil.</li></ul>`},
+    {id:'hepatitisb',cat:'Penyakit menular',tone:'honey',icon:'i-shield',read:4,date:'15 Juli 2026',rev:'dr. Yusuf Hidayat',
+      title:'Hepatitis B: sering tanpa gejala, bisa dicegah dengan vaksin',
+      ex:'Infeksi menahun dapat merusak hati bertahun-tahun tanpa disadari.',
+      body:`<p>Hepatitis B adalah infeksi virus pada hati yang menular lewat darah, hubungan seksual, dan dari ibu ke bayi saat persalinan.</p>
+<h2>Gejala</h2><p>Banyak penderita tidak merasakan apa pun. Sebagian mengalami lemas, mual, urine gelap, atau mata dan kulit kuning.</p>
+<h2>Pencegahan</h2><ul><li>Vaksin hepatitis B diberikan sejak bayi baru lahir dan tersedia untuk dewasa.</li><li>Ibu hamil diperiksa hepatitis B agar bayi bisa segera dilindungi.</li><li>Jangan berbagi pisau cukur, sikat gigi, atau jarum.</li></ul>`},
+    {id:'migrain',cat:'Saraf',tone:'blue',icon:'i-alert',read:4,date:'11 Juli 2026',rev:'dr. Arif Gunawan',
+      title:'Migrain atau sakit kepala biasa? Ini bedanya',
+      ex:'Migrain sering berdenyut di satu sisi dan disertai mual atau silau.',
+      body:`<p>Migrain biasanya berupa nyeri berdenyut di satu sisi kepala yang berlangsung beberapa jam sampai 3 hari, disertai mual dan sensitif terhadap cahaya atau suara.</p>
+<h2>Kenali pemicunya</h2><p>Kurang tidur, telat makan, stres, perubahan hormon, dan makanan tertentu. Catat waktu serangan untuk menemukan polanya.</p>
+<div class="callout"><b>Segera periksa bila</b> sakit kepala terasa paling hebat seumur hidup dan muncul tiba-tiba, disertai demam dan kaku leher, kelemahan anggota tubuh, bicara pelo, atau setelah benturan di kepala.</div>`},
+    {id:'depresi',cat:'Kesehatan mental',tone:'cyan',icon:'i-users',read:5,date:'7 Juli 2026',rev:'dr. Arif Gunawan',
+      title:'Depresi bukan sekadar sedih: kapan perlu mencari bantuan',
+      ex:'Depresi adalah kondisi medis yang bisa diobati. Mencari bantuan adalah langkah yang tepat.',
+      body:`<p>Semua orang pernah merasa sedih. Depresi berbeda karena perasaan sedih atau kehilangan minat berlangsung hampir setiap hari selama 2 minggu atau lebih dan mengganggu aktivitas.</p>
+<h2>Tanda yang perlu diperhatikan</h2><ul><li>Tidak lagi menikmati hal yang biasanya disukai.</li><li>Gangguan tidur dan nafsu makan, mudah lelah.</li><li>Merasa tidak berharga atau bersalah berlebihan, sulit konsentrasi.</li></ul>
+<h2>Langkah pertama</h2><p>Ceritakan kepada orang yang dipercaya dan temui dokter, psikolog, atau psikiater. Konsultasi kesehatan jiwa juga tersedia di puskesmas.</p>
+<div class="callout"><b>Bila muncul pikiran menyakiti diri,</b> segera hubungi layanan darurat 119 atau datang ke IGD terdekat. Anda tidak sendirian.</div>`},
+    {id:'ginjal',cat:'Penyakit kronis',tone:'blue',icon:'i-flask',read:4,date:'3 Juli 2026',rev:'dr. Bima Santoso, Sp.PD',
+      title:'Menjaga ginjal bagi penderita diabetes dan hipertensi',
+      ex:'Dua penyakit ini adalah penyebab utama gagal ginjal. Pemeriksaan sederhana bisa mendeteksinya lebih awal.',
+      body:`<p>Penyakit ginjal kronis sering tidak bergejala sampai fungsinya sudah sangat menurun. Diabetes dan hipertensi yang tidak terkontrol adalah penyebab tersering.</p>
+<h2>Pemeriksaan yang dianjurkan</h2><ul><li>Kreatinin darah untuk menghitung laju filtrasi ginjal (eGFR).</li><li>Albumin dalam urine untuk melihat kebocoran protein.</li></ul>
+<h2>Melindungi ginjal</h2><ul><li>Kontrol gula darah dan tekanan darah sesuai target dokter.</li><li>Hindari minum obat antinyeri dalam jangka panjang tanpa resep.</li><li>Tanyakan kepada dokter sebelum mengonsumsi jamu atau suplemen.</li></ul>`},
+    {id:'osteoporosis',cat:'Kesehatan wanita',tone:'honey',icon:'i-users',read:4,date:'29 Juni 2026',rev:'dr. Bima Santoso, Sp.PD',
+      title:'Osteoporosis: tulang rapuh yang diam-diam',
+      ex:'Wanita setelah menopause paling berisiko. Pencegahan dimulai jauh sebelumnya.',
+      body:`<p>Osteoporosis membuat tulang keropos dan mudah patah, sering di panggul, pergelangan tangan, dan tulang belakang. Penyakit ini biasanya tidak bergejala sampai terjadi patah tulang.</p>
+<h2>Pencegahan</h2><ul><li>Cukupi kalsium dari susu, ikan teri, tahu, tempe, dan sayur hijau.</li><li>Dapatkan vitamin D dari paparan sinar matahari pagi dan makanan.</li><li>Rutin olahraga dengan beban, seperti jalan kaki dan latihan kekuatan.</li><li>Kurangi risiko jatuh di rumah: lantai tidak licin dan penerangan cukup.</li></ul>
+<p>Pemeriksaan kepadatan tulang (densitometri) dianjurkan bagi wanita pascamenopause yang berisiko.</p>`},
+    {id:'serviks',cat:'Kesehatan wanita',tone:'cyan',icon:'i-shield',read:5,date:'25 Juni 2026',rev:'dr. Arif Gunawan',
+      title:'Kanker serviks bisa dicegah: vaksin HPV dan skrining',
+      ex:'Skrining rutin menemukan perubahan sel sebelum menjadi kanker.',
+      body:`<p>Kanker serviks atau kanker leher rahim umumnya disebabkan infeksi virus HPV yang menetap. Pada tahap awal biasanya tidak menimbulkan gejala.</p>
+<h2>Dua cara pencegahan</h2><ul><li><b>Vaksin HPV:</b> diberikan kepada anak perempuan usia sekolah dasar melalui program imunisasi, dan tersedia untuk perempuan dewasa.</li><li><b>Skrining:</b> tes IVA, pap smear, atau tes HPV bagi perempuan yang sudah pernah berhubungan seksual, sesuai jadwal yang dianjurkan dokter.</li></ul>
+<div class="callout">Periksakan diri bila ada perdarahan setelah berhubungan seksual, perdarahan di luar haid, atau keputihan berbau yang tidak membaik.</div>`},
+    {id:'payudara',cat:'Kesehatan wanita',tone:'orange',icon:'i-heart',read:4,date:'21 Juni 2026',rev:'dr. Arif Gunawan',
+      title:'SADARI: periksa payudara sendiri setiap bulan',
+      ex:'Mengenali kondisi payudara sendiri membantu menemukan perubahan lebih awal.',
+      body:`<p>Kanker payudara yang ditemukan pada stadium awal memiliki peluang sembuh jauh lebih besar.</p>
+<h2>Kapan dan bagaimana</h2><p>Lakukan SADARI setiap bulan, sekitar 7–10 hari setelah hari pertama haid. Perhatikan bentuk payudara di depan cermin, lalu raba seluruh payudara dan ketiak dengan gerakan melingkar.</p>
+<h2>Perubahan yang perlu diperiksakan</h2><ul><li>Benjolan baru atau penebalan.</li><li>Kulit tertarik ke dalam atau tampak seperti kulit jeruk.</li><li>Puting masuk ke dalam atau keluar cairan, terutama darah.</li></ul>
+<p>Selain SADARI, lakukan pemeriksaan payudara klinis (SADANIS) oleh tenaga kesehatan secara berkala.</p>`},
+    {id:'lepto',cat:'Penyakit musiman',tone:'blue',icon:'i-alert',read:3,date:'17 Juni 2026',rev:'dr. Yusuf Hidayat',
+      title:'Leptospirosis setelah banjir: waspadai nyeri betis',
+      ex:'Air banjir dapat tercemar urine tikus yang membawa bakteri leptospira.',
+      body:`<p>Leptospirosis menular saat kulit yang luka atau selaput lendir terkena air atau lumpur yang tercemar urine hewan, terutama tikus.</p>
+<h2>Gejala</h2><p>Demam tinggi mendadak, sakit kepala, nyeri otot terutama di betis, dan mata merah, muncul beberapa hari sampai beberapa minggu setelah terpapar.</p>
+<h2>Pencegahan</h2><ul><li>Gunakan sepatu bot dan sarung tangan saat membersihkan sisa banjir.</li><li>Tutup luka dengan plester kedap air dan cuci kaki dengan sabun setelahnya.</li></ul>
+<div class="callout">Segera berobat bila demam setelah terpapar banjir, apalagi disertai kulit atau mata kuning dan buang air kecil berkurang.</div>`},
+    {id:'flu',cat:'Pernapasan',tone:'green',icon:'i-syringe',read:3,date:'13 Juni 2026',rev:'dr. Arif Gunawan',
+      title:'Influenza berbeda dengan pilek biasa',
+      ex:'Flu datang mendadak dengan demam dan pegal. Vaksin tahunan membantu mencegahnya.',
+      body:`<p>Influenza disebabkan virus influenza. Gejalanya muncul mendadak: demam, nyeri otot, sakit kepala, batuk kering, dan sangat lemas. Pilek biasa umumnya lebih ringan dengan hidung tersumbat dan bersin.</p>
+<h2>Perawatan</h2><ul><li>Istirahat cukup, banyak minum, dan gunakan paracetamol untuk demam.</li><li>Pakai masker dan tutup mulut saat batuk agar tidak menulari orang lain.</li></ul>
+<h2>Vaksin flu</h2><p>Dianjurkan setiap tahun, terutama untuk lansia, anak, ibu hamil, dan penderita penyakit kronis.</p>`},
+    {id:'jamur',cat:'Kulit',tone:'honey',icon:'i-shield',read:3,date:'9 Juni 2026',rev:'dr. Kirana Putri, Sp.KK',
+      title:'Panu dan kurap: infeksi jamur kulit di iklim lembap',
+      ex:'Kulit yang sering berkeringat mudah ditumbuhi jamur. Pengobatan perlu tuntas.',
+      body:`<p>Panu tampak sebagai bercak putih atau kecokelatan yang bersisik halus. Kurap berupa bercak merah melingkar, gatal, dengan tepi lebih aktif.</p>
+<h2>Pengobatan</h2><ul><li>Gunakan obat antijamur sesuai anjuran dokter atau apoteker, biasanya 2–4 minggu.</li><li>Lanjutkan 1–2 minggu setelah bercak hilang agar tidak kambuh.</li></ul>
+<h2>Pencegahan</h2><ul><li>Segera ganti pakaian basah oleh keringat dan keringkan lipatan kulit.</li><li>Jangan berbagi handuk atau pakaian.</li></ul>`},
+    {id:'cacingan',cat:'Anak',tone:'cyan',icon:'i-users',read:3,date:'5 Juni 2026',rev:'dr. Sekar Ayuningtyas, Sp.A',
+      title:'Cacingan pada anak dan pentingnya obat cacing berkala',
+      ex:'Cacingan dapat menyebabkan anemia dan mengganggu pertumbuhan.',
+      body:`<p>Infeksi cacing usus menular lewat tanah yang tercemar, tangan kotor, dan makanan yang tidak bersih.</p>
+<h2>Gejala</h2><p>Nafsu makan turun, perut buncit, mudah lelah, pucat, gatal di sekitar anus terutama malam hari, dan berat badan sulit naik.</p>
+<h2>Pencegahan</h2><ul><li>Minum obat cacing berkala sesuai program pemerintah atau anjuran dokter.</li><li>Biasakan cuci tangan pakai sabun, potong kuku, dan pakai alas kaki saat bermain di luar.</li></ul>`},
+    {id:'rabies',cat:'Penyakit menular',tone:'orange',icon:'i-alert',read:3,date:'1 Juni 2026',rev:'dr. Yusuf Hidayat',
+      title:'Digigit anjing atau kucing: pertolongan pertama untuk mencegah rabies',
+      ex:'Rabies hampir selalu fatal bila gejalanya sudah muncul. Pertolongan cepat sangat penting.',
+      body:`<div class="callout"><b>Langkah pertama:</b> cuci luka dengan sabun di bawah air mengalir selama 15 menit, lalu beri antiseptik. Segera ke fasilitas kesehatan.</div>
+<p>Rabies ditularkan lewat gigitan, cakaran, atau jilatan hewan penular pada luka, terutama anjing, kucing, dan kera.</p>
+<h2>Di fasilitas kesehatan</h2><p>Petugas akan menilai risiko dan memberikan vaksin anti rabies, serta serum bila diperlukan. Laporkan hewan yang menggigit agar dapat diobservasi.</p>
+<h2>Pencegahan</h2><p>Vaksinasi rabies hewan peliharaan secara rutin.</p>`},
+    {id:'preeklamsia',cat:'Kesehatan wanita',tone:'blue',icon:'i-heart',read:4,date:'28 Mei 2026',rev:'dr. Arif Gunawan',
+      title:'Tekanan darah tinggi saat hamil: kenali preeklamsia',
+      ex:'Periksa kehamilan rutin agar tekanan darah dan urine selalu terpantau.',
+      body:`<p>Preeklamsia adalah tekanan darah tinggi yang muncul setelah usia kehamilan 20 minggu disertai tanda gangguan organ. Kondisi ini berbahaya bagi ibu dan janin.</p>
+<div class="callout"><b>Segera ke fasilitas kesehatan bila</b> ibu hamil mengalami sakit kepala hebat, pandangan kabur, nyeri ulu hati, bengkak mendadak di wajah dan tangan, atau kejang.</div>
+<h2>Pemantauan</h2><ul><li>Periksa kehamilan sesuai jadwal dan ukur tekanan darah setiap kunjungan.</li><li>Sampaikan riwayat hipertensi, diabetes, atau preeklamsia pada kehamilan sebelumnya.</li></ul>`}
+  ];
+  const cover=(a,big)=>{const t=TONE[a.tone];return `<div class="${big?'hero-cover':'cover'}" style="background:var(${t[0]});color:var(${t[1]})"><svg class="ico" viewBox="0 0 24 24" style="stroke-width:1.2"><use href="#${a.icon}"/></svg></div>`;};
+  const cats=['Semua',...new Set(A.map(a=>a.cat))];
+  let cat='Semua', shown=12;
+  $('#cats').innerHTML=cats.map(c=>`<button type="button" aria-pressed="${c===cat}" data-c="${c}">${c}</button>`).join('');
+  function renderList(){
+    const q=$('#q').value.trim().toLowerCase();
+    const items=A.filter(a=>(cat==='Semua'||a.cat===cat)&&(!q||(a.title+' '+a.ex+' '+a.cat).toLowerCase().includes(q)));
+    $('#count').textContent=items.length+' artikel'+(cat!=='Semua'?' · '+cat:'')+(q?' · "'+q+'"':'');
+    $('#more').hidden=items.length<=shown;
+    $('#list').innerHTML=items.length?items.slice(0,shown).map(a=>`<a class="art" href="#${a.id}">${cover(a)}<div class="art-b"><span class="chip" style="justify-self:start">${a.cat}</span><h3>${a.title}</h3><p>${a.ex}</p><span class="verified"><svg class="ico"><use href="#i-badge"/></svg>Ditinjau ${a.rev}</span><span class="art-meta"><span>${a.date}</span><span>${a.read} menit baca</span></span></div></a>`).join('')
+      :'<div class="empty" style="grid-column:1/-1">Belum ada artikel yang cocok. Coba kata kunci lain.</div>';
+  }
+  $('#cats').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;cat=b.dataset.c;shown=12;[...$('#cats').children].forEach(x=>x.setAttribute('aria-pressed',String(x===b)));renderList();});
+  $('#q').addEventListener('input',()=>{shown=12;renderList();});
+  $('#more').addEventListener('click',()=>{shown+=12;renderList();});
+  function route(){
+    const id=location.hash.slice(1), a=A.find(x=>x.id===id);
+    $('#listView').hidden=!!a; $('#readView').hidden=!a;
+    const v=a?$('#readView'):$('#listView'); v.classList.remove('view-in','view-in-back'); void v.offsetWidth; v.classList.add(a?'view-in':'view-in-back');
+    if(a){
+      document.title=a.title+' · DEVHEALTH';
+      $('#article').innerHTML=`<nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Beranda</a><span>/</span><a href="#">Artikel</a><span>/</span><span>${a.cat}</span></nav>
+        <h1>${a.title}</h1>${cover(a,true)}
+        <div class="byline"><span class="verified"><svg class="ico"><use href="#i-badge"/></svg>Ditinjau ${a.rev}</span><span>${a.date}</span><span>${a.read} menit baca</span></div>
+        <div class="prose">${a.body}<p class="refs">Artikel ini bersifat edukasi dan tidak menggantikan diagnosis dokter. Bila keluhan berlanjut atau memberat, periksakan diri ke fasilitas kesehatan.</p></div>
+        <a class="back" href="#"><svg class="ico ico-sm"><use href="#i-left"/></svg>Kembali ke semua artikel</a>`;
+      $('#related').innerHTML=A.filter(x=>x.id!==a.id).sort((x,y)=>(y.cat===a.cat)-(x.cat===a.cat)).slice(0,4).map(x=>`<a href="#${x.id}">${x.title}<small>${x.cat} · ${x.read} menit</small></a>`).join('');
+      scrollTo({top:0,behavior:'instant'});
+    } else { document.title='Artikel DEVHEALTH'; }
+  }
+  addEventListener('hashchange',route);
+  // page transitions: fade out before leaving for the other page, fade in on arrival
+  document.addEventListener('click',e=>{
+    const a=e.target.closest('a[href]'); if(!a||e.defaultPrevented||e.metaKey||e.ctrlKey||e.shiftKey||a.target==='_blank')return;
+    const href=a.getAttribute('href'); if(!/^(index|artikel|dokter)\.html/.test(href))return;
+    if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+    const back=/^index/.test(href); try{sessionStorage.setItem('dh-nav',back?'back':'fwd');}catch(_){}
+    e.preventDefault(); document.body.classList.add('leaving'); document.body.classList.toggle('back',back); setTimeout(()=>{location.href=href;},170);
+  });
+  addEventListener('pageshow',()=>document.body.classList.remove('leaving','back'));
+  const mb=$('#menuBtn'),mm=$('#mobileMenu');
+  // open menu: page locked; first touch, click, wheel or swipe outside closes it (as does the X)
+  const ms=document.getElementById('menuScrim');
+  const setMenu=o=>{mm.hidden=!o;ms.hidden=!o;mb.setAttribute('aria-expanded',String(o));document.documentElement.classList.toggle('menu-lock',o);};
+  const menuOut=e=>{if(mm.hidden)return;e.preventDefault();setMenu(false);};
+  ms.addEventListener('pointerdown',menuOut);
+  ms.addEventListener('wheel',menuOut,{passive:false});
+  ms.addEventListener('touchmove',menuOut,{passive:false});
+  mb.addEventListener('click',()=>setMenu(mm.hidden));
+  mm.addEventListener('click',e=>{if(e.target.closest('a'))setMenu(false);});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!mm.hidden){setMenu(false);mb.focus();}});
+  addEventListener('resize',()=>{if(innerWidth>1180)setMenu(false);});
+  renderList(); route();
+})();
+</script>
+
+<!-- speed dial -->
+<div class="sd" id="sd">
+  <div class="sd-scrim" id="sdScrim" hidden></div>
+  <ul class="sd-list" id="sdList" role="menu" aria-label="Bantuan cepat">
+    <li style="--i:4"><a class="sd-act" role="menuitem" href="index.html#dokter"><span class="sd-label">Buat janji dokter</span><span class="sd-btn" style="background:var(--accent)"><svg class="ico"><use href="#i-cal"/></svg></span></a></li>
+    <li style="--i:3"><a class="sd-act" role="menuitem" href="https://wa.me/6289506138191" target="_blank" rel="noopener"><span class="sd-label">Chat WhatsApp</span><span class="sd-btn" style="background:var(--wa)"><svg class="ico" style="width:24px;height:24px"><use href="#i-wa"/></svg></span></a></li>
+    <li style="--i:2"><button class="sd-act" role="menuitem" type="button" id="sdAi"><span class="sd-label">Asisten AI</span><span class="sd-btn" style="background:var(--sky)"><svg class="ico" viewBox="0 0 24 24"><path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8Z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8Z"/></svg></span></button></li>
+    <li style="--i:1"><a class="sd-act" role="menuitem" href="tel:119"><span class="sd-label">Gawat darurat <b class="num">119</b></span><span class="sd-btn" style="background:var(--danger)"><svg class="ico"><use href="#i-phone"/></svg></span></a></li>
+    <li style="--i:0"><button class="sd-act" role="menuitem" type="button" id="sdBug"><span class="sd-label">Laporkan bug</span><span class="sd-btn" style="background:var(--muted)"><svg class="ico" viewBox="0 0 24 24"><path d="M8 8a4 4 0 0 1 8 0"/><rect x="7" y="8" width="10" height="11" rx="5"/><path d="M12 11v8M3 13h4M17 13h4M4 7l3 2M20 7l-3 2M4 19l3-2M20 19l-3-2"/></svg></span></button></li>
+  </ul>
+  <button class="sd-main" id="sdMain" type="button" aria-expanded="false" aria-controls="sdList" aria-label="Buka menu bantuan"><svg class="ico" viewBox="0 0 24 24" style="stroke-width:2.4"><path d="M12 5v14M5 12h14"/></svg></button>
+</div>
+
+<div class="ai-scrim" id="aiScrim" hidden></div>
+<section class="ai-panel" id="aiPanel" role="dialog" aria-modal="true" aria-label="Asisten DEVHEALTH" hidden>
+  <div class="ai-head"><span class="sd-btn" style="background:var(--sky);width:34px;height:34px"><svg class="ico" viewBox="0 0 24 24" style="width:18px;height:18px"><path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8Z"/></svg></span><div><b>Asisten DEVHEALTH</b><small>Menjawab info layanan, bukan diagnosis</small></div><button class="x" type="button" id="aiClose" aria-label="Tutup asisten"><svg class="ico ico-sm"><use href="#i-x"/></svg></button></div>
+  <div class="ai-body" id="aiBody" aria-live="polite"><div class="msg bot">Halo, ada yang bisa saya bantu? Pilih topik di bawah atau ketik pertanyaan Anda.</div></div>
+  <div class="ai-quick" id="aiQuick"><button type="button">Jam buka klinik</button><button type="button">Biaya konsultasi</button><button type="button">Berobat pakai BPJS</button><button type="button">Alamat klinik</button></div>
+  <form class="ai-form" id="aiForm"><input id="aiInput" type="text" placeholder="Tulis pertanyaan…" autocomplete="off" aria-label="Pertanyaan untuk asisten"><button class="btn btn-primary btn-sm" type="submit">Kirim</button></form>
+</section>
+
+<dialog id="bugDlg" aria-labelledby="bugTitle">
+  <div class="dlg-h"><h3 id="bugTitle">Laporkan bug</h3><button class="x" type="button" id="bugClose" aria-label="Tutup"><svg class="ico ico-sm"><use href="#i-x"/></svg></button></div>
+  <form class="dlg-b" id="bugForm" novalidate>
+    <p style="font-size:14px;color:var(--muted)">Ada tampilan rusak, tombol tidak berfungsi, atau informasi yang salah? Ceritakan supaya tim kami bisa memperbaikinya.</p>
+    <div class="row2">
+      <div class="field"><label for="bugPage">Halaman</label><select id="bugPage"><option>Beranda</option><option>Artikel kesehatan</option></select></div>
+      <div class="field"><label for="bugType">Jenis masalah</label><select id="bugType"><option>Tampilan rusak</option><option>Tombol tidak berfungsi</option><option>Informasi salah</option><option>Lainnya</option></select></div>
+    </div>
+    <div class="field"><label for="bugDesc">Apa yang terjadi?</label><textarea id="bugDesc" rows="4" placeholder="Contoh: tombol Cari di HP tidak bisa ditekan setelah memilih tanggal."></textarea></div>
+    <div class="field"><label for="bugMail">Email untuk kabar perbaikan (opsional)</label><input id="bugMail" type="email" autocomplete="email"></div>
+    <p class="err" id="bugErr" hidden></p>
+    <button class="btn btn-primary" type="submit">Kirim laporan</button>
+  </form>
+  <div class="dlg-b" id="bugDone" hidden>
+    <div class="ticket">
+      <span class="ql">Laporan diterima</span>
+      <div class="qn" id="bugId" style="font-size:2.2rem">BUG-0000</div>
+      <p style="font-size:14px;color:var(--muted)">Terima kasih. Simpan nomor ini bila Anda menghubungi kami tentang laporan yang sama.</p>
+      <p style="font-size:13px;color:var(--faint)">Laporan tersimpan dan bisa dibaca tim DEVHEALTH.</p>
+      <button class="btn btn-line" type="button" id="bugAgain">Laporkan masalah lain</button>
+    </div>
+  </div>
+</dialog>
+
+<script id="sd-js">
+(function(){
+  const $=s=>document.querySelector(s);
+  // one scroll lock shared by every overlay: the page stays still while any of them is open
+  // append a record to this viewer's own doc (<col>/<viewer id>) in the artifact database; staff read them all
+  window.dhAppend=async(col,item)=>{
+    try{
+      const [db,user]=await Promise.all([window.claude?.use?.('db'),window.claude?.use?.('user')].map(p=>Promise.resolve(p).catch(()=>null)));
+      if(!db||!user)return false;
+      const uid=await user.id(); if(!uid)return false;
+      const ref=db.doc(col+'/'+uid), snap=await ref.get();
+      const items=snap.exists?[...(snap.data().items||[])]:[];
+      items.unshift(item);
+      await ref.set({items:items.slice(0,50),updatedAt:new Date().toISOString()});
+      return true;
+    }catch(_){return false;}
+  };
+  const dhAppend=window.dhAppend;
+  const locks=new Set();
+  const lockSet=(k,on)=>{on?locks.add(k):locks.delete(k);document.documentElement.classList.toggle('sd-lock',locks.size>0);};
+  const sd=$('#sd'), main=$('#sdMain'), scrim=$('#sdScrim');
+  // while open the page cannot scroll; the main button (now an X) is the only way to close it
+  const setOpen=o=>{sd.classList.toggle('open',o);main.setAttribute('aria-expanded',String(o));main.setAttribute('aria-label',o?'Tutup menu bantuan':'Buka menu bantuan');scrim.hidden=!o;lockSet('sd',o);};
+  main.addEventListener('click',()=>setOpen(!sd.classList.contains('open')));
+  let lastY=scrollY;
+  addEventListener('scroll',()=>{
+    const y=scrollY, atEnd=innerHeight+y>=document.documentElement.scrollHeight-40;
+    if(Math.abs(y-lastY)<6)return;
+    sd.classList.toggle('tucked',y>lastY&&y>200&&!atEnd);
+    lastY=y;
+  },{passive:true});
+  // a touch outside an open overlay never closes it (only its X does); the overlay just nudges to show it is still open
+  const nudge=el=>{el.classList.remove('nudge');void el.offsetWidth;el.classList.add('nudge');};
+  const holdOutside=e=>{if(!sd.classList.contains('open'))return;e.preventDefault();nudge($('#sdList'));};
+  scrim.addEventListener('pointerdown',holdOutside);
+  scrim.addEventListener('wheel',e=>e.preventDefault(),{passive:false});
+  scrim.addEventListener('touchmove',e=>e.preventDefault(),{passive:false});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&sd.classList.contains('open')){setOpen(false);main.focus();}});
+  $('#sdList').addEventListener('click',e=>{if(e.target.closest('.sd-act'))setOpen(false);});
+
+  // asisten: Claude menjawab bebas soal layanan bila tampilan ini mengizinkan; daftar topik tetap jadi cadangan
+  const panel=$('#aiPanel'), body=$('#aiBody');
+  const KB=[
+    [/sesak|pingsan|nyeri dada|kejang|darurat|tidak sadar|perdarahan/i,'Kondisi ini bisa gawat darurat. Segera hubungi 119 atau datang ke IGD terdekat. IGD Klinik DEVHEALTH Caringin buka 24 jam di nomor (0266) 621-118.'],
+    [/jam|buka|tutup|operasional/i,'Klinik Caringin (Sukabumi) buka 24 jam untuk IGD dan poli umum, poli gigi 09.00–20.00. Kemang (Jakarta) 07.00–22.00. Darmo (Surabaya) Senin–Sabtu 07.00–21.00, Minggu 08.00–14.00.'],
+    [/biaya|harga|tarif|bayar|mahal/i,'Konsultasi dokter umum di klinik Rp75.000, telekonsultasi mulai Rp25.000, dan dokter spesialis mulai Rp120.000. Daftar lengkap ada di bagian Harga transparan di beranda.'],
+    [/bpjs|jkn/i,'Semua cabang adalah FKTP mitra BPJS Kesehatan. Pilih penjamin "BPJS" saat membuat janji dan bawa KTP. Status kepesertaan dicek otomatis saat pendaftaran.'],
+    [/alamat|lokasi|dimana|di mana|maps|caringin|sukabumi/i,'Klinik utama: Jl. Selakopi-Cijengkol, Cijengkol, Kec. Caringin, Kabupaten Sukabumi, Jawa Barat 43155. Petunjuk arah Google Maps ada di bagian Klinik di beranda.'],
+    [/janji|booking|daftar|antre|antri|dokter/i,'Buka bagian Cari Dokter di beranda, pilih dokter, lalu tekan Buat Janji. Nomor antrean dan estimasi waktu muncul setelah konfirmasi.'],
+    [/demo|simklinik|software|sistem/i,'Untuk pemilik klinik, buka bagian Untuk Klinik di beranda lalu tekan Jadwalkan demo. Demo berupa video call 30 menit tanpa biaya.']
+  ];
+  const add=(t,who)=>{const d=document.createElement('div');d.className='msg '+who;d.textContent=t;body.appendChild(d);body.scrollTop=body.scrollHeight;return d;};
+  const FALLBACK='Maaf, saya belum bisa menjawab itu. Silakan tanyakan ke resepsionis lewat WhatsApp 0895-0613-8191. Untuk keluhan medis, konsultasikan langsung dengan dokter.';
+  const kbAnswer=q=>{const hit=KB.find(([re])=>re.test(q));return hit?hit[1]:FALLBACK;};
+  let sample=null, busy=false; const history=[];
+  window.claude?.use?.('sample').then(x=>{sample=x;}).catch(()=>{});
+  const doctorsOnPage=()=>[...document.querySelectorAll('#track .doc')].map(c=>(c.querySelector('h3')?.textContent||'')+' ('+(c.querySelector('.sp')?.textContent||'')+')').filter(Boolean).join('; ');
+  const brief=q=>['Kamu adalah Asisten DEVHEALTH, asisten layanan pelanggan sebuah jaringan klinik di Indonesia.',
+    'Aturan: jawab dalam bahasa Indonesia yang ramah dan singkat (maksimal 4 kalimat), teks biasa tanpa markdown.',
+    'Kamu hanya membantu soal layanan: jam buka, lokasi, biaya, BPJS, cara membuat janji, dokter yang tersedia, persiapan pemeriksaan, dan info kesehatan umum.',
+    'Jangan pernah memberi diagnosis, dosis obat, atau resep. Untuk keluhan medis, sarankan membuat janji atau konsultasi dengan dokter.',
+    'Bila ada tanda gawat darurat (sesak napas, nyeri dada, pingsan, kejang, perdarahan hebat), minta segera menghubungi 119 atau IGD.',
+    'Bila tidak tahu jawabannya, katakan terus terang dan arahkan ke WhatsApp resepsionis 0895-0613-8191. Jangan mengarang data klinik.',
+    'Data klinik: '+KB.slice(1).map(k=>k[1]).join(' '),
+    doctorsOnPage()?'Dokter yang tampil di halaman: '+doctorsOnPage()+'.':'',
+    history.length?'Percakapan sebelumnya:\n'+history.slice(-8).map(h=>(h.role==='user'?'Pasien: ':'Asisten: ')+h.content).join('\n'):'',
+    'Pertanyaan pasien: '+q].filter(Boolean).join('\n\n');
+  const ask=async q=>{q=q.trim();if(!q||busy)return;add(q,'me');
+    if(KB[0][0].test(q)){setTimeout(()=>add(KB[0][1],'bot'),200);return;}
+    if(!sample){setTimeout(()=>add(kbAnswer(q),'bot'),350);return;}
+    busy=true;const b=add('Sedang mengetik…','bot');b.classList.add('typing');
+    try{
+      const r=await sample(brief(q),{modelTier:'quick',cache:false,onText:({text})=>{b.classList.remove('typing');b.textContent=text;body.scrollTop=body.scrollHeight;}});
+      b.classList.remove('typing');b.textContent=r.text.trim()||kbAnswer(q);
+      history.push({role:'user',content:q},{role:'assistant',content:b.textContent});
+    }catch(e){
+      b.classList.remove('typing');
+      if(['not_granted','unavailable','capability_disabled','capability_removed'].includes(e?.code)){sample=null;b.textContent=kbAnswer(q);}
+      else b.textContent=e?.code==='rate_limited'?'Asisten sedang menerima banyak pertanyaan. Coba lagi sebentar lagi, atau hubungi resepsionis lewat WhatsApp 0895-0613-8191.':(e?.text||kbAnswer(q));
+    }finally{busy=false;body.scrollTop=body.scrollHeight;}
+  };
+  // the assistant panel is modal: page is locked and only the X button closes it; a touch outside just nudges the panel
+  const aiScrim=$('#aiScrim');
+  const setAi=o=>{panel.hidden=!o;aiScrim.hidden=!o;document.documentElement.classList.toggle('ai-lock',o);};
+  $('#sdAi').addEventListener('click',()=>{setAi(true);$('#aiInput').focus({preventScroll:true});});
+  $('#aiClose').addEventListener('click',()=>{setAi(false);main.focus();});
+  const block=e=>{e.preventDefault();panel.classList.remove('nudge');void panel.offsetWidth;panel.classList.add('nudge');};
+  aiScrim.addEventListener('pointerdown',block);
+  aiScrim.addEventListener('wheel',e=>e.preventDefault(),{passive:false});
+  aiScrim.addEventListener('touchmove',e=>e.preventDefault(),{passive:false});
+  panel.addEventListener('wheel',e=>{if(!$('#aiBody').contains(e.target))e.preventDefault();},{passive:false});
+  $('#aiQuick').addEventListener('click',e=>{const b=e.target.closest('button');if(b)ask(b.textContent);});
+  $('#aiForm').addEventListener('submit',e=>{e.preventDefault();ask($('#aiInput').value);$('#aiInput').value='';});
+
+  // laporan bug
+  const bug=$('#bugDlg');
+  $('#sdBug').addEventListener('click',()=>{$('#bugPage').value=/artikel/.test(location.pathname)||document.title.startsWith('Artikel')?'Artikel kesehatan':'Beranda';$('#bugForm').hidden=false;$('#bugDone').hidden=true;$('#bugErr').hidden=true;bug.showModal();});
+  $('#bugClose').addEventListener('click',()=>bug.close());
+  $('#bugForm').addEventListener('submit',async e=>{e.preventDefault();
+    const err=$('#bugErr');
+    if($('#bugDesc').value.trim().length<10){err.textContent='Jelaskan masalahnya minimal 10 karakter, misalnya apa yang Anda tekan dan apa yang terjadi.';err.hidden=false;return;}
+    const id='BUG-'+String(Date.now()).slice(-6), btn=$('#bugForm button[type=submit]');
+    btn.disabled=true;err.hidden=true;
+    const ok=await dhAppend('bugs',{id,page:$('#bugPage').value,type:$('#bugType').value,desc:$('#bugDesc').value.trim(),email:$('#bugMail').value.trim(),url:location.href,agent:navigator.userAgent.slice(0,160),at:new Date().toISOString(),status:'baru'});
+    btn.disabled=false;
+    if(!ok){err.textContent='Laporan belum bisa dikirim dari tampilan ini (perlu masuk dengan akun yang punya akses). Kirim lewat WhatsApp 0895-0613-8191 agar tetap kami terima.';err.hidden=false;return;}
+    $('#bugId').textContent=id;$('#bugForm').hidden=true;$('#bugDone').hidden=false;});
+  $('#bugAgain').addEventListener('click',()=>{$('#bugDesc').value='';$('#bugForm').hidden=false;$('#bugDone').hidden=true;});
+
+  // mobile menu: a layer under it locks the page; touches outside only nudge it, the Menu/X button closes it
+  const ov=document.createElement('div'); ov.className='ov-scrim'; ov.hidden=true; document.body.appendChild(ov);
+  let active=null;
+  const panels=[
+    {el:$('#mobileMenu'),z:49}
+  ].filter(p=>p.el);
+  const sync=()=>{
+    active=panels.find(p=>!p.el.hidden)||null;
+    ov.hidden=!active; if(active)ov.style.zIndex=active.z;
+    panels.forEach(p=>lockSet('panel-'+p.z,!p.el.hidden));
+  };
+  panels.forEach(p=>new MutationObserver(sync).observe(p.el,{attributes:true,attributeFilter:['hidden']}));
+  ov.addEventListener('pointerdown',e=>{if(!active)return;e.preventDefault();nudge(active.el.querySelector('nav')||active.el);});
+  ov.addEventListener('wheel',e=>e.preventDefault(),{passive:false});
+  ov.addEventListener('touchmove',e=>e.preventDefault(),{passive:false});
+
+  // pop-up forms: lock the page while open; touching the dimmed backdrop only nudges the form, its X closes it
+  const wireDialogs=()=>document.querySelectorAll('dialog').forEach(d=>{
+    const open=d.showModal.bind(d);
+    const shut=d.close.bind(d), unlock=()=>lockSet('dlg-'+d.id,false);
+    d.showModal=()=>{open();lockSet('dlg-'+d.id,true);};
+    d.close=v=>{shut(v);unlock();};
+    d.addEventListener('close',unlock);
+    d.addEventListener('cancel',unlock);
+    d.addEventListener('pointerdown',e=>{if(e.target===d){e.preventDefault();nudge(d);}});
+    d.addEventListener('wheel',e=>{if(e.target===d)e.preventDefault();},{passive:false});
+  });
+  // some dialogs sit later in the page than this script, so wire them once the whole page is parsed
+  document.readyState==='loading'?document.addEventListener('DOMContentLoaded',wireDialogs):wireDialogs();
+})();
+</script>
+<!-- /speed dial -->
+
+<script>
+// scroll reveal: cards and section headings rise in as they enter the viewport, staggered within each group
+(function(){
+  if(!('IntersectionObserver' in window)||matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+  const run=()=>{
+    const els=[...document.querySelectorAll('main .sec-head,main .qa,main .review,main .art,main .plan,main .score,main .price-list,main .map-card,main .pkg,main .sym,main .faq details')];
+    if(!els.length)return;
+    const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{rootMargin:'0px 0px -6% 0px',threshold:.08});
+    els.forEach(el=>{
+      const sibs=[...el.parentElement.children].filter(c=>els.includes(c));
+      el.style.setProperty('--d',(Math.min(sibs.indexOf(el),5)*60)+'ms');
+      el.classList.add('rv');io.observe(el);
+    });
+    document.documentElement.classList.add('rv-on');
+  };
+  document.readyState==='loading'?document.addEventListener('DOMContentLoaded',run):run();
+})();
+</script>
+</body></html>
