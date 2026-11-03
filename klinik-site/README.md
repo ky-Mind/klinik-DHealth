@@ -11,6 +11,7 @@ Situs DHealth versi publik untuk Cloudflare Pages: halaman statis + Pages Functi
 | `functions/api/chat.js` | `POST /api/chat` — Asisten AI lewat Workers AI (model SEA-LION v4 27B, fasih bahasa Indonesia; aturan dipaksa di server) |
 | `functions/api/data.js` | `GET/PUT /api/data` — data form di KV. Pengunjung hanya bisa membaca/menulis datanya sendiri; daftar semua data khusus petugas |
 | `functions/api/staff.js` | `POST /api/staff` — tukar kata sandi petugas dengan token |
+| `functions/api/staff-google.js` | `/api/staff-google` — login petugas dengan akun Google (hanya email di `ADMIN_EMAILS`) |
 | `tools/gen_admin.py` | Membuat `admin.html` (Dasbor Klinik di `/admin`) dari gaya dan data dokter beranda |
 | `tools/build.py` | Menyalin halaman terbaru dari folder artifact (satu tingkat di atas) ke `public/` |
 | `wrangler.toml` | Konfigurasi Pages + binding KV `DH_KV` + binding Workers AI `AI` |
@@ -58,6 +59,20 @@ npm run deploy
 - Halaman publik tidak punya tautan atau kotak kata sandi petugas sama sekali; alamat `/admin` hanya dibagikan ke admin dan dokter.
 - Keluar: tombol **Keluar** di kanan atas `/admin`.
 - Mengganti `STAFF_PASSWORD` membuat semua petugas otomatis keluar.
+- **Login Google** (opsional): tombol "Login dengan Google" muncul di `/admin` setelah dua secret ini diisi:
+  - `GOOGLE_CLIENT_ID`: Client ID OAuth tipe *Web application* dari Google Cloud Console, dengan *Authorized JavaScript origin* `https://klinik.xianzing.my.id`.
+  - `ADMIN_EMAILS`: daftar email Google petugas, dipisah koma.
+  ```bash
+  npx wrangler pages secret put GOOGLE_CLIENT_ID --project-name devhealth-klinik
+  ```
+  ```bash
+  npx wrangler pages secret put ADMIN_EMAILS --project-name devhealth-klinik
+  ```
+  Lalu jalankan `npm run deploy` lagi.
+- **Lupa kata sandi**: masuk dengan Google, atau ganti kata sandinya:
+  ```bash
+  npx wrangler pages secret put STAFF_PASSWORD --project-name devhealth-klinik
+  ```
 
 ## Uji lokal
 

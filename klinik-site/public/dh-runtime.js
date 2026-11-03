@@ -100,6 +100,12 @@
       const out = await api('/api/staff', { method: 'POST', body: JSON.stringify({ password }) });
       put('dh-staff', out.token);
     },
+    // Google sign-in: null when the site has no Google client configured, so /admin shows the password form only
+    googleClientId: () => api('/api/staff-google').then((r) => r.clientId, () => null),
+    async loginGoogle(credential) {
+      const out = await api('/api/staff-google', { method: 'POST', body: JSON.stringify({ credential }) });
+      put('dh-staff', out.token);
+    },
     logout: () => put('dh-staff', null),
   };
 })();

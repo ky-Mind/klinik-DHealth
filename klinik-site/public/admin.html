@@ -734,6 +734,11 @@ html.rv-on .rv:not(.in){opacity:0}
 .adm-panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:20px;display:grid;gap:14px}
 .adm .appts{max-height:none;overflow:visible}
 @supports (corner-shape:squircle){.adm-card,.adm-panel{corner-shape:squircle}}
+.adm-or{display:flex;align-items:center;gap:12px;color:var(--faint);font-size:13px}
+.adm-or::before,.adm-or::after{content:"";flex:1;height:1px;background:var(--line)}
+.adm-google{display:grid;gap:14px}
+#admGoogle{min-height:44px;display:flex;justify-content:center}
+.adm-card .adm-help{font-size:13.5px;color:var(--faint)}
 @media (max-width:520px){.adm-nav .chip{display:none}.adm-panel{padding:14px}}
 </style>
 </head><body>
@@ -794,6 +799,11 @@ html.rv-on .rv:not(.in){opacity:0}
       <p class="err" id="admErr" hidden></p>
       <button class="btn btn-primary" type="submit">Masuk</button>
     </form>
+    <div id="admGoogleWrap" class="adm-google" hidden>
+      <div class="adm-or"><span>atau</span></div>
+      <div id="admGoogle"></div>
+    </div>
+    <p class="adm-help" id="admHelp">Lupa kata sandi? Hubungi pengelola situs untuk menggantinya.</p>
   </section>
 
   <section id="admDenied" class="adm-card" hidden>
@@ -860,11 +870,29 @@ html.rv-on .rv:not(.in){opacity:0}
         catch(ex){err.textContent=ex.code==='rate_limited'?'Terlalu banyak percobaan. Coba lagi beberapa menit lagi.':'Kata sandi salah.';err.hidden=false;btn.disabled=false;}
       });
       $('#admOut').addEventListener('click',()=>{dhStaff.logout();location.reload();});
+      if(!dhStaff.signedIn())googleButton();
       if(!dhStaff.signedIn()){show('admLogin');$('#admPw').focus();return;}
       $('#admOut').hidden=false;
     }else if(!db||!user||!user.canEdit()){show('admDenied');return;}
     show('admDash');dashboard(db);
   })();
+
+  // "Masuk dengan Google" for staff whose email is on the clinic's list; hidden until the site has a Google client
+  async function googleButton(){
+    const clientId=await dhStaff.googleClientId(); if(!clientId)return;
+    const s=document.createElement('script');s.src='https://accounts.google.com/gsi/client';s.async=true;
+    s.onload=()=>{
+      google.accounts.id.initialize({client_id:clientId,ux_mode:'popup',callback:async r=>{
+        const err=$('#admErr');err.hidden=true;
+        try{await dhStaff.loginGoogle(r.credential);location.reload();}
+        catch(ex){err.textContent=ex.code==='not_allowed'?ex.message+' Minta pengelola situs menambahkannya.':ex.code==='rate_limited'?'Terlalu banyak percobaan. Coba lagi beberapa menit lagi.':'Login Google gagal. Coba lagi.';err.hidden=false;}
+      }});
+      google.accounts.id.renderButton($('#admGoogle'),{theme:'outline',size:'large',shape:'pill',text:'signin_with',locale:'id',width:Math.min(384,$('#admForm').clientWidth||320)});
+      $('#admGoogleWrap').hidden=false;
+      $('#admHelp').textContent='Lupa kata sandi? Masuk dengan akun Google yang terdaftar, atau hubungi pengelola situs untuk menggantinya.';
+    };
+    document.head.appendChild(s);
+  }
 
   function dashboard(db){
     const allBox=$('#stAll'), docBox=$('#stDoc'), docSel=$('#stDocSel');
