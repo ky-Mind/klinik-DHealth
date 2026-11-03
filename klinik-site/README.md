@@ -6,11 +6,12 @@ Situs DHealth versi publik untuk Cloudflare Pages: halaman statis + Pages Functi
 
 | Path | Fungsi |
 |---|---|
-| `public/` | Halaman situs (`index.html`, `artikel.html`, `dokter.html`), foto, dan `dh-runtime.js` |
+| `public/` | Halaman situs (`index.html`, `artikel.html`, `dokter.html`, `admin.html`), foto, dan `dh-runtime.js` |
 | `public/dh-runtime.js` | Penghubung halaman ke server: asisten, database, unduhan tiket, login petugas |
 | `functions/api/chat.js` | `POST /api/chat` — Asisten AI lewat Workers AI (model SEA-LION v4 27B, fasih bahasa Indonesia; aturan dipaksa di server) |
 | `functions/api/data.js` | `GET/PUT /api/data` — data form di KV. Pengunjung hanya bisa membaca/menulis datanya sendiri; daftar semua data khusus petugas |
 | `functions/api/staff.js` | `POST /api/staff` — tukar kata sandi petugas dengan token |
+| `tools/gen_admin.py` | Membuat `admin.html` (Dasbor Klinik di `/admin`) dari gaya dan data dokter beranda |
 | `tools/build.py` | Menyalin halaman terbaru dari folder artifact (satu tingkat di atas) ke `public/` |
 | `wrangler.toml` | Konfigurasi Pages + binding KV `DH_KV` + binding Workers AI `AI` |
 
@@ -51,10 +52,11 @@ npm run build
 npm run deploy
 ```
 
-## Petugas klinik
+## Petugas klinik (admin & dokter)
 
-- Masuk: klik **Dasbor Klinik (petugas)** di footer beranda, lalu isi kata sandi petugas (`STAFF_PASSWORD`). Dasbor terbuka otomatis. Pengunjung tidak pernah diminta kata sandi kecuali menekan tombol itu.
-- Keluar: klik **Keluar dari akun petugas** di footer (muncul saat sudah masuk).
+- Buka **https://klinik.xianzing.my.id/admin**, isi kata sandi petugas (`STAFF_PASSWORD`). Di sana ada semua janji pasien, jadwal per dokter, permintaan demo, dan laporan bug.
+- Halaman publik tidak punya tautan atau kotak kata sandi petugas sama sekali; alamat `/admin` hanya dibagikan ke admin dan dokter.
+- Keluar: tombol **Keluar** di kanan atas `/admin`.
 - Mengganti `STAFF_PASSWORD` membuat semua petugas otomatis keluar.
 
 ## Uji lokal

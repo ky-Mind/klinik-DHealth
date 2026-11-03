@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "python3 tools/build.py",
+    "build": "python3 tools/gen_admin.py && python3 tools/build.py",
     "dev": "wrangler pages dev public",
     "deploy": "wrangler pages deploy public --project-name devhealth-klinik"
   },

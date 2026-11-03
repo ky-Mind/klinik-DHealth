@@ -91,9 +91,6 @@ button,input,select,textarea{font:inherit;color:inherit}
 .nav-cta .btn{height:40px;padding:0 16px;border-radius:10px;font-size:14px}
 .nav-cta [data-appts]{position:relative}
 .nav-cta .appt-count{position:absolute;top:-7px;right:-7px;margin:0;box-shadow:0 0 0 2px var(--surface)}
-.nav-cta .staff-btn{width:40px;padding:0;position:relative}
-.nav-cta .staff-btn .t{display:none}
-@media (min-width:1280px){.nav-cta .staff-btn{width:auto;padding:0 14px}.nav-cta .staff-btn .t{display:inline}}
 .menu-btn{display:none;align-items:center;gap:8px;height:40px;padding:0 12px;border:1.5px solid var(--line);border-radius:10px;background:var(--surface);cursor:pointer;color:var(--ink);font-weight:700;font-size:14px}
 .menu-btn:hover,.menu-btn[aria-expanded="true"]{border-color:var(--primary);color:var(--primary)}
 .menu-btn .ico{width:20px;height:20px}
@@ -827,7 +824,6 @@ html.rv-on .rv:not(.in){opacity:0}
       <a href="index.html#faq">Bantuan</a>
     </nav>
     <div class="nav-cta">
-      <a class="btn btn-line btn-sm staff-btn" href="index.html#dasbor" data-staff data-staff-open hidden title="Dasbor Klinik (khusus petugas)" aria-label="Dasbor Klinik"><svg class="ico ico-sm"><use href="#i-chart"/></svg><span class="t">Dasbor Klinik</span></a>
       <a class="btn btn-line btn-sm" href="index.html#janji" data-appts><svg class="ico ico-sm"><use href="#i-cal"/></svg>Janji Saya<span class="appt-count" hidden></span></a>
       <a class="btn btn-accent btn-sm" href="index.html#dokter">Buat Janji</a>
     </div>
@@ -838,7 +834,6 @@ html.rv-on .rv:not(.in){opacity:0}
     <nav class="mobile-menu" aria-label="Menu seluler">
       <div class="mm-quick">
         <a href="index.html#janji" class="mm-tile" data-appts><span class="mi" style="background:var(--accent-soft);color:var(--accent)"><svg class="ico"><use href="#i-cal"/></svg></span><span><b>Janji Saya</b><small>Lihat & batalkan</small></span><span class="appt-count" hidden></span></a>
-        <a href="index.html#dasbor" class="mm-tile" data-staff data-staff-open hidden><span class="mi" style="background:var(--sky-soft);color:var(--sky)"><svg class="ico"><use href="#i-chart"/></svg></span><span><b>Dasbor Klinik</b><small>Khusus petugas</small></span></a>
       </div>
       <span class="mm-lbl">Jelajahi</span>
       <a href="index.html#layanan" class="mm-link"><span class="mi"><svg class="ico"><use href="#i-steth"/></svg></span><span><b>Layanan</b><small>Telekonsultasi, lab, home care</small></span><svg class="ico chev"><use href="#i-right"/></svg></a><a href="index.html#dokter" class="mm-link"><span class="mi"><svg class="ico"><use href="#i-search"/></svg></span><span><b>Cari Dokter</b><small>Jadwal & buat janji</small></span><svg class="ico chev"><use href="#i-right"/></svg></a><a href="index.html#klinik" class="mm-link"><span class="mi"><svg class="ico"><use href="#i-pin"/></svg></span><span><b>Klinik & Harga</b><small>Cabang, jam buka, tarif</small></span><svg class="ico chev"><use href="#i-right"/></svg></a><a href="index.html#untuk-klinik" class="mm-link"><span class="mi"><svg class="ico"><use href="#i-brief"/></svg></span><span><b>Untuk Klinik</b><small>SIMKlinik & demo</small></span><svg class="ico chev"><use href="#i-right"/></svg></a><a href="index.html#testimoni" class="mm-link"><span class="mi"><svg class="ico"><use href="#i-heart"/></svg></span><span><b>Ulasan</b><small>Cerita pasien setelah berobat</small></span><svg class="ico chev"><use href="#i-right"/></svg></a><a href="artikel.html" class="mm-link"><span class="mi"><svg class="ico"><use href="#i-file"/></svg></span><span><b>Artikel</b><small>Info kesehatan dari dokter</small></span><svg class="ico chev"><use href="#i-right"/></svg></a><a href="index.html#faq" class="mm-link"><span class="mi"><svg class="ico"><use href="#i-users"/></svg></span><span><b>Bantuan</b><small>Pertanyaan umum</small></span><svg class="ico chev"><use href="#i-right"/></svg></a>

@@ -86,9 +86,6 @@ button,input,select,textarea{font:inherit;color:inherit}
 .nav-cta .btn{height:40px;padding:0 16px;border-radius:10px;font-size:14px}
 .nav-cta [data-appts]{position:relative}
 .nav-cta .appt-count{position:absolute;top:-7px;right:-7px;margin:0;box-shadow:0 0 0 2px var(--surface)}
-.nav-cta .staff-btn{width:40px;padding:0;position:relative}
-.nav-cta .staff-btn .t{display:none}
-@media (min-width:1280px){.nav-cta .staff-btn{width:auto;padding:0 14px}.nav-cta .staff-btn .t{display:inline}}
 .menu-btn{display:none;align-items:center;gap:8px;height:40px;padding:0 12px;border:1.5px solid var(--line);border-radius:10px;background:var(--surface);cursor:pointer;color:var(--ink);font-weight:700;font-size:14px}
 .menu-btn:hover,.menu-btn[aria-expanded="true"]{border-color:var(--primary);color:var(--primary)}
 .menu-btn .ico{width:20px;height:20px}
@@ -774,7 +771,6 @@ html.rv-on .rv:not(.in){opacity:0}
       <a href="#faq">Bantuan</a>
     </nav>
     <div class="nav-cta">
-      <a class="btn btn-line btn-sm staff-btn" href="#dasbor" data-staff data-staff-open hidden title="Dasbor Klinik (khusus petugas)" aria-label="Dasbor Klinik"><svg class="ico ico-sm"><use href="#i-chart"/></svg><span class="t">Dasbor Klinik</span></a>
       <a class="btn btn-line btn-sm" href="#janji" data-appts><svg class="ico ico-sm"><use href="#i-cal"/></svg>Janji Saya<span class="appt-count" hidden></span></a>
       <button class="btn btn-accent btn-sm" type="button" data-book>Buat Janji</button>
     </div>
@@ -785,7 +781,6 @@ html.rv-on .rv:not(.in){opacity:0}
     <nav class="mobile-menu" aria-label="Menu seluler">
       <div class="mm-quick">
         <a href="#janji" class="mm-tile" data-appts><span class="mi" style="background:var(--accent-soft);color:var(--accent)"><svg class="ico"><use href="#i-cal"/></svg></span><span><b>Janji Saya</b><small>Lihat & batalkan</small></span><span class="appt-count" hidden></span></a>
-        <a href="#dasbor" class="mm-tile" data-staff data-staff-open hidden><span class="mi" style="background:var(--sky-soft);color:var(--sky)"><svg class="ico"><use href="#i-chart"/></svg></span><span><b>Dasbor Klinik</b><small>Khusus petugas</small></span></a>
       </div>
       <span class="mm-lbl">Jelajahi</span>
       <a href="#layanan" class="mm-link"><span class="mi"><svg class="ico"><use href="#i-steth"/></svg></span><span><b>Layanan</b><small>Telekonsultasi, lab, home care</small></span><svg class="ico chev"><use href="#i-right"/></svg></a><a href="#dokter" class="mm-link"><span class="mi"><svg class="ico"><use href="#i-search"/></svg></span><span><b>Cari Dokter</b><small>Jadwal & buat janji</small></span><svg class="ico chev"><use href="#i-right"/></svg></a><a href="#klinik" class="mm-link"><span class="mi"><svg class="ico"><use href="#i-pin"/></svg></span><span><b>Klinik & Harga</b><small>Cabang, jam buka, tarif</small></span><svg class="ico chev"><use href="#i-right"/></svg></a><a href="#untuk-klinik" class="mm-link"><span class="mi"><svg class="ico"><use href="#i-brief"/></svg></span><span><b>Untuk Klinik</b><small>SIMKlinik & demo</small></span><svg class="ico chev"><use href="#i-right"/></svg></a><a href="#testimoni" class="mm-link"><span class="mi"><svg class="ico"><use href="#i-heart"/></svg></span><span><b>Ulasan</b><small>Cerita pasien setelah berobat</small></span><svg class="ico chev"><use href="#i-right"/></svg></a><a href="#artikel" class="mm-link"><span class="mi"><svg class="ico"><use href="#i-file"/></svg></span><span><b>Artikel</b><small>Info kesehatan dari dokter</small></span><svg class="ico chev"><use href="#i-right"/></svg></a><a href="#faq" class="mm-link"><span class="mi"><svg class="ico"><use href="#i-users"/></svg></span><span><b>Bantuan</b><small>Pertanyaan umum</small></span><svg class="ico chev"><use href="#i-right"/></svg></a>
@@ -1204,7 +1199,7 @@ html.rv-on .rv:not(.in){opacity:0}
         <p style="max-width:34ch">Layanan kesehatan keluarga dan sistem manajemen klinik dalam satu ekosistem.</p>
       </div>
       <div><h4>Pasien</h4><ul><li><a href="#dokter">Cari dokter</a></li><li><a href="#layanan">Telekonsultasi</a></li><li><a href="#harga">Harga layanan</a></li><li><a href="artikel.html">Artikel kesehatan</a></li></ul></div>
-      <div><h4>Untuk klinik</h4><ul><li><a href="#untuk-klinik">SIMKlinik &amp; RME</a></li><li><a href="#untuk-klinik">Bridging SATUSEHAT</a></li><li><a href="#untuk-klinik">Paket &amp; harga</a></li><li><a href="#untuk-klinik">Jadwalkan demo</a></li><li><a href="#dasbor" data-staff-open data-dh-login>Dasbor Klinik (petugas)</a></li></ul></div>
+      <div><h4>Untuk klinik</h4><ul><li><a href="#untuk-klinik">SIMKlinik &amp; RME</a></li><li><a href="#untuk-klinik">Bridging SATUSEHAT</a></li><li><a href="#untuk-klinik">Paket &amp; harga</a></li><li><a href="#untuk-klinik">Jadwalkan demo</a></li></ul></div>
       <div>
         <h4>Kontak</h4>
         <div class="contact">
@@ -1497,29 +1492,6 @@ html.rv-on .rv:not(.in){opacity:0}
   <div class="dlg-b">
     <div class="appts" id="apptList"></div>
     <p class="appt-policy">Batalkan paling lambat 1 jam sebelum jadwal agar nomor antrean bisa dipakai pasien lain. <span id="apptStore">Janji tersimpan di perangkat ini saja.</span></p>
-  </div>
-</dialog>
-
-<dialog id="staffDlg" class="staff-dlg" aria-labelledby="staffTitle">
-  <div class="dlg-h"><div><h3 id="staffTitle">Dasbor Klinik</h3><small class="st-sub">Khusus petugas klinik · tidak terlihat oleh pasien</small></div><button class="x" type="button" id="staffClose" aria-label="Tutup"><svg class="ico ico-sm"><use href="#i-x"/></svg></button></div>
-  <div class="dlg-b">
-    <div class="st-stats" id="stStats"></div>
-    <div class="search-tabs" id="stTabs" role="tablist"><button type="button" role="tab" aria-selected="true" data-tab="all">Semua janji pasien</button><button type="button" role="tab" aria-selected="false" data-tab="doc">Jadwal per dokter</button><button type="button" role="tab" aria-selected="false" data-tab="inbox">Demo &amp; laporan bug</button></div>
-    <div id="stAllWrap" class="st-wrap">
-      <div class="filters" id="stStatus" role="group" aria-label="Status janji"><button type="button" aria-pressed="true" data-st="all">Semua</button><button type="button" aria-pressed="false" data-st="aktif">Terjadwal</button><button type="button" aria-pressed="false" data-st="batal">Dibatalkan</button></div>
-      <div class="appts" id="stAll"></div>
-    </div>
-    <div id="stDocWrap" class="st-wrap" hidden>
-      <div class="field"><label for="stDocSel">Dokter</label><select id="stDocSel"></select></div>
-      <p class="appt-policy" id="stDocInfo"></p>
-      <div class="appts" id="stDoc"></div>
-    </div>
-    <div id="stInboxWrap" class="st-wrap" hidden>
-      <h4 class="st-h">Permintaan demo SIMKlinik</h4>
-      <div class="appts" id="stDemos"><p class="appt-policy">Memuat…</p></div>
-      <h4 class="st-h">Laporan bug</h4>
-      <div class="appts" id="stBugs"><p class="appt-policy">Memuat…</p></div>
-    </div>
   </div>
 </dialog>
 
@@ -1901,74 +1873,7 @@ html.rv-on .rv:not(.in){opacity:0}
       try{localStorage.setItem(APPT_KEY,JSON.stringify(appts));}catch(_){}
       countAppts(); if(apptDlg.open&&!list.querySelector('.cancel-box'))renderAppts();
     },()=>{apptRef=null;$('#apptStore').textContent='Janji tersimpan di perangkat ini saja.';});
-    if(user.canEdit())setupClinic(db);
   })();
-
-  // Dasbor Klinik (staff only: Editors and the owner of this page). Patients never get this panel or its data;
-  // the database rules also refuse other patients' bookings to anyone below admin.
-  function setupClinic(db){
-    $$('[data-staff]').forEach(x=>x.hidden=false);
-    const sdlg=$('#staffDlg'), allBox=$('#stAll'), docBox=$('#stDoc'), docSel=$('#stDocSel');
-    docSel.innerHTML=docs.map((d,i)=>`<option value="${i}">${esc(d.n)} · ${esc(spLabel(d))}</option>`).join('');
-    let rows=[], unsub=null, status='all', tab='all';
-    const todayIso=iso(new Date());
-    const slotOf=a=>a.slot||(a.when.match(/(\d{2}\.\d{2}) WIB/)||[])[1]||'';
-    const isVideo=a=>a.type==='video'||/Video call/.test(a.loc);
-    const row=a=>`<article class="appt ${a.status==='aktif'?'':'off'}">
-      <div class="appt-top"><div><div class="appt-num">${esc(a.num)}</div><div class="st-time">${esc(slotOf(a))} WIB${a.date===todayIso?' · <b>Hari ini</b>':''}</div></div>${apptBadge(a)}</div>
-      <div><div class="appt-doc">${esc(a.name)}</div><div class="appt-meta"><span>${esc(a.doc)}</span><span>${esc(a.when)}</span><span>${isVideo(a)?'Video call':esc(a.loc)}</span>${a.note?`<span>Keluhan: ${esc(a.note)}</span>`:''}${a.reason?`<span>Alasan batal: ${esc(a.reason)}</span>`:''}</div></div></article>`;
-    function draw(){
-      const act=rows.filter(a=>a.status==='aktif');
-      $('#stStats').innerHTML=`<div><b>${act.filter(a=>a.date===todayIso).length}</b><span>hari ini</span></div><div><b>${act.filter(a=>a.date>todayIso).length}</b><span>akan datang</span></div><div><b>${rows.length-act.length}</b><span>dibatalkan</span></div><div><b>${new Set(rows.map(a=>a.owner)).size}</b><span>pasien</span></div>`;
-      if(tab==='all'){
-        const list=rows.filter(a=>status==='all'||(status==='aktif'?a.status==='aktif':a.status!=='aktif'));
-        allBox.innerHTML=list.length?list.map(row).join(''):'<div class="appt-empty"><p>Belum ada janji di kategori ini.</p></div>';
-      }else{
-        const d=docs[docSel.value];
-        const mine=rows.filter(a=>a.doc===d.n&&a.status==='aktif'&&a.date>=todayIso);
-        const byDate={};mine.forEach(a=>(byDate[a.date]=byDate[a.date]||[]).push(a));
-        const days=Object.keys(byDate).sort();
-        $('#stDocInfo').innerHTML=`<b>${esc(d.n)}</b> · ${esc(d.loc)} · praktik ${Object.entries(d.sched).map(([k,v])=>k+' '+v).join(', ')}`;
-        docBox.innerHTML=days.length?days.map(k=>`<section class="st-day"><h4>${new Date(k+'T00:00').toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long'})}${k===todayIso?' · Hari ini':''} <span>${byDate[k].length} pasien</span></h4>${byDate[k].sort((x,y)=>slotOf(x).localeCompare(slotOf(y))).map(row).join('')}</section>`).join('')
-          :'<div class="appt-empty"><p>Belum ada pasien terjadwal untuk dokter ini.</p></div>';
-      }
-    }
-    function start(){
-      if(unsub)return;
-      allBox.innerHTML='<p class="appt-policy">Memuat janji pasien…</p>';
-      const t=setTimeout(()=>allBox.insertAdjacentHTML('afterbegin','<p class="err">Data janji belum bisa dimuat. Periksa koneksi.</p>'),10000);
-      unsub=db.collection('appts').onSnapshot(q=>{
-        if(!q.metadata.fromCache)clearTimeout(t);
-        rows=[];q.docs.forEach(d=>(d.data().items||[]).forEach(a=>rows.push({...a,owner:d.id})));
-        rows.sort((a,b)=>(a.date+slotOf(a)).localeCompare(b.date+slotOf(b)));
-        draw();
-      },()=>{clearTimeout(t);allBox.innerHTML='<p class="err">Akun ini tidak punya akses ke data janji pasien.</p>';});
-    }
-    const open=()=>{start();draw();if(!sdlg.open)sdlg.showModal();};
-    document.addEventListener('click',e=>{const a=e.target.closest('[data-staff-open]');if(!a)return;e.preventDefault();open();});
-    if(location.hash==='#dasbor')setTimeout(open,300);
-    $('#staffClose').addEventListener('click',()=>sdlg.close());
-    $('#stTabs').addEventListener('click',e=>{const b=e.target.closest('[data-tab]');if(!b)return;tab=b.dataset.tab;
-      $$('#stTabs button').forEach(x=>x.setAttribute('aria-selected',String(x===b)));
-      $('#stAllWrap').hidden=tab!=='all';$('#stDocWrap').hidden=tab!=='doc';$('#stInboxWrap').hidden=tab!=='inbox';if(tab==='inbox')startInbox();draw();});
-    // demo requests and bug reports sent from the forms (bugs/<id>, demos/<id>); newest first
-    let inboxOn=false;
-    function startInbox(){
-      if(inboxOn)return;inboxOn=true;
-      const watch=(col,box,card,empty)=>db.collection(col).onSnapshot(q=>{
-        const items=[];q.docs.forEach(d=>(d.data().items||[]).forEach(x=>items.push(x)));
-        items.sort((a,b)=>String(b.at).localeCompare(String(a.at)));
-        box.innerHTML=items.length?items.map(card).join(''):`<div class="appt-empty"><p>${empty}</p></div>`;
-      },()=>{box.innerHTML='<p class="err">Akun ini tidak punya akses ke data ini.</p>';});
-      const when=t=>new Date(t).toLocaleString('id-ID',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
-      watch('demos',$('#stDemos'),x=>`<article class="appt"><div class="appt-top"><div><div class="appt-num">${esc(x.clinic)}</div><div class="st-time">${esc(x.city)} · ${esc(x.size)}</div></div><span class="chip">${esc(x.id)}</span></div>
-        <div class="appt-meta"><span>${esc(x.name)} · WA ${esc(x.wa)}</span><span>Demo ${esc(new Date(x.date+'T00:00').toLocaleDateString('id-ID',{weekday:'short',day:'numeric',month:'short'}))}, ${esc(x.time)} WIB</span><span>Modul: ${esc((x.modules||[]).join(', '))}</span><span>Dikirim ${esc(when(x.at))}</span></div></article>`,'Belum ada permintaan demo.');
-      watch('bugs',$('#stBugs'),x=>`<article class="appt"><div class="appt-top"><div><div class="appt-num">${esc(x.type)}</div><div class="st-time">${esc(x.page)} · ${esc(when(x.at))}</div></div><span class="chip chip-muted">${esc(x.id)}</span></div>
-        <div class="appt-meta"><span>${esc(x.desc)}</span>${x.email?`<span>Email: ${esc(x.email)}</span>`:''}</div></article>`,'Belum ada laporan bug.');
-    }
-    $('#stStatus').addEventListener('click',e=>{const b=e.target.closest('[data-st]');if(!b)return;status=b.dataset.st;setPressed('#stStatus button',b);draw();});
-    docSel.addEventListener('change',draw);
-  }
 
   // save the queue ticket as a PNG drawn on canvas; the button appears only where the viewer allows downloads
   let dl=null;

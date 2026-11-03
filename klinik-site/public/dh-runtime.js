@@ -68,7 +68,7 @@
   }
   const db = { doc: docRef, collection: collectionRef };
 
-  // viewer: staff are whoever signed in on #staf with the clinic password
+  // viewer: staff are whoever signed in on /admin with the clinic password
   const user = {
     id: async () => device,
     me: async () => ({ id: device, name: '' }),
@@ -93,48 +93,13 @@
   const caps = { sample, db, user, downloads };
   window.claude = { use: async (name) => caps[name] || null };
 
-  // Staff sign-in opens only when someone presses a "Dasbor Klinik" link ([data-dh-login]) while signed out;
-  // visitors never see a password prompt otherwise. Signed-in staff go straight to the dashboard.
-  function staffDialog() {
-    const d = document.createElement('dialog');
-    d.className = 'dh-staff-login';
-    d.innerHTML = `<form method="dialog" class="dlg-b" style="min-width:min(380px,calc(100vw - 48px))">
-      <h3 style="margin:0;font-size:1.2rem">Masuk petugas klinik</h3>
-      <p style="margin:0;font-size:14px;color:var(--muted)">Untuk membuka Dasbor Klinik: janji pasien, permintaan demo, dan laporan bug.</p>
-      <div class="field"><label for="dhPw">Kata sandi petugas</label><input id="dhPw" type="password" autocomplete="current-password" required></div>
-      <p class="err" id="dhPwErr" hidden></p>
-      <div style="display:flex;gap:8px;justify-content:flex-end"><button class="btn btn-line" value="cancel" type="button" id="dhPwCancel">Batal</button><button class="btn btn-primary" type="submit">Masuk</button></div>
-    </form>`;
-    document.body.appendChild(d);
-    d.querySelector('#dhPwCancel').addEventListener('click', () => { d.close(); d.remove(); });
-    d.querySelector('form').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const err = d.querySelector('#dhPwErr'); err.hidden = true;
-      try {
-        const out = await api('/api/staff', { method: 'POST', body: JSON.stringify({ password: d.querySelector('#dhPw').value }) });
-        put('dh-staff', out.token);
-        location.replace(location.pathname + '#dasbor'); location.reload();
-      } catch (ex) {
-        err.textContent = ex.code === 'rate_limited' ? 'Terlalu banyak percobaan. Coba lagi beberapa menit lagi.' : 'Kata sandi salah.';
-        err.hidden = false;
-      }
-    });
-    d.showModal();
-  }
-  document.addEventListener('click', (e) => {
-    const login = e.target.closest('[data-dh-login]');
-    if (login && !staffToken()) { e.preventDefault(); e.stopImmediatePropagation(); staffDialog(); return; }
-    const logout = e.target.closest('[data-dh-logout]');
-    if (logout) { e.preventDefault(); put('dh-staff', null); location.replace(location.pathname); }
-  }, true);
-  // signed-in staff get a sign-out link beside the footer's dashboard link
-  function staffFooter() {
-    const link = document.querySelector('footer [data-dh-login]');
-    if (!link || !staffToken()) return;
-    const out = document.createElement('a');
-    out.href = '#'; out.setAttribute('data-dh-logout', ''); out.textContent = 'Keluar dari akun petugas';
-    link.closest('li')?.insertAdjacentHTML('afterend', '<li></li>');
-    link.closest('li')?.nextElementSibling?.appendChild(out);
-  }
-  document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded', staffFooter) : staffFooter();
+  // Staff sign-in lives only on /admin (admin.html); public pages never show a password prompt or staff links.
+  window.dhStaff = {
+    signedIn: () => !!staffToken(),
+    async login(password) {
+      const out = await api('/api/staff', { method: 'POST', body: JSON.stringify({ password }) });
+      put('dh-staff', out.token);
+    },
+    logout: () => put('dh-staff', null),
+  };
 })();
