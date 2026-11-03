@@ -102,6 +102,7 @@ BODY = f'''<header class="nav adm-nav" id="nav">
         <button class="btn btn-line" type="submit">Lanjut tanpa Google</button>
         <p class="adm-help">Mode ini hanya muncul di komputer pengembang (localhost) untuk menguji login.</p>
       </form>
+      <p class="err" id="googleFail" hidden>Tombol Google tidak termuat. Biasanya karena ekstensi pemblokir iklan atau privasi, atau koneksi lambat. Izinkan accounts.google.com untuk situs ini, lalu <a href="">muat ulang halaman</a>.</p>
       <p class="err" id="googleNone" hidden>Login Google belum dikonfigurasi di situs ini. Hubungi pengelola situs.</p>
     </div>
 
@@ -228,6 +229,8 @@ SCRIPT = '''<script>
       if(m.devLogin)$('#devForm').hidden=false;
       if(!m.clientId){if(!m.devLogin)$('#googleNone').hidden=false;return;}
       const s=document.createElement('script');s.src='https://accounts.google.com/gsi/client';s.async=true;
+      const fail=()=>{if(!$('#admGoogle').querySelector('iframe'))$('#googleFail').hidden=false;};
+      s.onerror=fail;setTimeout(fail,8000);
       s.onload=()=>{
         google.accounts.id.initialize({client_id:m.clientId,ux_mode:'popup',callback:async r=>{clear();
           try{afterId(await dhStaff.google(r.credential));}catch(ex){oops(ex.code==='not_allowed'||ex.code==='rate_limited'?msg(ex):'Login Google gagal. Coba lagi.');}}});
