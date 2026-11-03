@@ -78,8 +78,8 @@ button,input,select,textarea{font:inherit;color:inherit}
 .nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:var(--surface);border-bottom:1px solid var(--line)}
 .nav-in{display:flex;align-items:center;gap:20px;height:70px}
 .logo{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:800;font-size:1.25rem;letter-spacing:-.02em;color:var(--ink)}
-.logo-mark{width:36px;height:36px;border-radius:11px;background:var(--primary);display:grid;place-items:center;color:#fff}
-.logo-mark svg{width:22px;height:22px}
+.logo-mark{width:40px;height:40px;display:grid;place-items:center;flex:none}
+.logo-mark img{width:100%;height:100%;object-fit:contain;display:block}
 .logo b{color:var(--primary)}
 /* three zones: brand left, section links centred, actions right behind a hairline divider */
 .nav-links{display:flex;gap:2px;flex:1;justify-content:center}
@@ -811,7 +811,7 @@ html.rv-on .rv:not(.in){opacity:0}
 <header class="nav" id="nav">
   <div class="wrap nav-in">
     <a class="logo" href="index.html#top" aria-label="DHealth beranda">
-      <span class="logo-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12.5h4l2-4.5 3 9 2.5-6.5 1.5 2h6"/></svg></span>
+      <span class="logo-mark"><img src="dhealth-logo.png" alt="" width="40" height="40"></span>
       <span>D<b>Health</b></span>
     </a>
     <nav class="nav-links" aria-label="Menu utama">
@@ -881,7 +881,7 @@ html.rv-on .rv:not(.in){opacity:0}
   <div class="wrap">
     <div class="foot-top">
       <div style="display:grid;gap:14px;align-content:start">
-        <a class="logo" href="index.html#top"><span class="logo-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12.5h4l2-4.5 3 9 2.5-6.5 1.5 2h6"/></svg></span><span>D<b>Health</b></span></a>
+        <a class="logo" href="index.html#top"><span class="logo-mark"><img src="dhealth-logo.png" alt="" width="40" height="40"></span><span>D<b>Health</b></span></a>
         <p style="max-width:34ch">Layanan kesehatan keluarga dan sistem manajemen klinik dalam satu ekosistem.</p>
       </div>
       <div><h4>Pasien</h4><ul><li><a href="index.html#dokter">Cari dokter</a></li><li><a href="index.html#layanan">Telekonsultasi</a></li><li><a href="index.html#harga">Harga layanan</a></li><li><a href="artikel.html">Artikel kesehatan</a></li></ul></div>
