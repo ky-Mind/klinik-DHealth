@@ -1,4 +1,4 @@
-"""Copy the DHealth pages from the artifact sources (one folder up) into public/ for Cloudflare Pages.
+"""Copy the Vidia Medika pages from the artifact sources (one folder up) into public/ for Cloudflare Pages.
 
 Run from klinik-site/:  python3 tools/build.py
 Each page gets a normal document head and loads dh-runtime.js before its own scripts.

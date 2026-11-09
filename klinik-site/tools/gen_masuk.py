@@ -18,7 +18,7 @@ def grab(pattern):
 
 
 head = grab(r'\A.*?(?=<style>)')
-head = head.replace('<title>DHealth</title>', '<title>Masuk · DHealth</title>')
+head = head.replace('<title>Vidia Medika</title>', '<title>Masuk · Vidia Medika</title>')
 head = re.sub(r'<meta name="description"[^>]*>', '<meta name="robots" content="noindex">', head)
 style = grab(r'^<style>.*?^</style>')
 sprite = grab(r'^<svg width="0".*?^</svg>')
@@ -48,7 +48,7 @@ CSS = '''<style>
 
 BODY = f'''<header class="nav" id="nav">
   <div class="wrap nav-in">
-    <a class="logo" href="/" aria-label="DHealth beranda">{logo}<span>D<b>Health</b></span></a>
+    <a class="logo" href="/" aria-label="Vidia Medika beranda">{logo}<span>Vidia <b>Medika</b></span></a>
     <div style="margin-left:auto"><a class="btn btn-line btn-sm" href="/">Beranda</a></div>
   </div>
 </header>
@@ -154,13 +154,13 @@ print('wrote', SRC / 'masuk.html')
 # the privacy policy that the Google sign-in screen links to
 PRIVACY = f'''<header class="nav" id="nav">
   <div class="wrap nav-in">
-    <a class="logo" href="/" aria-label="DHealth beranda">{logo}<span>D<b>Health</b></span></a>
+    <a class="logo" href="/" aria-label="Vidia Medika beranda">{logo}<span>Vidia <b>Medika</b></span></a>
     <div style="margin-left:auto"><a class="btn btn-line btn-sm" href="/">Beranda</a></div>
   </div>
 </header>
 <main class="pt"><div class="wrap"><article class="pt-card pt-doc">
   <span class="eyebrow">Kebijakan privasi</span>
-  <h1>Data pasien di DHealth</h1>
+  <h1>Data pasien di Vidia Medika</h1>
   <p>Berlaku sejak 3 November 2026 untuk situs klinik.xianzing.my.id.</p>
   <h2>Data yang kami simpan</h2>
   <ul>
@@ -180,6 +180,6 @@ PRIVACY = f'''<header class="nav" id="nav">
   <p>Nomor WhatsApp bisa diubah kapan saja di halaman <a href="/masuk">Akun pasien</a>. Untuk menghapus akun dan seluruh data Anda, kirim permintaan ke <a href="mailto:admin@xianzing.my.id">admin@xianzing.my.id</a> atau WhatsApp <a href="https://wa.me/6289506138191">0895-0613-8191</a>.</p>
 </article></div></main>'''
 PRIVACY_CSS = '<style>.pt-doc{max-width:720px}.pt-doc h2{font-size:1.1rem;font-weight:800;margin-top:6px}.pt-doc ul{margin:0;padding-left:20px;display:grid;gap:6px;color:var(--muted);font-size:15px}.pt-doc a{color:var(--primary);font-weight:700}</style>'
-(SRC / 'privasi.html').write_text(DOC + head.replace('<title>Masuk · DHealth</title>', '<title>Kebijakan Privasi · DHealth</title>').replace('<meta name="robots" content="noindex">', '')
+(SRC / 'privasi.html').write_text(DOC + head.replace('<title>Masuk · Vidia Medika</title>', '<title>Kebijakan Privasi · Vidia Medika</title>').replace('<meta name="robots" content="noindex">', '')
                                   + style + '\n' + CSS + '\n' + PRIVACY_CSS + '\n</head><body>\n' + sprite + '\n\n' + PRIVACY + '\n</body></html>\n')
 print('wrote', SRC / 'privasi.html')

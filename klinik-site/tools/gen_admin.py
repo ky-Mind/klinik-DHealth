@@ -19,7 +19,7 @@ def grab(pattern):
 
 
 head = grab(r'\A.*?(?=<style>)')
-head = head.replace('<title>DHealth</title>', '<title>Admin DHealth</title>')
+head = head.replace('<title>Vidia Medika</title>', '<title>Admin Vidia Medika</title>')
 head = re.sub(r'<meta name="description"[^>]*>', '<meta name="robots" content="noindex,nofollow">', head)
 style = grab(r'^<style>.*?^</style>')
 sprite = grab(r'^<svg width="0".*?^</svg>')
@@ -82,7 +82,7 @@ ADMIN_CSS = '''<style>
 
 BODY = f'''<header class="nav adm-nav" id="nav">
   <div class="wrap nav-in">
-    <a class="logo" href="index.html" aria-label="DHealth beranda">{logo}<span>D<b>Health</b></span></a>
+    <a class="logo" href="index.html" aria-label="Vidia Medika beranda">{logo}<span>Vidia <b>Medika</b></span></a>
     <span class="chip">Admin &amp; dokter</span>
     <div class="adm-act"><span class="adm-me" id="admMe" hidden></span><a class="btn btn-line btn-sm" href="index.html">Lihat situs</a><button class="btn btn-soft btn-sm" type="button" id="admOut" hidden>Keluar</button></div>
   </div>
@@ -96,7 +96,7 @@ BODY = f'''<header class="nav adm-nav" id="nav">
 
     <div id="stepGoogle" class="adm-step">
       <h1>Masuk Dasbor Klinik</h1>
-      <p>Untuk admin dan dokter DHealth. Masuk dulu dengan akun Google yang terdaftar di klinik, lalu isi kata sandi Anda.</p>
+      <p>Untuk admin dan dokter Vidia Medika. Masuk dulu dengan akun Google yang terdaftar di klinik, lalu isi kata sandi Anda.</p>
       <div id="admGoogle"></div>
       <button class="btn-link" type="button" id="otherAcc" hidden>Pakai akun Google lain</button>
       <form id="devForm" class="adm-dev" hidden>
