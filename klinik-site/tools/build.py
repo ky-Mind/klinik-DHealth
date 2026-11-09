@@ -26,6 +26,6 @@ for name in ('artikel.html', 'dokter.html', 'admin.html', 'masuk.html', 'privasi
     assert '<head>' in page, name
     (OUT / name).write_text(page.replace('<head>', '<head>\n' + ICONS + RUNTIME, 1))
 
-for asset in ('hero-doctor.webp', 'dhealth-logo.png', 'favicon.ico', 'favicon-32.png', 'favicon-192.png', 'apple-touch-icon.png'):
+for asset in ('hero-doctor.webp', 'vidia-logo.svg', 'favicon.ico', 'favicon-32.png', 'favicon-192.png', 'apple-touch-icon.png'):
     shutil.copy(SRC / asset, OUT / asset)
 print('built:', ', '.join(sorted(p.name for p in OUT.iterdir())))
